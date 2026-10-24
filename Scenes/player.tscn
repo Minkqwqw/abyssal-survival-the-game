@@ -1,0 +1,26 @@
+[gd_scene format=3 uid="uid://dj0yny2jftfsa"]
+
+[ext_resource type="Script" uid="uid://ddjam7fv4in81" path="res://Scripts/player.gd" id="1_v0iea"]
+[ext_resource type="Texture2D" uid="uid://c8axh4efoy0rv" path="res://icon.svg" id="2_cvnsp"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vr4ea"]
+size = Vector2(104, 90)
+
+[node name="Player" type="CharacterBody2D" unique_id=1403116106]
+script = ExtResource("1_v0iea")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=39701378]
+texture = ExtResource("2_cvnsp")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1486630122]
+shape = SubResource("RectangleShape2D_vr4ea")
+
+[node name="DashTimer" type="Timer" parent="." unique_id=1234178733]
+
+[node name="DashCooldown" type="Timer" parent="." unique_id=1263136845]
+
+[node name="Muzzle" type="Marker2D" parent="." unique_id=1649043597]
+position = Vector2(30, 0)
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=228376045]
+position_smoothing_enabled = true
