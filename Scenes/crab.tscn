@@ -18,3 +18,4 @@ shape = SubResource("RectangleShape2D_cvnsp")
 [node name="HitArea" type="Area2D" parent="." unique_id=1354647834]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitArea" unique_id=9063564]
+shape = SubResource("RectangleShape2D_cvnsp")

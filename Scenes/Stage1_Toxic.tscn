@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://c8stage1toxic"]
+
+[ext_resource type="PackedScene" uid="uid://c8basestage01" path="res://Scenes/BaseStage.tscn" id="1_base"]
+
+[node name="Stage1_Toxic" instance=ExtResource("1_base")]
+stage_id = 1
+stage_title = "Stage 1: Toxic Shallows"
+background_color = Color(0.04, 0.09, 0.07, 1)
+arena_floor_color = Color(0.08, 0.17, 0.14, 1)
+border_color = Color(0.25, 0.78, 0.48, 1)
+
+[node name="ExitPortal" parent="." index="4"]
+target_stage_id = 1
+custom_title = "EXIT TO STAGE 2"
+
+[node name="EnemySpawner" parent="." index="6"]
+spawn_interval = 2.0
+max_enemies = 12

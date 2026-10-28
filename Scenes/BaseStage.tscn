@@ -1,0 +1,102 @@
+[gd_scene format=3 uid="uid://c8basestage01"]
+
+[ext_resource type="Script" path="res://Scripts/base_stage.gd" id="1_basestage"]
+[ext_resource type="PackedScene" uid="uid://c8portal01grey" path="res://Scenes/StagePortal.tscn" id="2_portal"]
+[ext_resource type="PackedScene" uid="uid://dj0yny2jftfsa" path="res://Scenes/player.tscn" id="3_player"]
+[ext_resource type="PackedScene" uid="uid://ma4g726w1k5j" path="res://Scenes/enemy_spawner.tscn" id="4_spawner"]
+[ext_resource type="PackedScene" uid="uid://u4ihw5astl2w" path="res://Scenes/crab.tscn" id="5_crab"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_stage_wall_h"]
+size = Vector2(2000, 40)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_stage_wall_v"]
+size = Vector2(40, 1520)
+
+[node name="BaseStage" type="Node2D"]
+script = ExtResource("1_basestage")
+
+[node name="Background" type="ColorRect" parent="."]
+offset_left = -1800.0
+offset_top = -1400.0
+offset_right = 1800.0
+offset_bottom = 1400.0
+color = Color(0.04, 0.09, 0.07, 1)
+
+[node name="ArenaFloor" type="ColorRect" parent="."]
+offset_left = -960.0
+offset_top = -720.0
+offset_right = 960.0
+offset_bottom = 720.0
+color = Color(0.08, 0.17, 0.14, 1)
+
+[node name="MapBounds" type="StaticBody2D" parent="."]
+
+[node name="WallTop" type="CollisionShape2D" parent="MapBounds"]
+position = Vector2(0, -740)
+shape = SubResource("RectangleShape2D_stage_wall_h")
+
+[node name="WallBottom" type="CollisionShape2D" parent="MapBounds"]
+position = Vector2(0, 740)
+shape = SubResource("RectangleShape2D_stage_wall_h")
+
+[node name="WallLeft" type="CollisionShape2D" parent="MapBounds"]
+position = Vector2(-980, 0)
+shape = SubResource("RectangleShape2D_stage_wall_v")
+
+[node name="WallRight" type="CollisionShape2D" parent="MapBounds"]
+position = Vector2(980, 0)
+shape = SubResource("RectangleShape2D_stage_wall_v")
+
+[node name="BoundsOutline" type="Line2D" parent="MapBounds"]
+points = PackedVector2Array(-960, -720, 960, -720, 960, 720, -960, 720)
+closed = true
+width = 6.0
+default_color = Color(0.25, 0.75, 0.5, 1)
+
+[node name="SpawnPoint" type="Marker2D" parent="."]
+position = Vector2(0, 480)
+
+[node name="ExitPortal" parent="." instance=ExtResource("2_portal")]
+position = Vector2(0, -480)
+portal_mode = 1
+target_stage_id = 1
+custom_title = "EXIT PORTAL"
+
+[node name="Player" parent="." instance=ExtResource("3_player")]
+position = Vector2(0, 480)
+
+[node name="EnemySpawner" parent="." instance=ExtResource("4_spawner")]
+enemy_scene = ExtResource("5_crab")
+spawn_interval = 2.0
+spawn_radius = 520.0
+max_enemies = 12
+
+[node name="StageHUD" type="CanvasLayer" parent="."]
+
+[node name="TopPanel" type="ColorRect" parent="StageHUD"]
+offset_left = 16.0
+offset_top = 16.0
+offset_right = 460.0
+offset_bottom = 112.0
+color = Color(0.04, 0.06, 0.09, 0.85)
+
+[node name="StageTitleLabel" type="Label" parent="StageHUD"]
+offset_left = 28.0
+offset_top = 24.0
+offset_right = 448.0
+offset_bottom = 50.0
+text = "Stage 1: Toxic Shallows"
+
+[node name="HealthLabel" type="Label" parent="StageHUD"]
+offset_left = 28.0
+offset_top = 52.0
+offset_right = 448.0
+offset_bottom = 78.0
+text = "HP: 5 / 5"
+
+[node name="ObjectiveLabel" type="Label" parent="StageHUD"]
+offset_left = 28.0
+offset_top = 80.0
+offset_right = 448.0
+offset_bottom = 104.0
+text = "Reach the north EXIT PORTAL [E] to unlock next stage"

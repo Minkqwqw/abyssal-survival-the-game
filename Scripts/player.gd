@@ -119,4 +119,5 @@ func take_damage(amount: int) -> void:
 
 	if health <= 0:
 		died.emit()
+		StageManager.return_to_lobby()
 		queue_free()

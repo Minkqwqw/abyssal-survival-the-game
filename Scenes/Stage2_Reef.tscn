@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://c8stage2reef0"]
+
+[ext_resource type="PackedScene" uid="uid://c8basestage01" path="res://Scenes/BaseStage.tscn" id="1_base"]
+
+[node name="Stage2_Reef" instance=ExtResource("1_base")]
+stage_id = 2
+stage_title = "Stage 2: Crimson Reef"
+background_color = Color(0.04, 0.08, 0.14, 1)
+arena_floor_color = Color(0.08, 0.16, 0.24, 1)
+border_color = Color(0.95, 0.45, 0.45, 1)
+
+[node name="ExitPortal" parent="." index="4"]
+target_stage_id = 2
+custom_title = "EXIT TO STAGE 3"
+
+[node name="EnemySpawner" parent="." index="6"]
+spawn_interval = 1.4
+max_enemies = 18
