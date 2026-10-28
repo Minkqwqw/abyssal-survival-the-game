@@ -1,16 +1,15 @@
 [gd_scene format=3 uid="uid://dj0yny2jftfsa"]
 
 [ext_resource type="Script" uid="uid://ddjam7fv4in81" path="res://Scripts/player.gd" id="1_v0iea"]
-[ext_resource type="Texture2D" uid="uid://c8axh4efoy0rv" path="res://icon.svg" id="2_cvnsp"]
+[ext_resource type="PackedScene" uid="uid://457isggc8spn" path="res://Scenes/weapon.tscn" id="2_6t5aa"]
+[ext_resource type="Texture2D" uid="uid://c8axh4efoy0rv" path="res://icon.svg" id="3_vgqql"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vr4ea"]
 size = Vector2(104, 90)
 
-[node name="Player" type="CharacterBody2D" unique_id=1403116106]
+[node name="Player" type="CharacterBody2D" unique_id=1403116106 groups=["player"]]
 script = ExtResource("1_v0iea")
-
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=39701378]
-texture = ExtResource("2_cvnsp")
+weapon_scene = ExtResource("2_6t5aa")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1486630122]
 shape = SubResource("RectangleShape2D_vr4ea")
@@ -19,8 +18,10 @@ shape = SubResource("RectangleShape2D_vr4ea")
 
 [node name="DashCooldown" type="Timer" parent="." unique_id=1263136845]
 
-[node name="Muzzle" type="Marker2D" parent="." unique_id=1649043597]
-position = Vector2(30, 0)
-
 [node name="Camera2D" type="Camera2D" parent="." unique_id=228376045]
 position_smoothing_enabled = true
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=2050214166]
+texture = ExtResource("3_vgqql")
+
+[node name="WeaponPivot" type="Node2D" parent="." unique_id=662160393]
