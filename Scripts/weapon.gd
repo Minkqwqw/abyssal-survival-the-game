@@ -1,7 +1,7 @@
 extends Node2D
 
 @export var bullet_scene: PackedScene
-@export var fire_rate: float = 0.15
+@export var fire_rate: float = 0.2
 @export var spread_degrees: float = 0.0   # isi mis. 5.0 untuk peluru agak menyebar
 
 @onready var muzzle: Marker2D = $Muzzle

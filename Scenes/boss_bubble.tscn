@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://sahmq2f8rjss"]
+
+[ext_resource type="Script" uid="uid://k2s8wqdn1bww" path="res://Scripts/boss_bubble.gd" id="1_utwsg"]
+[ext_resource type="Texture2D" uid="uid://c8axh4efoy0rv" path="res://icon.svg" id="2_0n3tp"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_0n3tp"]
+radius = 66.037865
+
+[node name="BossBubble" type="Area2D" unique_id=188753432]
+scale = Vector2(0.3, 0.3)
+collision_layer = 0
+script = ExtResource("1_utwsg")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=750491386]
+texture = ExtResource("2_0n3tp")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1074484095]
+shape = SubResource("CircleShape2D_0n3tp")

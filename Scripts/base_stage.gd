@@ -5,6 +5,8 @@ extends Node2D
 @export var background_color: Color = Color(0.04, 0.09, 0.07, 1.0)
 @export var arena_floor_color: Color = Color(0.08, 0.17, 0.14, 1.0)
 @export var border_color: Color = Color(0.25, 0.75, 0.5, 1.0)
+@export var boss_scene: PackedScene
+@export var boss_spawn_point: Marker2D
 
 @onready var background: ColorRect = $Background
 @onready var arena_floor: ColorRect = $ArenaFloor
@@ -14,6 +16,9 @@ extends Node2D
 @onready var player: CharacterBody2D = $Player
 @onready var stage_label: Label = $StageHUD/StageTitleLabel
 @onready var health_label: Label = $StageHUD/HealthLabel
+
+var boss_spawned: bool = false
+var player_dead: bool = false
 
 
 func _ready() -> void:
@@ -43,6 +48,40 @@ func _ready() -> void:
 	if stage_label:
 		stage_label.text = stage_title if stage_title != "" else StageManager.get_stage_title(stage_id)
 
+	var spawner := get_node_or_null("EnemySpawner")
+	if spawner:
+		spawner.stage_cleared.connect(_spawn_boss)
+
+
+func _spawn_boss() -> void:
+	# Pengaman: jangan spawn dua kali, jangan spawn saat scene sedang dihapus
+	# atau saat player sudah mati
+	if boss_spawned or player_dead or not is_inside_tree():
+		return
+
+	if boss_scene == null:
+		push_warning("Boss Scene di base_stage belum diisi")
+		return
+
+	boss_spawned = true
+
+	var boss := boss_scene.instantiate()
+	add_child(boss)
+
+	if boss_spawn_point:
+		boss.global_position = boss_spawn_point.global_position
+	else:
+		# Fallback kalau Marker2D belum diisi: muncul di seberang titik spawn player
+		boss.global_position = spawn_point.global_position + Vector2(0, -400)
+		push_warning("Boss Spawn Point belum diisi, memakai posisi cadangan")
+
+	boss.boss_died.connect(_on_boss_died)
+
+
+func _on_boss_died() -> void:
+	print("Boss kalah! %s selesai" % stage_title)
+	# Di sini nanti bisa mengaktifkan ExitPortal, memunculkan UI "Stage Clear", dll.
+
 
 func _on_player_health_changed(new_health: int) -> void:
 	if health_label and player:
@@ -50,4 +89,5 @@ func _on_player_health_changed(new_health: int) -> void:
 
 
 func _on_player_died() -> void:
+	player_dead = true
 	StageManager.return_to_lobby()

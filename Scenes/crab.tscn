@@ -7,6 +7,8 @@
 size = Vector2(126, 124)
 
 [node name="Crab" type="CharacterBody2D" unique_id=314885980]
+collision_layer = 2
+collision_mask = 3
 script = ExtResource("1_rxqea")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=121229730]
@@ -16,6 +18,7 @@ texture = ExtResource("2_384rs")
 shape = SubResource("RectangleShape2D_cvnsp")
 
 [node name="HitArea" type="Area2D" parent="." unique_id=1354647834]
+collision_layer = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitArea" unique_id=9063564]
 shape = SubResource("RectangleShape2D_cvnsp")
