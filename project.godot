@@ -17,6 +17,8 @@ config/icon="res://icon.svg"
 
 [autoload]
 
+GameState="*res://autoload/game_state.gd"
+SaveManager="*res://autoload/save_manager.gd"
 StageManager="*res://Scripts/stage_manager.gd"
 
 [display]

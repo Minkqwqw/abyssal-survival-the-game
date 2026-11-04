@@ -2,7 +2,8 @@
 
 [ext_resource type="Script" path="res://Scripts/lobby.gd" id="1_lobby"]
 [ext_resource type="PackedScene" uid="uid://c8portal01grey" path="res://Scenes/StagePortal.tscn" id="2_portal"]
-[ext_resource type="PackedScene" uid="uid://dj0yny2jftfsa" path="res://Scenes/player.tscn" id="3_player"]
+[ext_resource type="PackedScene" uid="uid://dj0yny2jftfsa" path="res://player/player.tscn" id="3_player"]
+[ext_resource type="PackedScene" path="res://hub/upgrade_station.tscn" id="4_upgrade"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wall_h"]
 size = Vector2(1340, 40)
@@ -91,6 +92,9 @@ custom_title = "STAGE 2: REEF"
 position = Vector2(340, -160)
 target_stage_id = 3
 custom_title = "STAGE 3: ABYSS"
+
+[node name="UpgradeStation" parent="." instance=ExtResource("4_upgrade")]
+position = Vector2(-340, 220)
 
 [node name="Player" parent="." instance=ExtResource("3_player")]
 position = Vector2(0, 220)

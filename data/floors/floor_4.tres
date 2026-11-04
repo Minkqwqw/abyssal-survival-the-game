@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="FloorData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://data/resources/floor_data.gd" id="1_f4"]
+
+[resource]
+script = ExtResource("1_f4")
+floor_number = 4
+floor_name = "Floor 4: Hydrothermal Vents"
+background_color = Color(0.08, 0.03, 0.02, 1)
+arena_floor_color = Color(0.15, 0.06, 0.04, 1)
+border_color = Color(0.95, 0.55, 0.2, 1)

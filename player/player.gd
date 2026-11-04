@@ -27,6 +27,8 @@ signal died
 @onready var anim: AnimatedSprite2D = $AnimatedSprite2D
 
 var health: int
+var base_max_health: int
+var base_dash_cooldown: float
 var weapon: Node2D = null
 var is_dashing: bool = false
 var dash_direction: Vector2 = Vector2.ZERO
@@ -35,8 +37,13 @@ var mouse_in_arc: bool = true
 
 
 func _ready() -> void:
-	health = max_health
+	base_max_health = max_health
+	base_dash_cooldown = dash_cooldown
+	_apply_upgrades(true)
 	add_to_group("player")
+
+	if is_instance_valid(GameState) and not GameState.upgrade_purchased.is_connected(_on_upgrade_purchased):
+		GameState.upgrade_purchased.connect(_on_upgrade_purchased)
 
 	dash_timer.wait_time = dash_duration
 	dash_timer.one_shot = true
@@ -46,6 +53,23 @@ func _ready() -> void:
 	dash_cooldown_timer.one_shot = true
 
 	_equip_weapon(weapon_scene)
+
+
+func _apply_upgrades(reset_hp: bool = false) -> void:
+	if is_instance_valid(GameState):
+		max_health = base_max_health + GameState.get_max_health_bonus()
+		dash_cooldown = base_dash_cooldown * GameState.get_dash_cooldown_multiplier()
+	if reset_hp:
+		health = max_health
+	else:
+		health = mini(health + 1, max_health)
+	if dash_cooldown_timer:
+		dash_cooldown_timer.wait_time = dash_cooldown
+	health_changed.emit(health)
+
+
+func _on_upgrade_purchased(_upgrade_id: String, _new_level: int) -> void:
+	_apply_upgrades(true)
 
 
 func _physics_process(delta: float) -> void:
@@ -192,13 +216,15 @@ func _play_anim(anim_name: String) -> void:
 # ---------- Damage ----------
 
 func take_damage(amount: int) -> void:
-	if is_dashing:
+	if is_dashing or health <= 0:
 		return
 
 	health -= amount
 	health_changed.emit(health)
 
 	if health <= 0:
+		var has_stage_listener := died.get_connections().size() > 0
 		died.emit()
-		StageManager.return_to_lobby()
+		if not has_stage_listener:
+			StageManager.return_to_lobby()
 		queue_free()

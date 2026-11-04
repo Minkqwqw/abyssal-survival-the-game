@@ -1,1 +1,31 @@
 [gd_scene format=3]
+
+[node name="StageHUD" type="CanvasLayer"]
+
+[node name="TopPanel" type="ColorRect" parent="."]
+offset_left = 16.0
+offset_top = 16.0
+offset_right = 480.0
+offset_bottom = 112.0
+color = Color(0.04, 0.06, 0.09, 0.85)
+
+[node name="StageTitleLabel" type="Label" parent="."]
+offset_left = 28.0
+offset_top = 24.0
+offset_right = 468.0
+offset_bottom = 50.0
+text = "Stage 1: Toxic Shallows"
+
+[node name="HealthLabel" type="Label" parent="."]
+offset_left = 28.0
+offset_top = 52.0
+offset_right = 468.0
+offset_bottom = 78.0
+text = "HP: 5 / 5   |   Pearls: 0"
+
+[node name="ObjectiveLabel" type="Label" parent="."]
+offset_left = 28.0
+offset_top = 80.0
+offset_right = 468.0
+offset_bottom = 104.0
+text = "Defeat all enemies in the area!"

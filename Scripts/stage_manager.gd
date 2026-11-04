@@ -34,6 +34,8 @@ func unlock_stage(stage_id: int) -> void:
 	var clamped_id := clampi(stage_id, 1, TOTAL_STAGES)
 	if clamped_id > max_unlocked_stage:
 		max_unlocked_stage = clamped_id
+		if is_instance_valid(GameState):
+			GameState.unlock_floor(max_unlocked_stage)
 		save_progress()
 		stage_unlocked.emit(max_unlocked_stage)
 
@@ -54,7 +56,13 @@ func load_stage(stage_id: int) -> void:
 		return
 
 	current_stage_id = stage_id
+	if is_instance_valid(GameState):
+		GameState.current_floor = stage_id
 	get_tree().call_deferred("change_scene_to_file", STAGE_PATHS[stage_id])
+
+
+func change_stage(stage_path: String) -> void:
+	get_tree().call_deferred("change_scene_to_file", stage_path)
 
 
 func return_to_lobby() -> void:
@@ -67,6 +75,9 @@ func get_stage_title(stage_id: int) -> String:
 
 
 func save_progress() -> void:
+	if is_instance_valid(SaveManager):
+		SaveManager.save_game()
+		return
 	var config := ConfigFile.new()
 	config.set_value("progression", "max_unlocked_stage", max_unlocked_stage)
 	config.save(SAVE_PATH)
@@ -82,9 +93,13 @@ func load_progress() -> void:
 		)
 	else:
 		max_unlocked_stage = 1
+	if is_instance_valid(GameState):
+		GameState.unlocked_floors = max_unlocked_stage
 
 
 func reset_progress() -> void:
 	max_unlocked_stage = 1
+	if is_instance_valid(GameState):
+		GameState.reset_state()
 	save_progress()
 	stage_unlocked.emit(max_unlocked_stage)

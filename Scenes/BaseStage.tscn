@@ -2,9 +2,9 @@
 
 [ext_resource type="Script" path="res://Scripts/base_stage.gd" id="1_basestage"]
 [ext_resource type="PackedScene" uid="uid://c8portal01grey" path="res://Scenes/StagePortal.tscn" id="2_portal"]
-[ext_resource type="PackedScene" uid="uid://dj0yny2jftfsa" path="res://Scenes/player.tscn" id="3_player"]
+[ext_resource type="PackedScene" uid="uid://dj0yny2jftfsa" path="res://player/player.tscn" id="3_player"]
 [ext_resource type="PackedScene" uid="uid://ma4g726w1k5j" path="res://Scenes/enemy_spawner.tscn" id="4_spawner"]
-[ext_resource type="PackedScene" uid="uid://u4ihw5astl2w" path="res://Scenes/crab.tscn" id="5_crab"]
+[ext_resource type="PackedScene" uid="uid://u4ihw5astl2w" path="res://enemies/crab/crab.tscn" id="5_crab"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_stage_wall_h"]
 size = Vector2(2000, 40)

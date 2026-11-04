@@ -5,4 +5,7 @@
 [resource]
 script = ExtResource("1_f2")
 floor_number = 2
-floor_name = "Floor 2"
+floor_name = "Floor 2: Crimson Reef"
+background_color = Color(0.04, 0.08, 0.14, 1)
+arena_floor_color = Color(0.08, 0.16, 0.24, 1)
+border_color = Color(0.95, 0.45, 0.45, 1)

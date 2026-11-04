@@ -3,12 +3,22 @@ extends Node2D
 signal stage_cleared
 
 @export var enemy_scene: PackedScene
+@export var secondary_enemy_scene: PackedScene
+@export_range(0.0, 1.0) var secondary_spawn_chance: float = 0.0
 @export var enemy_count: int = 10
+@export var max_enemies: int = 0:
+	set(value):
+		max_enemies = value
+		if value > 0:
+			enemy_count = value
+@export var spawn_interval: float = 1.5
+@export var spawn_radius: float = 520.0
 @export var edge_margin: float = 40.0                 # jarak aman dari tepi area
 @export var min_distance_from_player: float = 250.0   # supaya tidak muncul menempel player
 @export var min_distance_between_enemies: float = 60.0
+@export var default_area_rect: Rect2 = Rect2(-957.0, -713.0, 1919.0, 1430.0)
 
-@onready var spawn_area: ReferenceRect = $SpawnArea
+@onready var spawn_area: ReferenceRect = get_node_or_null("SpawnArea")
 
 var alive_enemies: int = 0
 
@@ -21,6 +31,7 @@ func _ready() -> void:
 func _spawn_all() -> void:
 	if enemy_scene == null:
 		push_warning("Enemy Scene di EnemySpawner belum diisi")
+		stage_cleared.emit()
 		return
 
 	var player := get_tree().get_first_node_in_group("player") as Node2D
@@ -38,13 +49,24 @@ func _spawn_all() -> void:
 	if positions.size() < enemy_count:
 		push_warning("Hanya %d dari %d musuh yang muat di area. Perbesar SpawnArea atau kecilkan jarak minimum." % [positions.size(), enemy_count])
 
+	if positions.is_empty():
+		stage_cleared.emit()
+		return
+
 	for pos in positions:
 		_spawn_enemy(pos)
 
 
 func _random_point_in_area() -> Vector2:
-	var origin := spawn_area.global_position
-	var size := spawn_area.size
+	var origin: Vector2
+	var size: Vector2
+	if spawn_area:
+		origin = spawn_area.global_position
+		size = spawn_area.size
+	else:
+		origin = global_position + default_area_rect.position
+		size = default_area_rect.size
+
 	return Vector2(
 		randf_range(origin.x + edge_margin, origin.x + size.x - edge_margin),
 		randf_range(origin.y + edge_margin, origin.y + size.y - edge_margin)
@@ -52,7 +74,7 @@ func _random_point_in_area() -> Vector2:
 
 
 func _is_valid_position(pos: Vector2, taken: Array[Vector2], player: Node2D) -> bool:
-	if player and pos.distance_to(player.global_position) < min_distance_from_player:
+	if player and is_instance_valid(player) and pos.distance_to(player.global_position) < min_distance_from_player:
 		return false
 
 	for other in taken:
@@ -63,7 +85,11 @@ func _is_valid_position(pos: Vector2, taken: Array[Vector2], player: Node2D) -> 
 
 
 func _spawn_enemy(pos: Vector2) -> void:
-	var enemy := enemy_scene.instantiate()
+	var chosen_scene := enemy_scene
+	if secondary_enemy_scene != null and randf() < secondary_spawn_chance:
+		chosen_scene = secondary_enemy_scene
+
+	var enemy := chosen_scene.instantiate()
 	get_tree().current_scene.add_child(enemy)
 	enemy.global_position = pos
 
@@ -76,4 +102,3 @@ func _on_enemy_removed() -> void:
 
 	if alive_enemies <= 0:
 		stage_cleared.emit()
-		print("Stage 1 selesai!")

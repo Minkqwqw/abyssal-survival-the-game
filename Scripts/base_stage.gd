@@ -8,14 +8,17 @@ extends Node2D
 @export var boss_scene: PackedScene
 @export var boss_spawn_point: Marker2D
 
-@onready var background: ColorRect = $Background
-@onready var arena_floor: ColorRect = $ArenaFloor
-@onready var bounds_outline: Line2D = $MapBounds/BoundsOutline
-@onready var spawn_point: Marker2D = $SpawnPoint
-@onready var exit_portal: Area2D = $ExitPortal
-@onready var player: CharacterBody2D = $Player
-@onready var stage_label: Label = $StageHUD/StageTitleLabel
-@onready var health_label: Label = $StageHUD/HealthLabel
+@onready var background: ColorRect = get_node_or_null("Background")
+@onready var arena_floor: ColorRect = get_node_or_null("ArenaFloor")
+@onready var bounds_outline: Line2D = get_node_or_null("MapBounds/BoundsOutline")
+@onready var spawn_point: Marker2D = get_node_or_null("SpawnPoint")
+@onready var exit_portal: Area2D = get_node_or_null("ExitPortal")
+@onready var player: CharacterBody2D = get_node_or_null("Player")
+@onready var stage_label: Label = get_node_or_null("StageHUD/StageTitleLabel")
+@onready var health_label: Label = get_node_or_null("StageHUD/HealthLabel")
+@onready var objective_label: Label = get_node_or_null("StageHUD/ObjectiveLabel")
+
+const STAGE_CLEAR_UI_PATH: String = "res://ui/stage_clear/stage_clear.tscn"
 
 var boss_spawned: bool = false
 var player_dead: bool = false
@@ -34,7 +37,13 @@ func _ready() -> void:
 	if exit_portal:
 		exit_portal.portal_mode = exit_portal.PortalMode.STAGE_EXIT
 		exit_portal.target_stage_id = stage_id
-		exit_portal._update_visuals()
+		if exit_portal.has_method("set_exit_unlocked"):
+			exit_portal.set_exit_unlocked(false)
+		else:
+			exit_portal._update_visuals()
+
+	if objective_label:
+		objective_label.text = "Defeat all enemies in the area!"
 
 	if player:
 		if spawn_point:
@@ -50,44 +59,78 @@ func _ready() -> void:
 
 	var spawner := get_node_or_null("EnemySpawner")
 	if spawner:
-		spawner.stage_cleared.connect(_spawn_boss)
+		spawner.stage_cleared.connect(_on_waves_cleared)
+	else:
+		_on_waves_cleared()
+
+
+func _on_waves_cleared() -> void:
+	if player_dead or not is_inside_tree():
+		return
+
+	if boss_scene != null:
+		_spawn_boss()
+	else:
+		_unlock_exit_portal()
 
 
 func _spawn_boss() -> void:
-	# Pengaman: jangan spawn dua kali, jangan spawn saat scene sedang dihapus
-	# atau saat player sudah mati
 	if boss_spawned or player_dead or not is_inside_tree():
 		return
 
 	if boss_scene == null:
-		push_warning("Boss Scene di base_stage belum diisi")
+		_unlock_exit_portal()
 		return
 
 	boss_spawned = true
+
+	if objective_label:
+		objective_label.text = "WARNING: Defeat the Boss!"
+		objective_label.modulate = Color(1.0, 0.55, 0.45)
 
 	var boss := boss_scene.instantiate()
 	add_child(boss)
 
 	if boss_spawn_point:
 		boss.global_position = boss_spawn_point.global_position
-	else:
-		# Fallback kalau Marker2D belum diisi: muncul di seberang titik spawn player
+	elif spawn_point:
 		boss.global_position = spawn_point.global_position + Vector2(0, -400)
-		push_warning("Boss Spawn Point belum diisi, memakai posisi cadangan")
+	else:
+		boss.global_position = Vector2(0, -200)
 
-	boss.boss_died.connect(_on_boss_died)
+	if boss.has_signal("boss_died"):
+		boss.boss_died.connect(_on_boss_died)
 
 
 func _on_boss_died() -> void:
-	print("Boss kalah! %s selesai" % stage_title)
-	# Di sini nanti bisa mengaktifkan ExitPortal, memunculkan UI "Stage Clear", dll.
+	if is_instance_valid(GameState):
+		GameState.add_currency(15 * stage_id)
+	_unlock_exit_portal()
+
+
+func _unlock_exit_portal() -> void:
+	if exit_portal and exit_portal.has_method("set_exit_unlocked"):
+		exit_portal.set_exit_unlocked(true)
+
+	if objective_label:
+		objective_label.text = "Stage Cleared! Enter the north EXIT PORTAL [E]"
+		objective_label.modulate = Color(0.55, 1.0, 0.8)
+
+	if ResourceLoader.exists(STAGE_CLEAR_UI_PATH):
+		var clear_scene := load(STAGE_CLEAR_UI_PATH) as PackedScene
+		if clear_scene:
+			var clear_ui := clear_scene.instantiate()
+			add_child(clear_ui)
 
 
 func _on_player_health_changed(new_health: int) -> void:
 	if health_label and player:
-		health_label.text = "HP: %d / %d" % [maxi(new_health, 0), player.max_health]
+		var coins := GameState.currency if is_instance_valid(GameState) else 0
+		health_label.text = "HP: %d / %d   |   Pearls: %d" % [maxi(new_health, 0), player.max_health, coins]
 
 
 func _on_player_died() -> void:
+	if player_dead:
+		return
 	player_dead = true
 	StageManager.return_to_lobby()

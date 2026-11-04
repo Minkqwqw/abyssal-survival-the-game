@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://bgowt8wofn0b3"]
 
-[ext_resource type="Script" uid="uid://diuedu10h8cwm" path="res://Scripts/crab_boss.gd" id="1_xfcoi"]
-[ext_resource type="PackedScene" uid="uid://sahmq2f8rjss" path="res://Scenes/boss_bubble.tscn" id="2_j275j"]
+[ext_resource type="Script" uid="uid://diuedu10h8cwm" path="res://bosses/crab_boss/crab_boss.gd" id="1_xfcoi"]
+[ext_resource type="PackedScene" uid="uid://sahmq2f8rjss" path="res://bosses/crab_boss/boss_bubble.tscn" id="2_j275j"]
 [ext_resource type="Texture2D" uid="uid://c8axh4efoy0rv" path="res://icon.svg" id="3_ldu7p"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pw20p"]
