@@ -1,6 +1,6 @@
 extends Node2D
 
-@export_range(1, 3) var stage_id: int = 1
+@export_range(1, 5) var stage_id: int = 1
 @export var stage_title: String = "Stage 1: Toxic Shallows"
 @export var background_color: Color = Color(0.04, 0.09, 0.07, 1.0)
 @export var arena_floor_color: Color = Color(0.08, 0.17, 0.14, 1.0)
@@ -19,6 +19,8 @@ extends Node2D
 @onready var objective_label: Label = get_node_or_null("StageHUD/ObjectiveLabel")
 
 const STAGE_CLEAR_UI_PATH: String = "res://ui/stage_clear/stage_clear.tscn"
+const BOSS_4_PATH: String = "res://bosses/boss_4/boss_4.tscn"
+const BOSS_5_PATH: String = "res://bosses/boss_5/boss_5.tscn"
 
 var boss_spawned: bool = false
 var player_dead: bool = false
@@ -26,6 +28,18 @@ var player_dead: bool = false
 
 func _ready() -> void:
 	StageManager.current_stage_id = stage_id
+	var active_level: int = StageManager.current_level_id if is_instance_valid(StageManager) else 1
+
+	var floor_res: Resource = StageManager.get_floor_data(active_level) if is_instance_valid(StageManager) else null
+	if floor_res and active_level >= 4:
+		background_color = floor_res.get("background_color")
+		arena_floor_color = floor_res.get("arena_floor_color")
+		border_color = floor_res.get("border_color")
+		if stage_id == StageManager.TOTAL_STAGES:
+			if active_level == 4 and ResourceLoader.exists(BOSS_4_PATH):
+				boss_scene = load(BOSS_4_PATH)
+			elif active_level == 5 and ResourceLoader.exists(BOSS_5_PATH):
+				boss_scene = load(BOSS_5_PATH)
 
 	if background:
 		background.color = background_color
@@ -55,10 +69,15 @@ func _ready() -> void:
 		_on_player_health_changed(player.health)
 
 	if stage_label:
-		stage_label.text = stage_title if stage_title != "" else StageManager.get_stage_title(stage_id)
+		var lvl_title := StageManager.get_level_title(active_level) if is_instance_valid(StageManager) else ("Level %d" % active_level)
+		stage_label.text = "%s  —  Stage %d / %d" % [lvl_title, stage_id, StageManager.TOTAL_STAGES]
 
 	var spawner := get_node_or_null("EnemySpawner")
 	if spawner:
+		if active_level > 1 and "enemy_count" in spawner:
+			spawner.enemy_count += (active_level - 1) * 3
+		if active_level > 1 and "max_enemies" in spawner:
+			spawner.max_enemies += (active_level - 1) * 3
 		spawner.stage_cleared.connect(_on_waves_cleared)
 	else:
 		_on_waves_cleared()
@@ -104,7 +123,8 @@ func _spawn_boss() -> void:
 
 func _on_boss_died() -> void:
 	if is_instance_valid(GameState):
-		GameState.add_currency(15 * stage_id)
+		var lvl_mult: int = maxi(1, StageManager.current_level_id if is_instance_valid(StageManager) else 1)
+		GameState.add_currency(15 * stage_id * lvl_mult)
 	_unlock_exit_portal()
 
 
@@ -113,7 +133,10 @@ func _unlock_exit_portal() -> void:
 		exit_portal.set_exit_unlocked(true)
 
 	if objective_label:
-		objective_label.text = "Stage Cleared! Enter the north EXIT PORTAL [E]"
+		if stage_id < StageManager.TOTAL_STAGES:
+			objective_label.text = "Stage Cleared! Enter north EXIT PORTAL [E] to Stage %d" % (stage_id + 1)
+		else:
+			objective_label.text = "Level Complete! Enter north EXIT PORTAL [E] to Return to Lobby"
 		objective_label.modulate = Color(0.55, 1.0, 0.8)
 
 	if ResourceLoader.exists(STAGE_CLEAR_UI_PATH):

@@ -12,6 +12,8 @@ func save_game() -> void:
 	var config := ConfigFile.new()
 	if is_instance_valid(StageManager):
 		config.set_value("progression", "max_unlocked_stage", StageManager.max_unlocked_stage)
+		config.set_value("progression", "max_unlocked_level", StageManager.max_unlocked_level)
+		config.set_value("progression", "current_level_id", StageManager.current_level_id)
 	if is_instance_valid(GameState):
 		config.set_value("progression", "current_floor", GameState.current_floor)
 		config.set_value("progression", "unlocked_floors", GameState.unlocked_floors)
@@ -27,7 +29,9 @@ func load_game() -> void:
 
 	if is_instance_valid(GameState):
 		GameState.current_floor = int(config.get_value("progression", "current_floor", 1))
-		GameState.unlocked_floors = int(config.get_value("progression", "unlocked_floors", 1))
+		var unlocked_f := int(config.get_value("progression", "unlocked_floors", 1))
+		var unlocked_l := int(config.get_value("progression", "max_unlocked_level", unlocked_f))
+		GameState.unlocked_floors = maxi(unlocked_f, unlocked_l)
 		GameState.currency = int(config.get_value("economy", "currency", 0))
 		var saved_upgrades = config.get_value("upgrades", "levels", {})
 		if saved_upgrades is Dictionary:
