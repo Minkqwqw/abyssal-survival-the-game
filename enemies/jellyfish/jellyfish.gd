@@ -183,7 +183,6 @@ func _disable_collisions() -> void:
 		if child is CollisionShape2D:
 			child.set_deferred("disabled", true)
 
-	var hit_area := get_node_or_null("HitArea")
 	if hit_area is Area2D:
 		hit_area.set_deferred("monitoring", false)
 
