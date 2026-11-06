@@ -20,6 +20,8 @@ extends Node2D
 @onready var objective_label: Label = get_node_or_null("StageHUD/ObjectiveLabel")
 
 const STAGE_CLEAR_UI_PATH: String = "res://ui/stage_clear/stage_clear.tscn"
+const BOSS_1_PATH: String = "res://bosses/crab_boss/crab_boss.tscn"
+const BOSS_3_PATH: String = "res://bosses/boss_3/boss_3.tscn"
 const BOSS_4_PATH: String = "res://bosses/boss_4/boss_4.tscn"
 const BOSS_5_PATH: String = "res://bosses/boss_5/boss_5.tscn"
 
@@ -36,11 +38,19 @@ func _ready() -> void:
 		background_color = floor_res.get("background_color")
 		arena_floor_color = floor_res.get("arena_floor_color")
 		border_color = floor_res.get("border_color")
-		if stage_id == StageManager.TOTAL_STAGES:
-			if active_level == 4 and ResourceLoader.exists(BOSS_4_PATH):
-				boss_scene = load(BOSS_4_PATH)
-			elif active_level == 5 and ResourceLoader.exists(BOSS_5_PATH):
-				boss_scene = load(BOSS_5_PATH)
+
+	# Boss hanya boleh muncul di stage boss (stage 3)
+	if stage_id == StageManager.TOTAL_STAGES:
+		if active_level in [1, 2] and ResourceLoader.exists(BOSS_1_PATH):
+			boss_scene = load(BOSS_1_PATH)
+		elif active_level == 3 and ResourceLoader.exists(BOSS_3_PATH):
+			boss_scene = load(BOSS_3_PATH)
+		elif active_level == 4 and ResourceLoader.exists(BOSS_4_PATH):
+			boss_scene = load(BOSS_4_PATH)
+		elif active_level == 5 and ResourceLoader.exists(BOSS_5_PATH):
+			boss_scene = load(BOSS_5_PATH)
+	else:
+		boss_scene = null
 
 	if background:
 		background.color = background_color
@@ -88,7 +98,7 @@ func _on_waves_cleared() -> void:
 	if player_dead or not is_inside_tree():
 		return
 
-	if boss_scene != null:
+	if stage_id == StageManager.TOTAL_STAGES and boss_scene != null:
 		_spawn_boss()
 	else:
 		_unlock_exit_portal()
@@ -98,7 +108,7 @@ func _spawn_boss() -> void:
 	if boss_spawned or player_dead or not is_inside_tree():
 		return
 
-	if boss_scene == null:
+	if stage_id != StageManager.TOTAL_STAGES or boss_scene == null:
 		_unlock_exit_portal()
 		return
 

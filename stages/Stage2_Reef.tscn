@@ -3,28 +3,22 @@
 [ext_resource type="PackedScene" path="res://stages/base_stage.tscn" id="1_base"]
 [ext_resource type="PackedScene" path="res://enemies/jellyfish/jellyfish.tscn" id="2_jelly"]
 [ext_resource type="PackedScene" path="res://stages/floors/floor_2/current_zone.tscn" id="3_current"]
-[ext_resource type="PackedScene" uid="uid://bgowt8wofn0b3" path="res://bosses/crab_boss/crab_boss.tscn" id="4_boss"]
 
-[node name="Stage2_Reef" node_paths=PackedStringArray("boss_spawn_point") instance=ExtResource("1_base")]
+[node name="Stage2_Reef" instance=ExtResource("1_base")]
 stage_id = 2
 stage_title = "Stage 2: Crimson Reef"
 background_color = Color(0.04, 0.08, 0.14, 1)
 arena_floor_color = Color(0.08, 0.16, 0.24, 1)
 border_color = Color(0.95, 0.45, 0.45, 1)
-boss_scene = ExtResource("4_boss")
-boss_spawn_point = NodePath("BossSpawnPoint")
 
-[node name="BossSpawnPoint" type="Marker2D" parent="." index="4"]
-position = Vector2(0, -160)
-
-[node name="CurrentZoneCenter" parent="." index="5" instance=ExtResource("3_current")]
+[node name="CurrentZoneCenter" parent="." index="4" instance=ExtResource("3_current")]
 position = Vector2(0, 60)
 
-[node name="ExitPortal" parent="." index="6"]
+[node name="ExitPortal" parent="." index="5"]
 target_stage_id = 2
 custom_title = "EXIT TO STAGE 3"
 
-[node name="EnemySpawner" parent="." index="8"]
+[node name="EnemySpawner" parent="." index="7"]
 secondary_enemy_scene = ExtResource("2_jelly")
 secondary_spawn_chance = 0.4
 enemy_count = 16
