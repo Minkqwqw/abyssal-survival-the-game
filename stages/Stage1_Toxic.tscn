@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://c8stage1toxic"]
 
-[ext_resource type="PackedScene" uid="uid://c8basestage01" path="res://Scenes/BaseStage.tscn" id="1_base"]
+[ext_resource type="PackedScene" path="res://stages/base_stage.tscn" id="1_base"]
 [ext_resource type="PackedScene" uid="uid://bgowt8wofn0b3" path="res://bosses/crab_boss/crab_boss.tscn" id="2_ry1aw"]
 [ext_resource type="PackedScene" path="res://stages/floors/floor_1/poison_pool.tscn" id="3_poison"]
 

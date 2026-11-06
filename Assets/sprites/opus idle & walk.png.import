@@ -10,7 +10,7 @@ metadata={
 
 [deps]
 
-source_file="res://Assets/opus idle & walk.png"
+source_file="res://Assets/sprites/opus idle & walk.png"
 dest_files=["res://.godot/imported/opus idle & walk.png-569658719c3b54f3e01cd56369c2864b.ctex"]
 
 [params]

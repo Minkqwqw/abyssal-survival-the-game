@@ -6,14 +6,14 @@ signal level_unlocked(new_max_level: int)
 const TOTAL_LEVELS: int = 5
 const TOTAL_STAGES: int = 3
 const SAVE_PATH: String = "user://save_data.cfg"
-const LOBBY_SCENE_PATH: String = "res://Scenes/Lobby.tscn"
+const LOBBY_SCENE_PATH: String = "res://hub/hub.tscn"
 const ELEVATOR_SCENE_PATH: String = "res://ui/elevator_loading/elevator_loading.tscn"
 const STAGE_SELECTOR_SCENE_PATH: String = "res://ui/stage_selector/stage_selector.tscn"
 
 const STAGE_PATHS: Dictionary = {
-	1: "res://Scenes/Stage1_Toxic.tscn",
-	2: "res://Scenes/Stage2_Reef.tscn",
-	3: "res://Scenes/Stage3_Abyss.tscn",
+	1: "res://stages/Stage1_Toxic.tscn",
+	2: "res://stages/Stage2_Reef.tscn",
+	3: "res://stages/Stage3_Abyss.tscn",
 }
 
 const STAGE_NAMES: Dictionary = {

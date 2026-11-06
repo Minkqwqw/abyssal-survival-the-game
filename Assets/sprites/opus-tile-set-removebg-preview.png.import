@@ -10,7 +10,7 @@ metadata={
 
 [deps]
 
-source_file="res://Assets/opus-tile-set-removebg-preview.png"
+source_file="res://Assets/sprites/opus-tile-set-removebg-preview.png"
 dest_files=["res://.godot/imported/opus-tile-set-removebg-preview.png-c9d51ed425aa8d2588fdf57b83b57b3e.ctex"]
 
 [params]

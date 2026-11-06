@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://c8stage3abyss"]
 
-[ext_resource type="PackedScene" uid="uid://c8basestage01" path="res://Scenes/BaseStage.tscn" id="1_base"]
+[ext_resource type="PackedScene" path="res://stages/base_stage.tscn" id="1_base"]
 [ext_resource type="PackedScene" path="res://enemies/jellyfish/jellyfish.tscn" id="2_jelly"]
 [ext_resource type="PackedScene" path="res://bosses/boss_3/boss_3.tscn" id="3_boss3"]
 

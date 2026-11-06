@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://ui/elevator_loading/elevator_loading.gd" id="1_elev_script"]
 [ext_resource type="Texture2D" path="res://Assets/environments/elevator/elevator_shaft_bg.png" id="2_shaft_tex"]
 [ext_resource type="Texture2D" path="res://Assets/environments/elevator/elevator_cabin.png" id="3_cabin_tex"]
-[ext_resource type="Texture2D" uid="uid://bgmxml6pjy74v" path="res://Assets/idle_sheet.png" id="4_idle_tex"]
+[ext_resource type="Texture2D" uid="uid://bgmxml6pjy74v" path="res://Assets/sprites/idle_sheet.png" id="4_idle_tex"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_idle_0"]
 atlas = ExtResource("4_idle_tex")

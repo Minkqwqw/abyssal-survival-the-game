@@ -151,4 +151,4 @@ func _on_back_pressed() -> void:
 	if is_instance_valid(StageManager):
 		StageManager.return_to_lobby()
 	else:
-		get_tree().change_scene_to_file("res://Scenes/Lobby.tscn")
+		get_tree().change_scene_to_file("res://hub/hub.tscn")
