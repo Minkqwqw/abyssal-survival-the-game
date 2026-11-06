@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dcgkmtyny0vjt"
-path="res://.godot/imported/opus idle.png-64fb81eb2235fe049a72e4748e8eb140.ctex"
+path="res://.godot/imported/opus idle.png-dca623c2dcd5eb03ae8557f79668391c.ctex"
 metadata={
 "vram_texture": false
 }
@@ -11,7 +11,7 @@ metadata={
 [deps]
 
 source_file="res://Assets/sprites/opus idle.png"
-dest_files=["res://.godot/imported/opus idle.png-64fb81eb2235fe049a72e4748e8eb140.ctex"]
+dest_files=["res://.godot/imported/opus idle.png-dca623c2dcd5eb03ae8557f79668391c.ctex"]
 
 [params]
 

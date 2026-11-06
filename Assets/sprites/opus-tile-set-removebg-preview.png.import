@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://qw86rb6ets4a"
-path="res://.godot/imported/opus-tile-set-removebg-preview.png-c9d51ed425aa8d2588fdf57b83b57b3e.ctex"
+path="res://.godot/imported/opus-tile-set-removebg-preview.png-887c0bb101e78d64476000736b347756.ctex"
 metadata={
 "vram_texture": false
 }
@@ -11,7 +11,7 @@ metadata={
 [deps]
 
 source_file="res://Assets/sprites/opus-tile-set-removebg-preview.png"
-dest_files=["res://.godot/imported/opus-tile-set-removebg-preview.png-c9d51ed425aa8d2588fdf57b83b57b3e.ctex"]
+dest_files=["res://.godot/imported/opus-tile-set-removebg-preview.png-887c0bb101e78d64476000736b347756.ctex"]
 
 [params]
 
