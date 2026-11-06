@@ -1,6 +1,8 @@
 class_name BaseStage
 extends Node2D
 
+signal arena_entered
+
 const VIEWBOX_LEFT: int = -1101
 const VIEWBOX_RIGHT: int = 1101
 const VIEWBOX_TOP: int = -614
@@ -16,6 +18,10 @@ const VIEWBOX_BOTTOM: int = 614
 @export var map_shader_material: Material
 @export var boss_scene: PackedScene
 @export var boss_spawn_point: Marker2D
+
+@export_group("Trigger Line")
+@export var trigger_line_y: float = 0.0
+@export var show_trigger_line_visual: bool = true
 
 @onready var background: ColorRect = get_node_or_null("Background")
 @onready var arena_floor: ColorRect = get_node_or_null("ArenaFloor")
@@ -38,6 +44,9 @@ const BOSS_5_PATH: String = "res://bosses/boss_5/boss_5.tscn"
 
 var boss_spawned: bool = false
 var player_dead: bool = false
+var combat_active: bool = false
+var _trigger_neck_x: float = 96.0
+var _trigger_line_node: Line2D = null
 
 
 func _ready() -> void:
@@ -128,6 +137,81 @@ func _ready() -> void:
 		spawner.stage_cleared.connect(_on_waves_cleared)
 	else:
 		_on_waves_cleared()
+
+	_setup_trigger_line()
+
+
+func _physics_process(_delta: float) -> void:
+	if not combat_active and player and is_instance_valid(player):
+		if player.global_position.y <= trigger_line_y:
+			start_combat()
+
+
+func is_player_in_safe_zone() -> bool:
+	if combat_active or player == null or not is_instance_valid(player):
+		return false
+	return player.global_position.y > trigger_line_y
+
+
+func start_combat() -> void:
+	if combat_active:
+		return
+	combat_active = true
+	arena_entered.emit()
+
+	for enemy in get_tree().get_nodes_in_group("enemy"):
+		if is_instance_valid(enemy) and enemy.has_method("aggro"):
+			enemy.aggro()
+
+	if _trigger_line_node and is_instance_valid(_trigger_line_node):
+		var tween := create_tween()
+		tween.tween_property(_trigger_line_node, "modulate:a", 0.0, 0.4)
+		tween.tween_callback(_trigger_line_node.queue_free)
+
+
+func _setup_trigger_line() -> void:
+	if spawn_point == null:
+		combat_active = true
+		return
+
+	if is_zero_approx(trigger_line_y):
+		var found_opening := false
+		var collider := get_node_or_null("MapBounds/WallColliderRight") as CollisionPolygon2D
+		if collider and collider.polygon.size() > 0:
+			var min_y := 9999.0
+			var found_x := 96.0
+			for pt in collider.polygon:
+				if pt.x >= 40.0 and pt.x <= 180.0 and pt.y > 250.0 and pt.y < spawn_point.position.y:
+					if pt.y < min_y:
+						min_y = pt.y
+						found_x = pt.x
+			if min_y < 9000.0:
+				trigger_line_y = min_y
+				_trigger_neck_x = found_x
+				found_opening = true
+
+		if not found_opening:
+			trigger_line_y = spawn_point.position.y - 60.0
+			_trigger_neck_x = 96.0
+
+	if show_trigger_line_visual:
+		_create_trigger_line_visual()
+
+
+func _create_trigger_line_visual() -> void:
+	if _trigger_line_node != null or combat_active:
+		return
+	_trigger_line_node = Line2D.new()
+	_trigger_line_node.name = "TriggerLineVisual"
+	_trigger_line_node.width = 4.0
+	_trigger_line_node.default_color = Color(1.0, 0.82, 0.25, 0.85)
+	var half_w := _trigger_neck_x + 10.0
+	_trigger_line_node.points = PackedVector2Array([
+		Vector2(-half_w, trigger_line_y),
+		Vector2(half_w, trigger_line_y)
+	])
+	_trigger_line_node.z_index = 10
+	add_child(_trigger_line_node)
 
 
 func _configure_player_camera() -> void:

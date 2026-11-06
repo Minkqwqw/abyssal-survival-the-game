@@ -60,6 +60,11 @@ func _physics_process(delta: float) -> void:
 	if jelly_sprite == null:
 		return
 
+	if not is_aggro:
+		if not _hit_lock and not _is_attacking:
+			_play(ANIM_IDLE)
+		return
+
 	_attack_cd = maxf(_attack_cd - delta, 0.0)
 
 	if _can_attack():
@@ -71,6 +76,14 @@ func _physics_process(delta: float) -> void:
 # ---------- Gerakan ----------
 
 func _move_behavior(delta: float) -> void:
+	if not is_aggro:
+		velocity = knockback
+		_pulse_time += delta * pulse_frequency * 0.5
+		if jelly_sprite:
+			var scale_pulse := 1.0 + 0.05 * sin(_pulse_time)
+			jelly_sprite.scale = _base_scale * Vector2(scale_pulse, 2.0 - scale_pulse)
+		return
+
 	_pulse_time += delta * pulse_frequency
 	var to_player := global_position.direction_to(player.global_position)
 	var perpendicular := to_player.orthogonal() * sin(_pulse_time) * drift_amplitude
@@ -96,7 +109,7 @@ func _update_animation() -> void:
 # ---------- Serangan ----------
 
 func _can_attack() -> bool:
-	if _is_attacking or _hit_lock or _attack_cd > 0.0:
+	if not is_aggro or _is_attacking or _hit_lock or _attack_cd > 0.0:
 		return false
 	if player == null or not is_instance_valid(player):
 		return false

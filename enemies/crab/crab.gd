@@ -73,6 +73,11 @@ func _physics_process(delta: float) -> void:
 	if crab_sprite == null:
 		return
 
+	if not is_aggro:
+		if not _hit_lock and not _is_attacking:
+			_play(ANIM_IDLE)
+		return
+
 	_attack_cd = maxf(_attack_cd - delta, 0.0)
 
 	_update_facing()
@@ -93,13 +98,13 @@ func _physics_process(delta: float) -> void:
 # =========================================================
 
 func _move_behavior(_delta: float) -> void:
-	# Berhenti saat menyerang, terkena hit, atau mati.
-	if _is_dying or _hit_lock or _is_attacking:
-		velocity = Vector2.ZERO
+	# Berhenti saat menyerang, terkena hit, mati, atau belum aggro.
+	if _is_dying or _hit_lock or _is_attacking or not is_aggro:
+		velocity = knockback
 		return
 
 	if player == null or not is_instance_valid(player):
-		velocity = Vector2.ZERO
+		velocity = knockback
 		return
 
 	# Bergerak menuju player tanpa memutar node Crab.
@@ -147,7 +152,7 @@ func _update_animation() -> void:
 # =========================================================
 
 func _can_attack() -> bool:
-	if _is_dying or _is_attacking or _hit_lock:
+	if not is_aggro or _is_dying or _is_attacking or _hit_lock:
 		return false
 
 	if _attack_cd > 0.0:
