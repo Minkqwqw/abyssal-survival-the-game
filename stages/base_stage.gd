@@ -114,7 +114,8 @@ func _ready() -> void:
 
 	if stage_label:
 		var lvl_title := StageManager.get_level_title(active_level) if is_instance_valid(StageManager) else ("Level %d" % active_level)
-		stage_label.text = "%s  —  Stage %d / %d" % [lvl_title, stage_id, StageManager.TOTAL_STAGES]
+		var diff_name: String = GameState.get_difficulty_name() if is_instance_valid(GameState) else "NORMAL"
+		stage_label.text = "%s  —  Stage %d / %d  [%s]" % [lvl_title, stage_id, StageManager.TOTAL_STAGES, diff_name]
 
 	var spawner := get_node_or_null("EnemySpawner")
 	if spawner:
@@ -122,6 +123,8 @@ func _ready() -> void:
 			spawner.enemy_count += (active_level - 1) * 3
 		if active_level > 1 and "max_enemies" in spawner:
 			spawner.max_enemies += (active_level - 1) * 3
+		if is_instance_valid(GameState) and "enemy_count" in spawner:
+			spawner.enemy_count = GameState.scale_enemy_count(spawner.enemy_count)
 		spawner.stage_cleared.connect(_on_waves_cleared)
 	else:
 		_on_waves_cleared()
@@ -180,7 +183,7 @@ func _spawn_boss() -> void:
 func _on_boss_died() -> void:
 	if is_instance_valid(GameState):
 		var lvl_mult: int = maxi(1, StageManager.current_level_id if is_instance_valid(StageManager) else 1)
-		GameState.add_currency(15 * stage_id * lvl_mult)
+		GameState.add_currency(GameState.scale_currency(15 * stage_id * lvl_mult))
 	_unlock_exit_portal()
 
 

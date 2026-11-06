@@ -24,6 +24,11 @@ var can_damage: bool = true
 
 
 func _ready() -> void:
+	if is_instance_valid(GameState):
+		max_health = GameState.scale_enemy_hp(max_health)
+		contact_damage = GameState.scale_damage(contact_damage)
+		speed = GameState.scale_enemy_speed(speed)
+		currency_reward = GameState.scale_currency(currency_reward)
 	current_health = max_health
 	add_to_group("enemy")
 	player = get_tree().get_first_node_in_group("player")

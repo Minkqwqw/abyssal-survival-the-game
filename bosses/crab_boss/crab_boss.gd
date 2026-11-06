@@ -75,6 +75,16 @@ var _is_dying: bool = false
 
 
 func _ready() -> void:
+	if is_instance_valid(GameState):
+		max_health = GameState.scale_enemy_hp(max_health)
+		contact_damage = GameState.scale_damage(contact_damage)
+		melee_damage = GameState.scale_damage(melee_damage)
+		scuttle_speed = GameState.scale_enemy_speed(scuttle_speed)
+		charge_speed = GameState.scale_enemy_speed(charge_speed)
+		bubble_speed_min = GameState.scale_enemy_speed(bubble_speed_min)
+		bubble_speed_max = GameState.scale_enemy_speed(bubble_speed_max)
+		radial_blade_speed = GameState.scale_enemy_speed(radial_blade_speed)
+		currency_reward = GameState.scale_currency(currency_reward)
 	health = max_health
 	add_to_group("enemy")
 	add_to_group("boss")
@@ -535,6 +545,8 @@ func _spawn_projectile(angle: float, proj_speed: float, mode: String = "bubble")
 
 	var proj := bubble_scene.instantiate()
 	proj.speed = proj_speed
+	if "damage" in proj and is_instance_valid(GameState):
+		proj.damage = GameState.scale_damage(proj.damage)
 	if proj.has_method("set_visual_mode"):
 		proj.set_visual_mode(mode)
 	elif "visual_mode" in proj:

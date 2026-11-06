@@ -115,6 +115,36 @@ text = "Depth: -200m   |   Ruined lab outskirts contaminated by toxic chemical l
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="DifficultyRow" type="HBoxContainer" parent="MainFrame"]
+layout_mode = 0
+offset_left = 80.0
+offset_top = 385.0
+offset_right = 1640.0
+offset_bottom = 435.0
+theme_override_constants/separation = 24
+alignment = 1
+
+[node name="DifficultyLabel" type="Label" parent="MainFrame/DifficultyRow"]
+custom_minimum_size = Vector2(110, 0)
+layout_mode = 2
+text = "Difficulty:"
+vertical_alignment = 1
+
+[node name="NormalButton" type="Button" parent="MainFrame/DifficultyRow"]
+custom_minimum_size = Vector2(170, 0)
+layout_mode = 2
+text = "NORMAL"
+
+[node name="HardButton" type="Button" parent="MainFrame/DifficultyRow"]
+custom_minimum_size = Vector2(170, 0)
+layout_mode = 2
+text = "HARD"
+
+[node name="NightmareButton" type="Button" parent="MainFrame/DifficultyRow"]
+custom_minimum_size = Vector2(190, 0)
+layout_mode = 2
+text = "NIGHTMARE"
+
 [node name="CardsContainer" type="HBoxContainer" parent="MainFrame"]
 layout_mode = 0
 offset_left = 80.0
