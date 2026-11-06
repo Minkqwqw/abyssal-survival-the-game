@@ -1,0 +1,26 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" uid="uid://d3s7c1u1n4qkp" path="res://enemies/jellyfish/jellyfish.gd" id="1_jelly"]
+[ext_resource type="Texture2D" uid="uid://c8axh4efoy0rv" path="res://icon.svg" id="2_icon"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_jelly"]
+radius = 54.0
+
+[node name="Jellyfish" type="CharacterBody2D"]
+collision_layer = 2
+collision_mask = 3
+script = ExtResource("1_jelly")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+self_modulate = Color(0.65, 0.85, 1, 0.9)
+scale = Vector2(0.85, 0.85)
+texture = ExtResource("2_icon")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_jelly")
+
+[node name="HitArea" type="Area2D" parent="."]
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitArea"]
+shape = SubResource("CircleShape2D_jelly")

@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="StageData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://data/resources/stage_data.gd" id="1_sd"]
+
+[resource]
+script = ExtResource("1_sd")
+stage_id = "f1_s1"
+stage_title = "Stage 1: Toxic Shallows"
+is_boss_stage = false
+enemy_count = 10
+enemy_waves = []

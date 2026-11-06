@@ -1,0 +1,13 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://stages/base_stage.tscn" id="1_base"]
+[ext_resource type="PackedScene" uid="uid://bgowt8wofn0b3" path="res://bosses/crab_boss/crab_boss.tscn" id="2_boss"]
+
+[node name="BossStage" node_paths=PackedStringArray("boss_spawn_point") instance=ExtResource("1_base")]
+stage_id = 3
+stage_title = "Boss Stage"
+boss_scene = ExtResource("2_boss")
+boss_spawn_point = NodePath("BossSpawnPoint")
+
+[node name="BossSpawnPoint" type="Marker2D" parent="." index="4"]
+position = Vector2(0, -180)

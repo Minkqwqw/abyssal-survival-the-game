@@ -1,0 +1,27 @@
+[gd_scene format=3 uid="uid://c8stage3abyss"]
+
+[ext_resource type="PackedScene" path="res://stages/base_stage.tscn" id="1_base"]
+[ext_resource type="PackedScene" path="res://enemies/jellyfish/jellyfish.tscn" id="2_jelly"]
+[ext_resource type="PackedScene" path="res://bosses/boss_3/boss_3.tscn" id="3_boss3"]
+
+[node name="Stage3_Abyss" node_paths=PackedStringArray("boss_spawn_point") instance=ExtResource("1_base")]
+stage_id = 3
+stage_title = "Stage 3: The Deep Abyss"
+background_color = Color(0.04, 0.02, 0.08, 1)
+arena_floor_color = Color(0.07, 0.05, 0.14, 1)
+border_color = Color(0.65, 0.3, 0.95, 1)
+boss_scene = ExtResource("3_boss3")
+boss_spawn_point = NodePath("BossSpawnPoint")
+
+[node name="BossSpawnPoint" type="Marker2D" parent="." index="4"]
+position = Vector2(0, -160)
+
+[node name="ExitPortal" parent="." index="5"]
+target_stage_id = 3
+custom_title = "COMPLETE RUN (LOBBY)"
+
+[node name="EnemySpawner" parent="." index="7"]
+secondary_enemy_scene = ExtResource("2_jelly")
+secondary_spawn_chance = 0.55
+enemy_count = 20
+max_enemies = 20

@@ -1,0 +1,57 @@
+[gd_scene format=3 uid="uid://bq426fjoi3ony"]
+
+[ext_resource type="Script" uid="uid://c171258u4py0t" path="res://hub/upgrade_station.gd" id="1_upgrade_station"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_station"]
+size = Vector2(210, 140)
+
+[node name="UpgradeStation" type="Area2D" unique_id=1916351732]
+script = ExtResource("1_upgrade_station")
+
+[node name="StationBase" type="ColorRect" parent="." unique_id=854126353]
+offset_left = -85.0
+offset_top = -55.0
+offset_right = 85.0
+offset_bottom = 55.0
+color = Color(0.45, 0.35, 0.95, 0.08)
+
+[node name="StationGlow" type="ColorRect" parent="." unique_id=1309170140]
+visible = false
+offset_left = -75.0
+offset_top = -45.0
+offset_right = 75.0
+offset_bottom = 45.0
+color = Color(0.55, 0.42, 1, 0.12)
+
+[node name="BorderLine" type="Line2D" parent="." unique_id=464947219]
+visible = false
+points = PackedVector2Array(-85, -55, 85, -55, 85, 55, -85, 55)
+closed = true
+width = 2.0
+default_color = Color(0.75, 0.65, 1, 0.55)
+
+[node name="TitleLabel" type="Label" parent="." unique_id=474174304]
+visible = false
+modulate = Color(0.88, 0.82, 1, 0.95)
+offset_left = -110.0
+offset_top = -155.0
+offset_right = 110.0
+offset_bottom = -127.0
+text = "UPGRADE STATION"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PromptLabel" type="Label" parent="." unique_id=1146253726]
+visible = false
+modulate = Color(1, 0.95, 0.55, 1)
+offset_left = -115.0
+offset_top = 64.0
+offset_right = 115.0
+offset_bottom = 92.0
+text = "[E] Open Upgrades"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=284031386]
+visible = false
+shape = SubResource("RectangleShape2D_station")

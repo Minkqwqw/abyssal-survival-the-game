@@ -1,0 +1,516 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://ui/stage_selector/stage_selector.gd" id="1_selector_script"]
+
+[node name="StageSelector" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_selector_script")
+
+[node name="OuterDarkBg" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.02, 0.03, 0.06, 1)
+
+[node name="MainFrame" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -860.0
+offset_top = -470.0
+offset_right = 860.0
+offset_bottom = 470.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="FrameFill" type="ColorRect" parent="MainFrame"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.04, 0.08, 0.16, 0.96)
+
+[node name="FrameBorder" type="Line2D" parent="MainFrame"]
+points = PackedVector2Array(0, 0, 1720, 0, 1720, 940, 0, 940)
+closed = true
+width = 4.0
+default_color = Color(0.22, 0.42, 0.95, 1)
+
+[node name="TitleLabel" type="Label" parent="MainFrame"]
+layout_mode = 0
+offset_left = 360.0
+offset_top = 34.0
+offset_right = 1360.0
+offset_bottom = 92.0
+theme_override_font_sizes/font_size = 38
+text = "UI stage selector."
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HeaderSubLabel" type="Label" parent="MainFrame"]
+layout_mode = 0
+offset_left = 260.0
+offset_top = 98.0
+offset_right = 1460.0
+offset_bottom = 132.0
+modulate = Color(0.65, 0.88, 1, 0.95)
+text = "Select Destination Floor (Level 1 - 5)"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BackToLobbyButton" type="Button" parent="MainFrame"]
+layout_mode = 0
+offset_left = 1460.0
+offset_top = 36.0
+offset_right = 1680.0
+offset_bottom = 86.0
+text = "Return to Lobby [ESC]"
+
+[node name="PreviewBox" type="ColorRect" parent="MainFrame"]
+layout_mode = 0
+offset_left = 80.0
+offset_top = 165.0
+offset_right = 1640.0
+offset_bottom = 365.0
+color = Color(0.03, 0.05, 0.1, 0.92)
+
+[node name="PreviewBorder" type="Line2D" parent="MainFrame/PreviewBox"]
+points = PackedVector2Array(0, 0, 1560, 0, 1560, 200, 0, 200)
+closed = true
+width = 2.0
+default_color = Color(0.25, 0.55, 0.85, 0.7)
+
+[node name="PreviewTitleLabel" type="Label" parent="MainFrame/PreviewBox"]
+layout_mode = 0
+offset_left = 40.0
+offset_top = 38.0
+offset_right = 1520.0
+offset_bottom = 88.0
+theme_override_font_sizes/font_size = 26
+text = "LEVEL 1 — Toxic Shallows  [READY FOR DEPLOYMENT]"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PreviewDescLabel" type="Label" parent="MainFrame/PreviewBox"]
+layout_mode = 0
+offset_left = 60.0
+offset_top = 102.0
+offset_right = 1500.0
+offset_bottom = 158.0
+modulate = Color(0.82, 0.9, 0.98, 0.95)
+text = "Depth: -200m   |   Ruined lab outskirts contaminated by toxic chemical leaks."
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CardsContainer" type="HBoxContainer" parent="MainFrame"]
+layout_mode = 0
+offset_left = 80.0
+offset_top = 450.0
+offset_right = 1640.0
+offset_bottom = 860.0
+theme_override_constants/separation = 40
+alignment = 1
+
+[node name="LevelCard1" type="Panel" parent="MainFrame/CardsContainer"]
+custom_minimum_size = Vector2(280, 410)
+layout_mode = 2
+
+[node name="CardBg" type="ColorRect" parent="MainFrame/CardsContainer/LevelCard1"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.04, 0.06, 0.1, 0.96)
+
+[node name="AccentBar" type="ColorRect" parent="MainFrame/CardsContainer/LevelCard1"]
+layout_mode = 0
+offset_left = 4.0
+offset_top = 4.0
+offset_right = 276.0
+offset_bottom = 18.0
+color = Color(0.25, 0.78, 0.48, 1)
+
+[node name="CardBorder" type="Line2D" parent="MainFrame/CardsContainer/LevelCard1"]
+points = PackedVector2Array(2, 2, 278, 2, 278, 408, 2, 408)
+closed = true
+width = 3.0
+default_color = Color(0.85, 0.9, 0.98, 0.95)
+
+[node name="DepthLabel" type="Label" parent="MainFrame/CardsContainer/LevelCard1"]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 36.0
+offset_right = 264.0
+offset_bottom = 64.0
+modulate = Color(0.65, 0.82, 0.95, 0.9)
+text = "Depth: -200m"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LevelLabel" type="Label" parent="MainFrame/CardsContainer/LevelCard1"]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 145.0
+offset_right = 264.0
+offset_bottom = 195.0
+theme_override_font_sizes/font_size = 28
+text = "level 1"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ZoneLabel" type="Label" parent="MainFrame/CardsContainer/LevelCard1"]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 202.0
+offset_right = 264.0
+offset_bottom = 234.0
+modulate = Color(0.8, 0.88, 0.96, 0.95)
+text = "Sector Zone"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="StatusLabel" type="Label" parent="MainFrame/CardsContainer/LevelCard1"]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 276.0
+offset_right = 264.0
+offset_bottom = 306.0
+text = "UNLOCKED"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SelectButton" type="Button" parent="MainFrame/CardsContainer/LevelCard1"]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 330.0
+offset_right = 256.0
+offset_bottom = 386.0
+text = "DEPLOY"
+
+[node name="LevelCard2" type="Panel" parent="MainFrame/CardsContainer"]
+custom_minimum_size = Vector2(280, 410)
+layout_mode = 2
+
+[node name="CardBg" type="ColorRect" parent="MainFrame/CardsContainer/LevelCard2"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.04, 0.06, 0.1, 0.96)
+
+[node name="AccentBar" type="ColorRect" parent="MainFrame/CardsContainer/LevelCard2"]
+layout_mode = 0
+offset_left = 4.0
+offset_top = 4.0
+offset_right = 276.0
+offset_bottom = 18.0
+color = Color(0.25, 0.78, 0.48, 1)
+
+[node name="CardBorder" type="Line2D" parent="MainFrame/CardsContainer/LevelCard2"]
+points = PackedVector2Array(2, 2, 278, 2, 278, 408, 2, 408)
+closed = true
+width = 3.0
+default_color = Color(0.85, 0.9, 0.98, 0.95)
+
+[node name="DepthLabel" type="Label" parent="MainFrame/CardsContainer/LevelCard2"]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 36.0
+offset_right = 264.0
+offset_bottom = 64.0
+modulate = Color(0.65, 0.82, 0.95, 0.9)
+text = "Depth: -200m"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LevelLabel" type="Label" parent="MainFrame/CardsContainer/LevelCard2"]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 145.0
+offset_right = 264.0
+offset_bottom = 195.0
+theme_override_font_sizes/font_size = 28
+text = "level 2"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ZoneLabel" type="Label" parent="MainFrame/CardsContainer/LevelCard2"]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 202.0
+offset_right = 264.0
+offset_bottom = 234.0
+modulate = Color(0.8, 0.88, 0.96, 0.95)
+text = "Sector Zone"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="StatusLabel" type="Label" parent="MainFrame/CardsContainer/LevelCard2"]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 276.0
+offset_right = 264.0
+offset_bottom = 306.0
+text = "UNLOCKED"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SelectButton" type="Button" parent="MainFrame/CardsContainer/LevelCard2"]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 330.0
+offset_right = 256.0
+offset_bottom = 386.0
+text = "DEPLOY"
+
+[node name="LevelCard3" type="Panel" parent="MainFrame/CardsContainer"]
+custom_minimum_size = Vector2(280, 410)
+layout_mode = 2
+
+[node name="CardBg" type="ColorRect" parent="MainFrame/CardsContainer/LevelCard3"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.04, 0.06, 0.1, 0.96)
+
+[node name="AccentBar" type="ColorRect" parent="MainFrame/CardsContainer/LevelCard3"]
+layout_mode = 0
+offset_left = 4.0
+offset_top = 4.0
+offset_right = 276.0
+offset_bottom = 18.0
+color = Color(0.25, 0.78, 0.48, 1)
+
+[node name="CardBorder" type="Line2D" parent="MainFrame/CardsContainer/LevelCard3"]
+points = PackedVector2Array(2, 2, 278, 2, 278, 408, 2, 408)
+closed = true
+width = 3.0
+default_color = Color(0.85, 0.9, 0.98, 0.95)
+
+[node name="DepthLabel" type="Label" parent="MainFrame/CardsContainer/LevelCard3"]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 36.0
+offset_right = 264.0
+offset_bottom = 64.0
+modulate = Color(0.65, 0.82, 0.95, 0.9)
+text = "Depth: -200m"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LevelLabel" type="Label" parent="MainFrame/CardsContainer/LevelCard3"]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 145.0
+offset_right = 264.0
+offset_bottom = 195.0
+theme_override_font_sizes/font_size = 28
+text = "level 3"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ZoneLabel" type="Label" parent="MainFrame/CardsContainer/LevelCard3"]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 202.0
+offset_right = 264.0
+offset_bottom = 234.0
+modulate = Color(0.8, 0.88, 0.96, 0.95)
+text = "Sector Zone"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="StatusLabel" type="Label" parent="MainFrame/CardsContainer/LevelCard3"]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 276.0
+offset_right = 264.0
+offset_bottom = 306.0
+text = "UNLOCKED"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SelectButton" type="Button" parent="MainFrame/CardsContainer/LevelCard3"]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 330.0
+offset_right = 256.0
+offset_bottom = 386.0
+text = "DEPLOY"
+
+[node name="LevelCard4" type="Panel" parent="MainFrame/CardsContainer"]
+custom_minimum_size = Vector2(280, 410)
+layout_mode = 2
+
+[node name="CardBg" type="ColorRect" parent="MainFrame/CardsContainer/LevelCard4"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.04, 0.06, 0.1, 0.96)
+
+[node name="AccentBar" type="ColorRect" parent="MainFrame/CardsContainer/LevelCard4"]
+layout_mode = 0
+offset_left = 4.0
+offset_top = 4.0
+offset_right = 276.0
+offset_bottom = 18.0
+color = Color(0.25, 0.78, 0.48, 1)
+
+[node name="CardBorder" type="Line2D" parent="MainFrame/CardsContainer/LevelCard4"]
+points = PackedVector2Array(2, 2, 278, 2, 278, 408, 2, 408)
+closed = true
+width = 3.0
+default_color = Color(0.85, 0.9, 0.98, 0.95)
+
+[node name="DepthLabel" type="Label" parent="MainFrame/CardsContainer/LevelCard4"]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 36.0
+offset_right = 264.0
+offset_bottom = 64.0
+modulate = Color(0.65, 0.82, 0.95, 0.9)
+text = "Depth: -200m"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LevelLabel" type="Label" parent="MainFrame/CardsContainer/LevelCard4"]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 145.0
+offset_right = 264.0
+offset_bottom = 195.0
+theme_override_font_sizes/font_size = 28
+text = "level 4"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ZoneLabel" type="Label" parent="MainFrame/CardsContainer/LevelCard4"]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 202.0
+offset_right = 264.0
+offset_bottom = 234.0
+modulate = Color(0.8, 0.88, 0.96, 0.95)
+text = "Sector Zone"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="StatusLabel" type="Label" parent="MainFrame/CardsContainer/LevelCard4"]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 276.0
+offset_right = 264.0
+offset_bottom = 306.0
+text = "UNLOCKED"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SelectButton" type="Button" parent="MainFrame/CardsContainer/LevelCard4"]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 330.0
+offset_right = 256.0
+offset_bottom = 386.0
+text = "DEPLOY"
+
+[node name="LevelCard5" type="Panel" parent="MainFrame/CardsContainer"]
+custom_minimum_size = Vector2(280, 410)
+layout_mode = 2
+
+[node name="CardBg" type="ColorRect" parent="MainFrame/CardsContainer/LevelCard5"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.04, 0.06, 0.1, 0.96)
+
+[node name="AccentBar" type="ColorRect" parent="MainFrame/CardsContainer/LevelCard5"]
+layout_mode = 0
+offset_left = 4.0
+offset_top = 4.0
+offset_right = 276.0
+offset_bottom = 18.0
+color = Color(0.25, 0.78, 0.48, 1)
+
+[node name="CardBorder" type="Line2D" parent="MainFrame/CardsContainer/LevelCard5"]
+points = PackedVector2Array(2, 2, 278, 2, 278, 408, 2, 408)
+closed = true
+width = 3.0
+default_color = Color(0.85, 0.9, 0.98, 0.95)
+
+[node name="DepthLabel" type="Label" parent="MainFrame/CardsContainer/LevelCard5"]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 36.0
+offset_right = 264.0
+offset_bottom = 64.0
+modulate = Color(0.65, 0.82, 0.95, 0.9)
+text = "Depth: -200m"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LevelLabel" type="Label" parent="MainFrame/CardsContainer/LevelCard5"]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 145.0
+offset_right = 264.0
+offset_bottom = 195.0
+theme_override_font_sizes/font_size = 28
+text = "level 5"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ZoneLabel" type="Label" parent="MainFrame/CardsContainer/LevelCard5"]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 202.0
+offset_right = 264.0
+offset_bottom = 234.0
+modulate = Color(0.8, 0.88, 0.96, 0.95)
+text = "Sector Zone"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="StatusLabel" type="Label" parent="MainFrame/CardsContainer/LevelCard5"]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 276.0
+offset_right = 264.0
+offset_bottom = 306.0
+text = "UNLOCKED"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SelectButton" type="Button" parent="MainFrame/CardsContainer/LevelCard5"]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 330.0
+offset_right = 256.0
+offset_bottom = 386.0
+text = "DEPLOY"
+

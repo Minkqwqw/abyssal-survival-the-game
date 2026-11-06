@@ -1,0 +1,136 @@
+[gd_scene format=3]
+
+[sub_resource type="GDScript" id="GDScript_upgrade_menu"]
+script/source = "extends CanvasLayer
+
+signal menu_closed
+
+@onready var currency_label: Label = $Panel/CurrencyLabel
+@onready var hp_btn: Button = $Panel/UpgradeHPButton
+@onready var dash_btn: Button = $Panel/UpgradeDashButton
+@onready var close_btn: Button = $Panel/CloseButton
+
+const HP_BASE_COST: int = 15
+const DASH_BASE_COST: int = 20
+const MAX_LEVEL: int = 5
+
+
+func _ready() -> void:
+	hp_btn.pressed.connect(_on_upgrade_hp)
+	dash_btn.pressed.connect(_on_upgrade_dash)
+	close_btn.pressed.connect(_close)
+	_refresh_ui()
+
+
+func _unhandled_input(event: InputEvent) -> void:
+	if visible and event.is_action_pressed(\"ui_cancel\"):
+		_close()
+		get_viewport().set_input_as_handled()
+
+
+func _refresh_ui() -> void:
+	if not is_instance_valid(GameState):
+		return
+
+	currency_label.text = \"Abyssal Pearls: %d\" % GameState.currency
+
+	var hp_lvl := GameState.get_upgrade_level(\"max_health\")
+	var hp_cost := HP_BASE_COST * (hp_lvl + 1)
+	if hp_lvl >= MAX_LEVEL:
+		hp_btn.text = \"Reinforced Exosuit (+1 Max HP) [MAX LVL %d]\" % MAX_LEVEL
+		hp_btn.disabled = true
+	else:
+		hp_btn.text = \"Reinforced Exosuit (+1 Max HP) [Lv.%d/%d] — Cost: %d\" % [hp_lvl, MAX_LEVEL, hp_cost]
+		hp_btn.disabled = GameState.currency < hp_cost
+
+	var dash_lvl := GameState.get_upgrade_level(\"dash_cooldown\")
+	var dash_cost := DASH_BASE_COST * (dash_lvl + 1)
+	if dash_lvl >= MAX_LEVEL:
+		dash_btn.text = \"Hydro Thrusters (-12%% Dash CD) [MAX LVL %d]\" % MAX_LEVEL
+		dash_btn.disabled = true
+	else:
+		dash_btn.text = \"Hydro Thrusters (-12%% Dash CD) [Lv.%d/%d] — Cost: %d\" % [dash_lvl, MAX_LEVEL, dash_cost]
+		dash_btn.disabled = GameState.currency < dash_cost
+
+
+func _on_upgrade_hp() -> void:
+	var lvl := GameState.get_upgrade_level(\"max_health\")
+	var cost := HP_BASE_COST * (lvl + 1)
+	if GameState.purchase_upgrade(\"max_health\", cost, MAX_LEVEL):
+		_refresh_ui()
+
+
+func _on_upgrade_dash() -> void:
+	var lvl := GameState.get_upgrade_level(\"dash_cooldown\")
+	var cost := DASH_BASE_COST * (lvl + 1)
+	if GameState.purchase_upgrade(\"dash_cooldown\", cost, MAX_LEVEL):
+		_refresh_ui()
+
+
+func _close() -> void:
+	menu_closed.emit()
+	queue_free()
+"
+
+[node name="UpgradeMenu" type="CanvasLayer"]
+script = SubResource("GDScript_upgrade_menu")
+
+[node name="Panel" type="ColorRect" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -260.0
+offset_top = -170.0
+offset_right = 260.0
+offset_bottom = 170.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.05, 0.09, 0.14, 0.96)
+
+[node name="TitleLabel" type="Label" parent="Panel"]
+layout_mode = 0
+offset_left = 20.0
+offset_top = 18.0
+offset_right = 500.0
+offset_bottom = 48.0
+modulate = Color(0.55, 0.95, 1, 1)
+text = "=== ABYSSAL UPGRADE STATION ==="
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CurrencyLabel" type="Label" parent="Panel"]
+layout_mode = 0
+offset_left = 20.0
+offset_top = 56.0
+offset_right = 500.0
+offset_bottom = 84.0
+modulate = Color(1, 0.9, 0.45, 1)
+text = "Abyssal Pearls: 0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="UpgradeHPButton" type="Button" parent="Panel"]
+layout_mode = 0
+offset_left = 36.0
+offset_top = 104.0
+offset_right = 484.0
+offset_bottom = 154.0
+text = "Reinforced Exosuit (+1 Max HP)"
+
+[node name="UpgradeDashButton" type="Button" parent="Panel"]
+layout_mode = 0
+offset_left = 36.0
+offset_top = 172.0
+offset_right = 484.0
+offset_bottom = 222.0
+text = "Hydro Thrusters (-12% Dash CD)"
+
+[node name="CloseButton" type="Button" parent="Panel"]
+layout_mode = 0
+offset_left = 170.0
+offset_top = 260.0
+offset_right = 350.0
+offset_bottom = 304.0
+text = "Close [ESC]"

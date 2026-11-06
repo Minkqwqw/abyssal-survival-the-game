@@ -1,0 +1,22 @@
+[gd_scene format=3 uid="uid://c8stage1toxic"]
+
+[ext_resource type="PackedScene" path="res://stages/base_stage.tscn" id="1_base"]
+[ext_resource type="PackedScene" uid="uid://bgowt8wofn0b3" path="res://bosses/crab_boss/crab_boss.tscn" id="2_ry1aw"]
+[ext_resource type="PackedScene" path="res://stages/floors/floor_1/poison_pool.tscn" id="3_poison"]
+
+[node name="Stage1_Toxic" unique_id=300885066 node_paths=PackedStringArray("boss_spawn_point") instance=ExtResource("1_base")]
+border_color = Color(0.25, 0.78, 0.48, 1)
+boss_scene = ExtResource("2_ry1aw")
+boss_spawn_point = NodePath("BossSpawnPoint")
+
+[node name="BossSpawnPoint" type="Marker2D" parent="." index="4" unique_id=242859657]
+position = Vector2(0, -160)
+
+[node name="PoisonPoolLeft" parent="." index="5" instance=ExtResource("3_poison")]
+position = Vector2(-420, 40)
+
+[node name="PoisonPoolRight" parent="." index="6" instance=ExtResource("3_poison")]
+position = Vector2(420, -120)
+
+[node name="ExitPortal" parent="." index="7"]
+custom_title = "EXIT TO STAGE 2"

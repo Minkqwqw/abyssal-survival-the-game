@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="UpgradeData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://data/resources/upgrade_data.gd" id="1_ud"]
+
+[resource]
+script = ExtResource("1_ud")
+upgrade_id = "dash_cooldown"
+title = "Hydro Thrusters (-12% Dash Cooldown)"
+description = "Reduces dash cooldown time by 12% per level."
+cost = 20
+max_level = 5
+bonus_per_level = 0.12

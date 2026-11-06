@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="FloorData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://data/resources/floor_data.gd" id="1_f3"]
+
+[resource]
+script = ExtResource("1_f3")
+floor_number = 3
+floor_name = "Floor 3: The Deep Abyss"
+background_color = Color(0.04, 0.02, 0.08, 1)
+arena_floor_color = Color(0.07, 0.05, 0.14, 1)
+border_color = Color(0.65, 0.3, 0.95, 1)

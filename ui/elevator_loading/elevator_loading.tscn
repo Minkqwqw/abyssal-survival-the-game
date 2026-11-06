@@ -1,0 +1,212 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://ui/elevator_loading/elevator_loading.gd" id="1_elev_script"]
+[ext_resource type="Texture2D" path="res://Assets/environments/elevator/elevator_shaft_bg.png" id="2_shaft_tex"]
+[ext_resource type="Texture2D" path="res://Assets/environments/elevator/elevator_cabin.png" id="3_cabin_tex"]
+[ext_resource type="Texture2D" uid="uid://bgmxml6pjy74v" path="res://Assets/sprites/idle_sheet.png" id="4_idle_tex"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_idle_0"]
+atlas = ExtResource("4_idle_tex")
+region = Rect2(0, 0, 134, 130)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_idle_1"]
+atlas = ExtResource("4_idle_tex")
+region = Rect2(134, 0, 134, 130)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_idle_2"]
+atlas = ExtResource("4_idle_tex")
+region = Rect2(268, 0, 134, 130)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_idle_3"]
+atlas = ExtResource("4_idle_tex")
+region = Rect2(402, 0, 134, 130)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_idle_4"]
+atlas = ExtResource("4_idle_tex")
+region = Rect2(536, 0, 134, 130)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_idle_5"]
+atlas = ExtResource("4_idle_tex")
+region = Rect2(670, 0, 134, 130)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_elev_player"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_idle_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_idle_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_idle_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_idle_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_idle_4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_idle_5")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 6.0
+}]
+
+[node name="ElevatorLoading" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_elev_script")
+
+[node name="Backdrop" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.02, 0.05, 0.09, 1)
+
+[node name="ShaftViewport" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+clip_contents = true
+
+[node name="ShaftBgA" type="TextureRect" parent="ShaftViewport"]
+layout_mode = 0
+offset_right = 1920.0
+offset_bottom = 1080.0
+texture = ExtResource("2_shaft_tex")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="ShaftBgB" type="TextureRect" parent="ShaftViewport"]
+layout_mode = 0
+offset_top = 1080.0
+offset_right = 1920.0
+offset_bottom = 2160.0
+texture = ExtResource("2_shaft_tex")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="PassingBeam1" type="ColorRect" parent="ShaftViewport"]
+layout_mode = 0
+offset_top = 240.0
+offset_right = 1920.0
+offset_bottom = 276.0
+color = Color(0.03, 0.07, 0.11, 0.55)
+
+[node name="PassingBeam2" type="ColorRect" parent="ShaftViewport"]
+layout_mode = 0
+offset_top = 820.0
+offset_right = 1920.0
+offset_bottom = 856.0
+color = Color(0.03, 0.07, 0.11, 0.55)
+
+[node name="CabinLayer" type="Node2D" parent="."]
+
+[node name="LeftCable" type="ColorRect" parent="CabinLayer"]
+offset_left = 640.0
+offset_top = 0.0
+offset_right = 652.0
+offset_bottom = 320.0
+color = Color(0.12, 0.18, 0.24, 0.9)
+
+[node name="RightCable" type="ColorRect" parent="CabinLayer"]
+offset_left = 1268.0
+offset_top = 0.0
+offset_right = 1280.0
+offset_bottom = 320.0
+color = Color(0.12, 0.18, 0.24, 0.9)
+
+[node name="CabinRoot" type="Node2D" parent="CabinLayer"]
+position = Vector2(960, 520)
+
+[node name="CabinSprite" type="Sprite2D" parent="CabinLayer/CabinRoot"]
+scale = Vector2(1.45, 1.45)
+texture = ExtResource("3_cabin_tex")
+
+[node name="PlayerStandSprite" type="AnimatedSprite2D" parent="CabinLayer/CabinRoot"]
+position = Vector2(0, 82)
+scale = Vector2(1.38, 1.38)
+sprite_frames = SubResource("SpriteFrames_elev_player")
+animation = &"idle"
+
+[node name="OverlayUI" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TopBar" type="ColorRect" parent="OverlayUI"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 72.0
+grow_horizontal = 2
+color = Color(0.02, 0.04, 0.07, 0.88)
+
+[node name="DepthLabel" type="Label" parent="OverlayUI/TopBar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+modulate = Color(0.45, 0.95, 1, 1)
+text = "ABYSSAL LAB LIFT  |  DEPTH: -120 m"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BottomBar" type="ColorRect" parent="OverlayUI"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -110.0
+grow_horizontal = 2
+grow_vertical = 0
+color = Color(0.02, 0.04, 0.07, 0.88)
+
+[node name="StatusLabel" type="Label" parent="OverlayUI/BottomBar"]
+layout_mode = 0
+offset_left = 460.0
+offset_top = 14.0
+offset_right = 1460.0
+offset_bottom = 46.0
+modulate = Color(0.85, 0.95, 1, 1)
+text = "DESCENDING TO SECTOR SELECTOR..."
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="DescentProgressBar" type="ProgressBar" parent="OverlayUI/BottomBar"]
+layout_mode = 0
+offset_left = 560.0
+offset_top = 54.0
+offset_right = 1360.0
+offset_bottom = 84.0
+max_value = 100.0
+value = 0.0
+
+[node name="FadeRect" type="ColorRect" parent="OverlayUI"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 0)

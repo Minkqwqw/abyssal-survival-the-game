@@ -1,0 +1,15 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" uid="uid://bgowt8wofn0b3" path="res://bosses/crab_boss/crab_boss.tscn" id="1_base_boss"]
+
+[node name="Boss5" instance=ExtResource("1_base_boss")]
+max_health = 110
+scuttle_speed = 145.0
+charge_speed = 820.0
+barrage_duration = 5.5
+bubble_speed_min = 290.0
+bubble_speed_max = 560.0
+
+[node name="Sprite2D" parent="." index="0"]
+self_modulate = Color(0.25, 0.9, 1, 1)
+scale = Vector2(3.8, 3.8)
