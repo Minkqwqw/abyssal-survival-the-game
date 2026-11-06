@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="StageData" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://data/resources/stage_data.gd" id="1_sd"]
+[ext_resource type="PackedScene" path="res://bosses/crab_boss/crab_boss.tscn" id="2_boss"]
+
+[resource]
+script = ExtResource("1_sd")
+stage_id = "f2_s3_boss"
+stage_title = "Level 2 - Stage 3: Royal Crimson Amphitheater (Boss)"
+is_boss_stage = true
+enemy_count = 18
+enemy_waves = []
+boss_scene = ExtResource("2_boss")

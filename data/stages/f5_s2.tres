@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="StageData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://data/resources/stage_data.gd" id="1_sd"]
+
+[resource]
+script = ExtResource("1_sd")
+stage_id = "f5_s2"
+stage_title = "Level 5 - Stage 2: Hadal Conduit Nexus"
+is_boss_stage = false
+enemy_count = 21
+enemy_waves = []

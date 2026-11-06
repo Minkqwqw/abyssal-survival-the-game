@@ -10,16 +10,46 @@ const LOBBY_SCENE_PATH: String = "res://hub/hub.tscn"
 const ELEVATOR_SCENE_PATH: String = "res://ui/elevator_loading/elevator_loading.tscn"
 const STAGE_SELECTOR_SCENE_PATH: String = "res://ui/stage_selector/stage_selector.tscn"
 
+# Fallback stage paths (tetap dipertahankan agar kompatibel dengan referensi lama)
 const STAGE_PATHS: Dictionary = {
 	1: "res://stages/Stage1_Toxic.tscn",
 	2: "res://stages/Stage2_Reef.tscn",
 	3: "res://stages/Stage3_Abyss.tscn",
 }
 
+# 15 Dedicated Stage Scenes (5 Level x 3 Stage)
+const LEVEL_STAGE_PATHS: Dictionary = {
+	1: {
+		1: "res://stages/floors/floor_1/level_1_stage_1.tscn",
+		2: "res://stages/floors/floor_1/level_1_stage_2.tscn",
+		3: "res://stages/floors/floor_1/level_1_stage_3.tscn",
+	},
+	2: {
+		1: "res://stages/floors/floor_2/level_2_stage_1.tscn",
+		2: "res://stages/floors/floor_2/level_2_stage_2.tscn",
+		3: "res://stages/floors/floor_2/level_2_stage_3.tscn",
+	},
+	3: {
+		1: "res://stages/floors/floor_3/level_3_stage_1.tscn",
+		2: "res://stages/floors/floor_3/level_3_stage_2.tscn",
+		3: "res://stages/floors/floor_3/level_3_stage_3.tscn",
+	},
+	4: {
+		1: "res://stages/floors/floor_4/level_4_stage_1.tscn",
+		2: "res://stages/floors/floor_4/level_4_stage_2.tscn",
+		3: "res://stages/floors/floor_4/level_4_stage_3.tscn",
+	},
+	5: {
+		1: "res://stages/floors/floor_5/level_5_stage_1.tscn",
+		2: "res://stages/floors/floor_5/level_5_stage_2.tscn",
+		3: "res://stages/floors/floor_5/level_5_stage_3.tscn",
+	},
+}
+
 const STAGE_NAMES: Dictionary = {
-	1: "Stage 1: Toxic Shallows",
-	2: "Stage 2: Crimson Reef",
-	3: "Stage 3: The Deep Abyss",
+	1: "Stage 1: Sector Entry",
+	2: "Stage 2: Inner Conduit",
+	3: "Stage 3: Core Sanctum (Boss)",
 }
 
 const LEVEL_DATA_PATHS: Dictionary = {
@@ -56,6 +86,16 @@ func is_stage_unlocked(stage_id: int) -> bool:
 	if stage_id >= 1 and stage_id <= TOTAL_LEVELS and current_stage_id == 0:
 		return is_level_unlocked(stage_id)
 	return stage_id >= 1 and stage_id <= max_unlocked_stage and STAGE_PATHS.has(stage_id)
+
+
+func get_stage_scene_path(level_id: int, stage_id: int) -> String:
+	var lvl := clampi(level_id, 1, TOTAL_LEVELS)
+	var stg := clampi(stage_id, 1, TOTAL_STAGES)
+	if LEVEL_STAGE_PATHS.has(lvl) and LEVEL_STAGE_PATHS[lvl].has(stg):
+		var candidate: String = LEVEL_STAGE_PATHS[lvl][stg]
+		if ResourceLoader.exists(candidate):
+			return candidate
+	return STAGE_PATHS.get(stg, "res://stages/Stage1_Toxic.tscn")
 
 
 func unlock_level(level_id: int) -> void:
@@ -96,7 +136,8 @@ func start_level(level_id: int) -> void:
 	if is_instance_valid(GameState):
 		GameState.current_floor = current_level_id
 	save_progress()
-	get_tree().call_deferred("change_scene_to_file", STAGE_PATHS[1])
+	var target_scene := get_stage_scene_path(current_level_id, 1)
+	get_tree().call_deferred("change_scene_to_file", target_scene)
 
 
 func complete_stage(stage_id: int) -> void:
@@ -119,7 +160,8 @@ func load_stage(stage_id: int) -> void:
 		unlock_stage(stage_id)
 
 	current_stage_id = stage_id
-	get_tree().call_deferred("change_scene_to_file", STAGE_PATHS[stage_id])
+	var target_scene := get_stage_scene_path(current_level_id, stage_id)
+	get_tree().call_deferred("change_scene_to_file", target_scene)
 
 
 func change_stage(stage_path: String) -> void:

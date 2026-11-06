@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="StageData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://data/resources/stage_data.gd" id="1_sd"]
+
+[resource]
+script = ExtResource("1_sd")
+stage_id = "f4_s1"
+stage_title = "Level 4 - Stage 1: Trapezoidal Geothermal Foundry"
+is_boss_stage = false
+enemy_count = 16
+enemy_waves = []

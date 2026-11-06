@@ -1,0 +1,46 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="PackedScene" path="res://stages/base_stage.tscn" id="1_base"]
+[ext_resource type="Texture2D" path="res://Assets/environments/maps/level_5_stage_1.png" id="2_maptex"]
+[ext_resource type="PackedScene" path="res://enemies/jellyfish/jellyfish.tscn" id="3_jelly"]
+
+[node name="Level5_Stage1" instance=ExtResource("1_base")]
+level_id_override = 5
+stage_id = 1
+stage_title = "Level 5 - Stage 1: Chevron Cryo-Titanium Sector"
+background_color = Color(0.02, 0.03, 0.07, 1)
+arena_floor_color = Color(0.05, 0.08, 0.14, 1)
+border_color = Color(0.3, 0.85, 1.0, 1)
+map_texture = ExtResource("2_maptex")
+
+
+[node name="MapSprite" parent="MapEnvironment" index="0"]
+texture = ExtResource("2_maptex")
+
+[node name="WallColliderRight" parent="MapBounds" index="4"]
+polygon = PackedVector2Array(0.0, -457.6, 80.0, -457.6, 80.0, -435.2, 619.2, -435.2, 859.2, -206.4, 859.2, 225.6, 619.2, 465.6, 80.0, 465.6, 80.0, 545.6, 0.0, 545.6, 0.0, 680.0, 1180.0, 680.0, 1180.0, -680.0, 0.0, -680.0)
+
+[node name="WallColliderLeft" parent="MapBounds" index="5"]
+polygon = PackedVector2Array(0.0, 545.6, -80.0, 545.6, -80.0, 465.6, -619.2, 465.6, -859.2, 225.6, -859.2, -206.4, -619.2, -435.2, -80.0, -435.2, -80.0, -457.6, 0.0, -457.6, 0.0, -680.0, -1180.0, -680.0, -1180.0, 680.0, 0.0, 680.0)
+
+[node name="BoundsOutline" parent="MapBounds" index="6"]
+points = PackedVector2Array(0.0, -457.6, 80.0, -457.6, 80.0, -435.2, 619.2, -435.2, 859.2, -206.4, 859.2, 225.6, 619.2, 465.6, 80.0, 465.6, 80.0, 545.6, 0.0, 545.6, -80.0, 545.6, -80.0, 465.6, -619.2, 465.6, -859.2, 225.6, -859.2, -206.4, -619.2, -435.2, -80.0, -435.2, -80.0, -457.6)
+default_color = Color(0.3, 0.85, 1.0, 1)
+
+[node name="SpawnPoint" parent="." index="4"]
+position = Vector2(0.0, 493.6)
+
+[node name="ExitPortal" parent="." index="5"]
+position = Vector2(0.0, -429.6)
+target_stage_id = 1
+custom_title = "EXIT TO STAGE 2"
+
+[node name="Player" parent="." index="6"]
+position = Vector2(0.0, 493.6)
+
+[node name="EnemySpawner" parent="." index="7"]
+secondary_enemy_scene = ExtResource("3_jelly")
+secondary_spawn_chance = 0.52
+enemy_count = 18
+max_enemies = 18
+default_area_rect = Rect2(-479.20000000000005, -280.896, 958.4000000000001, 561.792)

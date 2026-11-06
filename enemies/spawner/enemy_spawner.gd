@@ -14,9 +14,10 @@ signal stage_cleared
 @export var spawn_interval: float = 1.5
 @export var spawn_radius: float = 520.0
 @export var edge_margin: float = 40.0
-@export var min_distance_from_player: float = 250.0
-@export var min_distance_between_enemies: float = 60.0
-@export var default_area_rect: Rect2 = Rect2(-957.0, -713.0, 1919.0, 1430.0)
+@export var min_distance_from_player: float = 240.0
+@export var min_distance_between_enemies: float = 56.0
+@export var default_area_rect: Rect2 = Rect2(-520.0, -300.0, 1040.0, 600.0)
+@export var use_default_area_rect: bool = true
 
 @onready var spawn_area: ReferenceRect = get_node_or_null("SpawnArea")
 
@@ -37,7 +38,7 @@ func _spawn_all() -> void:
 	var positions: Array[Vector2] = []
 	var attempts := 0
 
-	while positions.size() < enemy_count and attempts < enemy_count * 50:
+	while positions.size() < enemy_count and attempts < enemy_count * 60:
 		attempts += 1
 		var pos := _random_point_in_area()
 
@@ -45,7 +46,7 @@ func _spawn_all() -> void:
 			positions.append(pos)
 
 	if positions.size() < enemy_count:
-		push_warning("Hanya %d dari %d musuh yang muat di area. Perbesar SpawnArea atau kecilkan jarak minimum." % [positions.size(), enemy_count])
+		push_warning("Hanya %d dari %d musuh yang muat di area." % [positions.size(), enemy_count])
 
 	if positions.is_empty():
 		stage_cleared.emit()
@@ -58,7 +59,7 @@ func _spawn_all() -> void:
 func _random_point_in_area() -> Vector2:
 	var origin: Vector2
 	var size: Vector2
-	if spawn_area:
+	if spawn_area and not use_default_area_rect:
 		origin = spawn_area.global_position
 		size = spawn_area.size
 	else:
