@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bshsaa85oovqg"
-path="res://.godot/imported/crab_hit_sheet-removebg-preview.png-9c373c5bfab1bcb8159eb28bb1590023.ctex"
+uid="uid://chl4venfsi7bv"
+path="res://.godot/imported/move_right.png-39bf931566340af2120b0123403c9377.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://enemies/crab/crab_hit_sheet-removebg-preview.png"
-dest_files=["res://.godot/imported/crab_hit_sheet-removebg-preview.png-9c373c5bfab1bcb8159eb28bb1590023.ctex"]
+source_file="res://enemies/crab/move_right.png"
+dest_files=["res://.godot/imported/move_right.png-39bf931566340af2120b0123403c9377.ctex"]
 
 [params]
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://boqr3tybvenyw"
-path="res://.godot/imported/attack.png-733fb4970945bdb240c7e90344e10e34.ctex"
+uid="uid://5mkyyayiciqk"
+path="res://.godot/imported/move_left.png-22d4754224906bf4886532144a0b77f8.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://enemies/crab/attack.png"
-dest_files=["res://.godot/imported/attack.png-733fb4970945bdb240c7e90344e10e34.ctex"]
+source_file="res://enemies/crab/move_left.png"
+dest_files=["res://.godot/imported/move_left.png-22d4754224906bf4886532144a0b77f8.ctex"]
 
 [params]
 

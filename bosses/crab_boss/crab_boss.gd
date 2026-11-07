@@ -23,9 +23,19 @@ const ARENA_MAX_Y: float = 435.0
 @export var currency_reward: int = 25
 @export var bubble_scene: PackedScene
 
+@export_group("Dash Charge")
+@export var charge_damage: int = 2                 # damage ke player saat tertabrak dash
+@export var charge_hit_radius: float = 95.0        # jarak (piksel) dari pusat boss yang dihitung kena dash
+@export var charge_recoil: float = 320.0           # boss terpental ke belakang setelah menabrak player
+
+@export_group("Kontak Badan")
+@export var contact_radius: float = 80.0           # cadangan kalau HitArea kecil/tidak mengenai player
+@export var keep_distance: float = 90.0            # saat scuttle, boss tidak menempel lebih dekat dari ini
+
 @export_group("Melee Claw Slash")
 @export var melee_trigger_range: float = 195.0
-@export var melee_slash_reach: float = 135.0
+@export var melee_slash_offset: float = 72.0       # titik pusat sabetan di depan boss (menghadap player)
+@export var melee_slash_reach: float = 150.0       # radius sabetan dari titik pusat
 @export var melee_cooldown: float = 1.6
 
 @export_group("Bubble Barrage")
@@ -57,7 +67,6 @@ var health: int
 var player: Node2D = null
 var state: State = State.IDLE
 var phase: int = 1
-var can_damage: bool = true
 var charge_dir: Vector2 = Vector2.ZERO
 var scuttle_side: float = 1.0
 var facing_dir: Vector2 = Vector2.DOWN
@@ -71,10 +80,16 @@ var _action_token: int = 0
 var _hit_anim_token: int = 0
 var _hit_anim_playing: bool = false
 var _melee_cd: float = 0.0
+var _damage_lock: float = 0.0        # jeda antar damage ke player (menggantikan can_damage)
+var _charge_hit_done: bool = false   # dash hanya melukai sekali per serbuan
 var _is_dying: bool = false
 
 
 func _ready() -> void:
+	# PENTING untuk game top-down: mode Grounded membuat boss "naik" ke player dan ikut
+	# terbawa/menempel (dianggap lantai bergerak). Floating menghilangkan itu.
+	motion_mode = CharacterBody2D.MOTION_MODE_FLOATING
+
 	health = max_health
 	add_to_group("enemy")
 	add_to_group("boss")
@@ -135,6 +150,7 @@ func _physics_process(delta: float) -> void:
 		return
 
 	_melee_cd = maxf(_melee_cd - delta, 0.0)
+	_damage_lock = maxf(_damage_lock - delta, 0.0)
 	knockback = knockback.move_toward(Vector2.ZERO, 900.0 * delta)
 
 	if player == null or not is_instance_valid(player):
@@ -156,11 +172,16 @@ func _physics_process(delta: float) -> void:
 		State.CHARGE:
 			velocity = charge_dir * charge_speed
 		_:
-			velocity = velocity.move_toward(Vector2.ZERO, 1500.0 * delta)
+			# Diam total (pusing, windup, menembak). Tidak boleh akumulasi dengan knockback di bawah.
+			velocity = Vector2.ZERO
 
 	velocity += knockback
 	move_and_slide()
 	_clamp_within_arena_bounds()
+
+	# Dash: cek apakah menabrak player (damage, lalu boss terpental dan pusing sebentar)
+	if state == State.CHARGE:
+		_check_charge_hit()
 
 	# Kalau menabrak dinding arena saat charge, langsung pusing sebentar
 	if state == State.CHARGE and get_slide_collision_count() > 0:
@@ -282,9 +303,13 @@ func _is_token_valid(token: int) -> bool:
 
 func _do_scuttle() -> void:
 	var to_player := global_position.direction_to(player.global_position)
+	var dist := global_position.distance_to(player.global_position)
 	var side := to_player.orthogonal() * scuttle_side
 	var speed := scuttle_speed * (1.45 if phase == 2 else 1.0)
-	velocity = (side * 0.78 + to_player * 0.45).normalized() * speed
+
+	# Jangan terus mendorong badan ke player: kalau sudah terlalu dekat, mundur sedikit sambil berputar
+	var approach := 0.45 if dist > keep_distance else -0.35
+	velocity = (side * 0.78 + to_player * approach).normalized() * speed
 
 
 # ---------- Serangan 1: Melee Claw Slash (Sabetan Capit Sabit) ----------
@@ -309,10 +334,11 @@ func _attack_melee_slash() -> void:
 	if not _is_token_valid(token):
 		return
 
-	# Aktifkan hitbox sabetan sabit di sisi arah hadap boss
+	# Aktifkan hitbox sabetan sabit di depan boss (ke arah player)
 	_trigger_slash_hitbox()
 	# Tembakkan juga 1 gelombang sabit energi ke arah player saat capit mengayun!
-	_spawn_projectile((player.global_position - global_position).angle(), 380.0, "crescent")
+	if player and is_instance_valid(player):
+		_spawn_projectile((player.global_position - global_position).angle(), 380.0, "crescent")
 
 	await get_tree().create_timer(0.38).timeout
 	if not _is_token_valid(token):
@@ -325,15 +351,16 @@ func _trigger_slash_hitbox() -> void:
 	if player == null or not is_instance_valid(player):
 		return
 
-	var slash_offset := Vector2(-72.0 if face_left else 72.0, 6.0)
+	# Titik pusat sabetan mengikuti arah ke player saat capit jatuh, bukan hanya kiri/kanan
+	var dir := global_position.direction_to(player.global_position)
+	var hit_center := global_position + dir * melee_slash_offset
+
 	if slash_area:
-		slash_area.position = slash_offset
+		slash_area.global_position = hit_center
 		slash_area.monitoring = true
 
-	var hit_center := global_position + slash_offset
 	if player.global_position.distance_to(hit_center) <= melee_slash_reach:
-		if player.has_method("take_damage"):
-			player.take_damage(melee_damage)
+		_damage_player(melee_damage, 0.5)
 
 	if slash_area:
 		get_tree().create_timer(0.18).timeout.connect(func():
@@ -377,6 +404,7 @@ func _attack_charge() -> void:
 	else:
 		charge_dir = Vector2.DOWN
 
+	_charge_hit_done = false
 	state = State.CHARGE
 	_play_anim("charge_left" if face_left else "charge_right", true)
 
@@ -387,6 +415,33 @@ func _attack_charge() -> void:
 
 	if state == State.CHARGE:
 		_stun(0.55)
+
+
+## Dipanggil tiap frame saat CHARGE. Melukai player sekali per serbuan, lalu boss terpental.
+func _check_charge_hit() -> void:
+	if _charge_hit_done or player == null or not is_instance_valid(player):
+		return
+
+	var touched := false
+	for i in get_slide_collision_count():
+		var col := get_slide_collision(i)
+		if col and col.get_collider() == player:
+			touched = true
+			break
+
+	# Cadangan: kalau HitArea/collider tidak sempat bersentuhan, pakai jarak
+	if not touched and global_position.distance_to(player.global_position) <= charge_hit_radius:
+		touched = true
+
+	if not touched:
+		return
+
+	_charge_hit_done = true
+	_damage_player(charge_damage, 0.6)
+
+	# Terpental ke belakang supaya tidak menempel pada player
+	knockback = -charge_dir * charge_recoil
+	_stun(0.55)
 
 
 func _stun(duration: float) -> void:
@@ -546,7 +601,23 @@ func _spawn_projectile(angle: float, proj_speed: float, mode: String = "bubble")
 	proj.global_rotation = angle
 
 
-# ---------- Contact Damage & Menerima Damage ----------
+# ---------- Damage ke Player ----------
+
+## Satu pintu untuk semua damage boss ke player (kontak, dash, sabetan).
+## lock_time = jeda sebelum boss boleh melukai lagi (supaya tidak kena beruntun dalam 1 frame).
+func _damage_player(amount: int, lock_time: float) -> bool:
+	if player == null or not is_instance_valid(player) or not player.has_method("take_damage"):
+		return false
+	if _damage_lock > 0.0:
+		return false
+	# Player yang sedang dash kebal: jangan buang jeda damage
+	if player.get("is_dashing") == true:
+		return false
+
+	player.take_damage(amount)
+	_damage_lock = lock_time
+	return true
+
 
 func _on_hit_area_body_entered(body: Node2D) -> void:
 	if body.is_in_group("player"):
@@ -554,18 +625,28 @@ func _on_hit_area_body_entered(body: Node2D) -> void:
 
 
 func _check_contact_damage() -> void:
-	if not can_damage or _is_dying or health <= 0 or hit_area == null:
+	if _is_dying or health <= 0 or _damage_lock > 0.0:
+		return
+	# Dash punya damage sendiri (_check_charge_hit)
+	if state == State.CHARGE:
 		return
 
-	for body in hit_area.get_overlapping_bodies():
-		if body.is_in_group("player") and body.has_method("take_damage"):
-			body.take_damage(contact_damage)
-			can_damage = false
-			await get_tree().create_timer(damage_cooldown).timeout
-			if is_instance_valid(self):
-				can_damage = true
-			break
+	var touching := false
+	if hit_area:
+		for body in hit_area.get_overlapping_bodies():
+			if body.is_in_group("player"):
+				touching = true
+				break
 
+	# Cadangan: HitArea yang lebih kecil dari collider boss tidak akan pernah menyentuh player
+	if not touching and player and is_instance_valid(player):
+		touching = global_position.distance_to(player.global_position) <= contact_radius
+
+	if touching:
+		_damage_player(contact_damage, damage_cooldown)
+
+
+# ---------- Menerima Damage ----------
 
 func take_damage(amount: int) -> void:
 	if _is_dying or health <= 0:
@@ -647,7 +728,7 @@ func die() -> void:
 	state = State.DEAD
 	velocity = Vector2.ZERO
 	knockback = Vector2.ZERO
-	can_damage = false
+	_damage_lock = 9999.0   # boss yang sedang kalah tidak boleh melukai player
 
 	# Matikan seluruh collider agar tidak melukai player saat animasi kalah diputar
 	if body_collider:

@@ -164,6 +164,7 @@ radius = 26.0
 height = 106.0
 
 [node name="Player" type="CharacterBody2D" unique_id=1403116106 groups=["player"]]
+motion_mode = 1
 script = ExtResource("1_v0iea")
 weapon_scene = ExtResource("2_6t5aa")
 
