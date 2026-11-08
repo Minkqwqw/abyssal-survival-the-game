@@ -1,0 +1,360 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://ui/main_menu/main_menu.gd" id="1_menu_script"]
+[ext_resource type="Texture2D" path="res://ui/main_menu/assets/main_menu_bg_1.png" id="2_bg_1"]
+[ext_resource type="Texture2D" path="res://ui/main_menu/assets/main_menu_bg_2.png" id="3_bg_2"]
+[ext_resource type="Texture2D" path="res://ui/main_menu/assets/pearl_orb.png" id="4_pearl_tex"]
+[ext_resource type="Texture2D" path="res://ui/main_menu/assets/btn_normal.png" id="5_btn_norm"]
+[ext_resource type="Texture2D" path="res://ui/main_menu/assets/btn_hover.png" id="6_btn_hov"]
+[ext_resource type="Texture2D" path="res://ui/main_menu/assets/btn_pressed.png" id="7_btn_prs"]
+[ext_resource type="Texture2D" path="res://ui/main_menu/assets/arrow_left.png" id="8_arr_l"]
+[ext_resource type="Texture2D" path="res://ui/main_menu/assets/arrow_right.png" id="9_arr_r"]
+[ext_resource type="Texture2D" path="res://ui/main_menu/assets/main_panel.png" id="10_panel_tex"]
+[ext_resource type="Texture2D" path="res://ui/main_menu/assets/btn_close.png" id="11_close_tex"]
+[ext_resource type="AudioStream" uid="uid://des70mm8tlo8s" path="res://hub/Lobby.wav" id="12_bgm"]
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_menu_script")
+
+[node name="BgPrimary" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_bg_1")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="BgSecondary" type="TextureRect" parent="."]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_bg_2")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="TopStatusBar" type="ColorRect" parent="."]
+layout_mode = 0
+offset_left = 36.0
+offset_top = 28.0
+offset_right = 516.0
+offset_bottom = 86.0
+color = Color(0.02, 0.06, 0.11, 0.84)
+
+[node name="StatusBorder" type="Line2D" parent="TopStatusBar"]
+points = PackedVector2Array(0, 0, 480, 0, 480, 58, 0, 58)
+closed = true
+width = 2.0
+default_color = Color(0.32, 0.85, 0.96, 0.72)
+
+[node name="PearlIcon" type="TextureRect" parent="TopStatusBar"]
+layout_mode = 0
+offset_left = 12.0
+offset_top = 9.0
+offset_right = 52.0
+offset_bottom = 49.0
+texture = ExtResource("4_pearl_tex")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="StatusLabel" type="Label" parent="TopStatusBar"]
+layout_mode = 0
+offset_left = 62.0
+offset_top = 8.0
+offset_right = 468.0
+offset_bottom = 50.0
+theme_override_colors/font_color = Color(0.72, 0.96, 1, 1)
+theme_override_font_sizes/font_size = 18
+text = "Pearls: 0   |   Floor: 1 / 5   |   NORMAL"
+vertical_alignment = 1
+
+[node name="ThemeSwitcherBar" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -356.0
+offset_top = 28.0
+offset_right = -36.0
+offset_bottom = 86.0
+grow_horizontal = 0
+color = Color(0.02, 0.06, 0.11, 0.84)
+
+[node name="SwitcherBorder" type="Line2D" parent="ThemeSwitcherBar"]
+points = PackedVector2Array(0, 0, 320, 0, 320, 58, 0, 58)
+closed = true
+width = 2.0
+default_color = Color(0.32, 0.85, 0.96, 0.72)
+
+[node name="ThemePrevBtn" type="TextureButton" parent="ThemeSwitcherBar"]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 6.0
+offset_right = 44.0
+offset_bottom = 52.0
+texture_normal = ExtResource("8_arr_l")
+texture_pressed = ExtResource("8_arr_l")
+texture_hover = ExtResource("8_arr_l")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="ThemeNameLabel" type="Label" parent="ThemeSwitcherBar"]
+layout_mode = 0
+offset_left = 48.0
+offset_top = 8.0
+offset_right = 272.0
+offset_bottom = 50.0
+theme_override_colors/font_color = Color(0.72, 0.96, 1, 1)
+theme_override_font_sizes/font_size = 16
+text = "BG 1: Kraken Abyss"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ThemeNextBtn" type="TextureButton" parent="ThemeSwitcherBar"]
+layout_mode = 0
+offset_left = 276.0
+offset_top = 6.0
+offset_right = 310.0
+offset_bottom = 52.0
+texture_normal = ExtResource("9_arr_r")
+texture_pressed = ExtResource("9_arr_r")
+texture_hover = ExtResource("9_arr_r")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="LeftMenuColumn" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 78.0
+offset_top = 250.0
+offset_right = 398.0
+offset_bottom = 856.0
+theme_override_constants/separation = 16
+alignment = 1
+
+[node name="StartButton" type="TextureButton" parent="LeftMenuColumn"]
+custom_minimum_size = Vector2(320, 138)
+layout_mode = 2
+texture_normal = ExtResource("5_btn_norm")
+texture_pressed = ExtResource("7_btn_prs")
+texture_hover = ExtResource("6_btn_hov")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="BtnLabel" type="Label" parent="LeftMenuColumn/StartButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.92, 0.99, 1, 1)
+theme_override_colors/font_outline_color = Color(0.02, 0.08, 0.16, 1)
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 25
+text = "START GAME"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="OptionsButton" type="TextureButton" parent="LeftMenuColumn"]
+custom_minimum_size = Vector2(320, 138)
+layout_mode = 2
+texture_normal = ExtResource("5_btn_norm")
+texture_pressed = ExtResource("7_btn_prs")
+texture_hover = ExtResource("6_btn_hov")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="BtnLabel" type="Label" parent="LeftMenuColumn/OptionsButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.92, 0.99, 1, 1)
+theme_override_colors/font_outline_color = Color(0.02, 0.08, 0.16, 1)
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 25
+text = "OPTIONS"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CreditsButton" type="TextureButton" parent="LeftMenuColumn"]
+custom_minimum_size = Vector2(320, 138)
+layout_mode = 2
+texture_normal = ExtResource("5_btn_norm")
+texture_pressed = ExtResource("7_btn_prs")
+texture_hover = ExtResource("6_btn_hov")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="BtnLabel" type="Label" parent="LeftMenuColumn/CreditsButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.92, 0.99, 1, 1)
+theme_override_colors/font_outline_color = Color(0.02, 0.08, 0.16, 1)
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 25
+text = "CREDITS"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="QuitButton" type="TextureButton" parent="LeftMenuColumn"]
+custom_minimum_size = Vector2(320, 138)
+layout_mode = 2
+texture_normal = ExtResource("5_btn_norm")
+texture_pressed = ExtResource("7_btn_prs")
+texture_hover = ExtResource("6_btn_hov")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="BtnLabel" type="Label" parent="LeftMenuColumn/QuitButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.92, 0.99, 1, 1)
+theme_override_colors/font_outline_color = Color(0.02, 0.08, 0.16, 1)
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 25
+text = "EXIT GAME"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VersionFooterLabel" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 36.0
+offset_top = -44.0
+offset_right = 620.0
+offset_bottom = -14.0
+grow_vertical = 0
+theme_override_colors/font_color = Color(0.55, 0.82, 0.9, 0.8)
+theme_override_font_sizes/font_size = 15
+text = "Abyssal Survival v0.1  |  Tim Sesuai Deskripsi  |  Godot 4.7"
+
+[node name="CreditsModal" type="Control" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="DimBg" type="ColorRect" parent="CreditsModal"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.01, 0.03, 0.07, 0.78)
+
+[node name="CenterPanel" type="TextureRect" parent="CreditsModal"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -360.0
+offset_top = -350.0
+offset_right = 360.0
+offset_bottom = 350.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("10_panel_tex")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="HeaderLabel" type="Label" parent="CreditsModal/CenterPanel"]
+layout_mode = 0
+offset_left = 200.0
+offset_top = 20.0
+offset_right = 520.0
+offset_bottom = 82.0
+theme_override_colors/font_color = Color(0.85, 0.98, 1, 1)
+theme_override_colors/font_outline_color = Color(0.02, 0.08, 0.16, 1)
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 27
+text = "CREDITS"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CloseCreditsBtn" type="TextureButton" parent="CreditsModal/CenterPanel"]
+layout_mode = 0
+offset_left = 626.0
+offset_top = 20.0
+offset_right = 696.0
+offset_bottom = 92.0
+texture_normal = ExtResource("11_close_tex")
+texture_pressed = ExtResource("11_close_tex")
+texture_hover = ExtResource("11_close_tex")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="CreditsBodyLabel" type="Label" parent="CreditsModal/CenterPanel"]
+layout_mode = 0
+offset_left = 68.0
+offset_top = 132.0
+offset_right = 652.0
+offset_bottom = 636.0
+theme_override_colors/font_color = Color(0.82, 0.96, 1, 1)
+theme_override_font_sizes/font_size = 19
+text = "ABYSSAL SURVIVAL
+Mata Kuliah Pemrograman Game
+Tim \"Sesuai Deskripsi\"
+
+• Nizar Kurnia Alfaizi (0110223107)
+  Project Manager / Game Designer
+
+• Muhammad Amir Al-Aqwa (0110223032)
+  Programmer (Gameplay & Systems)
+
+• Muhammad Faisal Rosyid (0110223311)
+  Artist 2D (Pixel Art & Environment)
+
+• Muhammad Syahril Rizky Fauzan (0110223110)
+  Sound Designer (BGM & SFX)
+
+• Indri Rachma (0110223101)
+  Game Writer / QA-Tester"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="FadeRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 0)
+
+[node name="MenuBGM" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("12_bgm")
+volume_db = -14.0
+autoplay = true
+bus = &"Music"

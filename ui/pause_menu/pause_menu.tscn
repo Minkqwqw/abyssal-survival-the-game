@@ -1,0 +1,213 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://ui/pause_menu/pause_menu.gd" id="1_pause_script"]
+[ext_resource type="Texture2D" path="res://ui/main_menu/assets/main_panel.png" id="2_panel_tex"]
+[ext_resource type="Texture2D" path="res://ui/main_menu/assets/btn_close.png" id="3_close_tex"]
+[ext_resource type="Texture2D" path="res://ui/main_menu/assets/btn_normal.png" id="4_btn_norm"]
+[ext_resource type="Texture2D" path="res://ui/main_menu/assets/btn_hover.png" id="5_btn_hov"]
+[ext_resource type="Texture2D" path="res://ui/main_menu/assets/btn_pressed.png" id="6_btn_prs"]
+
+[node name="PauseMenu" type="CanvasLayer"]
+process_mode = 3
+layer = 15
+script = ExtResource("1_pause_script")
+
+[node name="DimOverlay" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.01, 0.03, 0.07, 0.78)
+
+[node name="CenterRoot" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -330.0
+offset_top = -360.0
+offset_right = 330.0
+offset_bottom = 360.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PanelFrame" type="TextureRect" parent="CenterRoot"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_panel_tex")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="HeaderLabel" type="Label" parent="CenterRoot/PanelFrame"]
+layout_mode = 0
+offset_left = 170.0
+offset_top = 22.0
+offset_right = 490.0
+offset_bottom = 84.0
+theme_override_colors/font_color = Color(0.85, 0.98, 1, 1)
+theme_override_colors/font_outline_color = Color(0.02, 0.08, 0.16, 1)
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 26
+text = "GAMEPLAY MENU"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CloseButton" type="TextureButton" parent="CenterRoot/PanelFrame"]
+layout_mode = 0
+offset_left = 568.0
+offset_top = 22.0
+offset_right = 636.0
+offset_bottom = 94.0
+texture_normal = ExtResource("3_close_tex")
+texture_pressed = ExtResource("3_close_tex")
+texture_hover = ExtResource("3_close_tex")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="StatusLabel" type="Label" parent="CenterRoot/PanelFrame"]
+layout_mode = 0
+offset_left = 60.0
+offset_top = 108.0
+offset_right = 600.0
+offset_bottom = 144.0
+theme_override_colors/font_color = Color(0.55, 0.98, 0.88, 1)
+theme_override_font_sizes/font_size = 17
+text = "Level 1  |  Stage 1 / 3  |  NORMAL  |  Pearls: 0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ButtonColumn" type="VBoxContainer" parent="CenterRoot/PanelFrame"]
+layout_mode = 0
+offset_left = 150.0
+offset_top = 154.0
+offset_right = 510.0
+offset_bottom = 668.0
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="ResumeButton" type="TextureButton" parent="CenterRoot/PanelFrame/ButtonColumn"]
+custom_minimum_size = Vector2(360, 90)
+layout_mode = 2
+texture_normal = ExtResource("4_btn_norm")
+texture_pressed = ExtResource("6_btn_prs")
+texture_hover = ExtResource("5_btn_hov")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="BtnLabel" type="Label" parent="CenterRoot/PanelFrame/ButtonColumn/ResumeButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.9, 0.98, 1, 1)
+theme_override_colors/font_outline_color = Color(0.02, 0.08, 0.16, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 20
+text = "RESUME GAME [ESC]"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SettingsButton" type="TextureButton" parent="CenterRoot/PanelFrame/ButtonColumn"]
+custom_minimum_size = Vector2(360, 90)
+layout_mode = 2
+texture_normal = ExtResource("4_btn_norm")
+texture_pressed = ExtResource("6_btn_prs")
+texture_hover = ExtResource("5_btn_hov")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="BtnLabel" type="Label" parent="CenterRoot/PanelFrame/ButtonColumn/SettingsButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.9, 0.98, 1, 1)
+theme_override_colors/font_outline_color = Color(0.02, 0.08, 0.16, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 20
+text = "SETTINGS / OPTIONS"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LobbyButton" type="TextureButton" parent="CenterRoot/PanelFrame/ButtonColumn"]
+custom_minimum_size = Vector2(360, 90)
+layout_mode = 2
+texture_normal = ExtResource("4_btn_norm")
+texture_pressed = ExtResource("6_btn_prs")
+texture_hover = ExtResource("5_btn_hov")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="BtnLabel" type="Label" parent="CenterRoot/PanelFrame/ButtonColumn/LobbyButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.9, 0.98, 1, 1)
+theme_override_colors/font_outline_color = Color(0.02, 0.08, 0.16, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 20
+text = "RETURN TO LOBBY"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MainMenuButton" type="TextureButton" parent="CenterRoot/PanelFrame/ButtonColumn"]
+custom_minimum_size = Vector2(360, 90)
+layout_mode = 2
+texture_normal = ExtResource("4_btn_norm")
+texture_pressed = ExtResource("6_btn_prs")
+texture_hover = ExtResource("5_btn_hov")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="BtnLabel" type="Label" parent="CenterRoot/PanelFrame/ButtonColumn/MainMenuButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.9, 0.98, 1, 1)
+theme_override_colors/font_outline_color = Color(0.02, 0.08, 0.16, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 20
+text = "MAIN MENU"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ExitGameButton" type="TextureButton" parent="CenterRoot/PanelFrame/ButtonColumn"]
+custom_minimum_size = Vector2(360, 90)
+layout_mode = 2
+texture_normal = ExtResource("4_btn_norm")
+texture_pressed = ExtResource("6_btn_prs")
+texture_hover = ExtResource("5_btn_hov")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="BtnLabel" type="Label" parent="CenterRoot/PanelFrame/ButtonColumn/ExitGameButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 0.85, 0.85, 1)
+theme_override_colors/font_outline_color = Color(0.16, 0.02, 0.04, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 20
+text = "EXIT GAME"
+horizontal_alignment = 1
+vertical_alignment = 1

@@ -6,6 +6,7 @@ signal level_unlocked(new_max_level: int)
 const TOTAL_LEVELS: int = 5
 const TOTAL_STAGES: int = 3
 const SAVE_PATH: String = "user://save_data.cfg"
+const MAIN_MENU_SCENE_PATH: String = "res://ui/main_menu/main_menu.tscn"
 const LOBBY_SCENE_PATH: String = "res://hub/hub.tscn"
 const ELEVATOR_SCENE_PATH: String = "res://ui/elevator_loading/elevator_loading.tscn"
 const STAGE_SELECTOR_SCENE_PATH: String = "res://ui/stage_selector/stage_selector.tscn"
@@ -117,11 +118,30 @@ func unlock_stage(stage_id: int) -> void:
 		stage_unlocked.emit(max_unlocked_stage)
 
 
+func is_in_gameplay() -> bool:
+	if current_stage_id > 0:
+		return true
+	var scene := get_tree().current_scene if get_tree() else null
+	return scene != null and scene is BaseStage
+
+
+func open_main_menu() -> void:
+	current_stage_id = 0
+	if is_instance_valid(GameState):
+		GameState.player_current_health = -1
+	get_tree().paused = false
+	get_tree().call_deferred("change_scene_to_file", MAIN_MENU_SCENE_PATH)
+
+
 func open_elevator_loading() -> void:
+	current_stage_id = 0
+	get_tree().paused = false
 	get_tree().call_deferred("change_scene_to_file", ELEVATOR_SCENE_PATH)
 
 
 func open_stage_selector() -> void:
+	current_stage_id = 0
+	get_tree().paused = false
 	get_tree().call_deferred("change_scene_to_file", STAGE_SELECTOR_SCENE_PATH)
 
 
@@ -170,6 +190,9 @@ func change_stage(stage_path: String) -> void:
 
 func return_to_lobby() -> void:
 	current_stage_id = 0
+	if is_instance_valid(GameState):
+		GameState.player_current_health = -1
+	get_tree().paused = false
 	get_tree().call_deferred("change_scene_to_file", LOBBY_SCENE_PATH)
 
 

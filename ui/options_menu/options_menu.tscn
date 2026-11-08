@@ -1,0 +1,420 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://ui/options_menu/options_menu.gd" id="1_opt_script"]
+[ext_resource type="Texture2D" path="res://ui/main_menu/assets/main_panel.png" id="2_panel_tex"]
+[ext_resource type="Texture2D" path="res://ui/main_menu/assets/btn_close.png" id="3_close_tex"]
+[ext_resource type="Texture2D" path="res://ui/main_menu/assets/slider_bg.png" id="4_slider_bg"]
+[ext_resource type="Texture2D" path="res://ui/main_menu/assets/slider_fill.png" id="5_slider_fill"]
+[ext_resource type="Texture2D" path="res://ui/main_menu/assets/slider_grabber_octopus_48.png" id="6_grabber_octo"]
+[ext_resource type="Texture2D" path="res://ui/main_menu/assets/checkbox_checked.png" id="7_chk_on"]
+[ext_resource type="Texture2D" path="res://ui/main_menu/assets/arrow_left.png" id="8_arr_l"]
+[ext_resource type="Texture2D" path="res://ui/main_menu/assets/arrow_right.png" id="9_arr_r"]
+[ext_resource type="Texture2D" path="res://ui/main_menu/assets/btn_normal.png" id="10_btn_norm"]
+[ext_resource type="Texture2D" path="res://ui/main_menu/assets/btn_hover.png" id="11_btn_hov"]
+[ext_resource type="Texture2D" path="res://ui/main_menu/assets/btn_pressed.png" id="12_btn_prs"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_slider_bg"]
+texture = ExtResource("4_slider_bg")
+texture_margin_left = 14.0
+texture_margin_top = 10.0
+texture_margin_right = 14.0
+texture_margin_bottom = 10.0
+content_margin_top = 22.0
+content_margin_bottom = 22.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_slider_fill"]
+texture = ExtResource("5_slider_fill")
+texture_margin_left = 10.0
+texture_margin_top = 8.0
+texture_margin_right = 10.0
+texture_margin_bottom = 8.0
+content_margin_top = 18.0
+content_margin_bottom = 18.0
+
+[node name="OptionsMenu" type="CanvasLayer"]
+process_mode = 3
+layer = 20
+script = ExtResource("1_opt_script")
+
+[node name="DimOverlay" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.01, 0.03, 0.07, 0.76)
+
+[node name="CenterRoot" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -390.0
+offset_top = -380.0
+offset_right = 390.0
+offset_bottom = 380.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PanelFrame" type="TextureRect" parent="CenterRoot"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_panel_tex")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="HeaderLabel" type="Label" parent="CenterRoot/PanelFrame"]
+layout_mode = 0
+offset_left = 230.0
+offset_top = 22.0
+offset_right = 550.0
+offset_bottom = 86.0
+theme_override_colors/font_color = Color(0.85, 0.98, 1, 1)
+theme_override_colors/font_outline_color = Color(0.02, 0.08, 0.16, 1)
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 28
+text = "OPTIONS"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CloseButton" type="TextureButton" parent="CenterRoot/PanelFrame"]
+layout_mode = 0
+offset_left = 684.0
+offset_top = 22.0
+offset_right = 754.0
+offset_bottom = 96.0
+texture_normal = ExtResource("3_close_tex")
+texture_pressed = ExtResource("3_close_tex")
+texture_hover = ExtResource("3_close_tex")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="MasterRow" type="Control" parent="CenterRoot/PanelFrame"]
+anchors_preset = 0
+offset_left = 72.0
+offset_top = 138.0
+offset_right = 708.0
+offset_bottom = 198.0
+
+[node name="MasterLabel" type="Label" parent="CenterRoot/PanelFrame/MasterRow"]
+layout_mode = 0
+offset_top = 8.0
+offset_right = 210.0
+offset_bottom = 50.0
+theme_override_colors/font_color = Color(0.78, 0.95, 1, 1)
+theme_override_font_sizes/font_size = 21
+text = "Master Volume"
+vertical_alignment = 1
+
+[node name="MasterSlider" type="HSlider" parent="CenterRoot/PanelFrame/MasterRow"]
+layout_mode = 0
+offset_left = 220.0
+offset_top = 4.0
+offset_right = 548.0
+offset_bottom = 54.0
+theme_override_icons/grabber = ExtResource("6_grabber_octo")
+theme_override_icons/grabber_highlight = ExtResource("6_grabber_octo")
+theme_override_styles/slider = SubResource("StyleBoxTexture_slider_bg")
+theme_override_styles/grabber_area = SubResource("StyleBoxTexture_slider_fill")
+theme_override_styles/grabber_area_highlight = SubResource("StyleBoxTexture_slider_fill")
+max_value = 100.0
+step = 1.0
+value = 85.0
+
+[node name="MasterValueLabel" type="Label" parent="CenterRoot/PanelFrame/MasterRow"]
+layout_mode = 0
+offset_left = 558.0
+offset_top = 8.0
+offset_right = 632.0
+offset_bottom = 50.0
+theme_override_colors/font_color = Color(0.55, 0.98, 1, 1)
+theme_override_font_sizes/font_size = 20
+text = "85%"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="MusicRow" type="Control" parent="CenterRoot/PanelFrame"]
+anchors_preset = 0
+offset_left = 72.0
+offset_top = 216.0
+offset_right = 708.0
+offset_bottom = 276.0
+
+[node name="MusicLabel" type="Label" parent="CenterRoot/PanelFrame/MusicRow"]
+layout_mode = 0
+offset_top = 8.0
+offset_right = 210.0
+offset_bottom = 50.0
+theme_override_colors/font_color = Color(0.78, 0.95, 1, 1)
+theme_override_font_sizes/font_size = 21
+text = "Music Volume"
+vertical_alignment = 1
+
+[node name="MusicSlider" type="HSlider" parent="CenterRoot/PanelFrame/MusicRow"]
+layout_mode = 0
+offset_left = 220.0
+offset_top = 4.0
+offset_right = 548.0
+offset_bottom = 54.0
+theme_override_icons/grabber = ExtResource("6_grabber_octo")
+theme_override_icons/grabber_highlight = ExtResource("6_grabber_octo")
+theme_override_styles/slider = SubResource("StyleBoxTexture_slider_bg")
+theme_override_styles/grabber_area = SubResource("StyleBoxTexture_slider_fill")
+theme_override_styles/grabber_area_highlight = SubResource("StyleBoxTexture_slider_fill")
+max_value = 100.0
+step = 1.0
+value = 80.0
+
+[node name="MusicValueLabel" type="Label" parent="CenterRoot/PanelFrame/MusicRow"]
+layout_mode = 0
+offset_left = 558.0
+offset_top = 8.0
+offset_right = 632.0
+offset_bottom = 50.0
+theme_override_colors/font_color = Color(0.55, 0.98, 1, 1)
+theme_override_font_sizes/font_size = 20
+text = "80%"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="SfxRow" type="Control" parent="CenterRoot/PanelFrame"]
+anchors_preset = 0
+offset_left = 72.0
+offset_top = 294.0
+offset_right = 708.0
+offset_bottom = 354.0
+
+[node name="SfxLabel" type="Label" parent="CenterRoot/PanelFrame/SfxRow"]
+layout_mode = 0
+offset_top = 8.0
+offset_right = 210.0
+offset_bottom = 50.0
+theme_override_colors/font_color = Color(0.78, 0.95, 1, 1)
+theme_override_font_sizes/font_size = 21
+text = "SFX Volume"
+vertical_alignment = 1
+
+[node name="SfxSlider" type="HSlider" parent="CenterRoot/PanelFrame/SfxRow"]
+layout_mode = 0
+offset_left = 220.0
+offset_top = 4.0
+offset_right = 548.0
+offset_bottom = 54.0
+theme_override_icons/grabber = ExtResource("6_grabber_octo")
+theme_override_icons/grabber_highlight = ExtResource("6_grabber_octo")
+theme_override_styles/slider = SubResource("StyleBoxTexture_slider_bg")
+theme_override_styles/grabber_area = SubResource("StyleBoxTexture_slider_fill")
+theme_override_styles/grabber_area_highlight = SubResource("StyleBoxTexture_slider_fill")
+max_value = 100.0
+step = 1.0
+value = 90.0
+
+[node name="SfxValueLabel" type="Label" parent="CenterRoot/PanelFrame/SfxRow"]
+layout_mode = 0
+offset_left = 558.0
+offset_top = 8.0
+offset_right = 632.0
+offset_bottom = 50.0
+theme_override_colors/font_color = Color(0.55, 0.98, 1, 1)
+theme_override_font_sizes/font_size = 20
+text = "90%"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="ToggleRow" type="Control" parent="CenterRoot/PanelFrame"]
+anchors_preset = 0
+offset_left = 72.0
+offset_top = 376.0
+offset_right = 708.0
+offset_bottom = 442.0
+
+[node name="FullscreenLabel" type="Label" parent="CenterRoot/PanelFrame/ToggleRow"]
+layout_mode = 0
+offset_top = 10.0
+offset_right = 210.0
+offset_bottom = 52.0
+theme_override_colors/font_color = Color(0.78, 0.95, 1, 1)
+theme_override_font_sizes/font_size = 21
+text = "Fullscreen Mode"
+vertical_alignment = 1
+
+[node name="FullscreenCheck" type="TextureButton" parent="CenterRoot/PanelFrame/ToggleRow"]
+layout_mode = 0
+offset_left = 220.0
+offset_top = 4.0
+offset_right = 278.0
+offset_bottom = 62.0
+texture_normal = ExtResource("7_chk_on")
+texture_pressed = ExtResource("7_chk_on")
+texture_hover = ExtResource("7_chk_on")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="VsyncLabel" type="Label" parent="CenterRoot/PanelFrame/ToggleRow"]
+layout_mode = 0
+offset_left = 350.0
+offset_top = 10.0
+offset_right = 470.0
+offset_bottom = 52.0
+theme_override_colors/font_color = Color(0.78, 0.95, 1, 1)
+theme_override_font_sizes/font_size = 21
+text = "VSync"
+vertical_alignment = 1
+
+[node name="VsyncCheck" type="TextureButton" parent="CenterRoot/PanelFrame/ToggleRow"]
+layout_mode = 0
+offset_left = 480.0
+offset_top = 4.0
+offset_right = 538.0
+offset_bottom = 62.0
+texture_normal = ExtResource("7_chk_on")
+texture_pressed = ExtResource("7_chk_on")
+texture_hover = ExtResource("7_chk_on")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="ThemeRow" type="Control" parent="CenterRoot/PanelFrame"]
+anchors_preset = 0
+offset_left = 72.0
+offset_top = 456.0
+offset_right = 708.0
+offset_bottom = 526.0
+
+[node name="ThemeLabel" type="Label" parent="CenterRoot/PanelFrame/ThemeRow"]
+layout_mode = 0
+offset_top = 12.0
+offset_right = 210.0
+offset_bottom = 54.0
+theme_override_colors/font_color = Color(0.78, 0.95, 1, 1)
+theme_override_font_sizes/font_size = 21
+text = "Menu Artwork"
+vertical_alignment = 1
+
+[node name="ThemePrevButton" type="TextureButton" parent="CenterRoot/PanelFrame/ThemeRow"]
+layout_mode = 0
+offset_left = 220.0
+offset_top = 2.0
+offset_right = 266.0
+offset_bottom = 66.0
+texture_normal = ExtResource("8_arr_l")
+texture_pressed = ExtResource("8_arr_l")
+texture_hover = ExtResource("8_arr_l")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="ThemeValueLabel" type="Label" parent="CenterRoot/PanelFrame/ThemeRow"]
+layout_mode = 0
+offset_left = 272.0
+offset_top = 12.0
+offset_right = 574.0
+offset_bottom = 54.0
+theme_override_colors/font_color = Color(0.55, 0.98, 1, 1)
+theme_override_font_sizes/font_size = 19
+text = "Theme 1: Kraken Abyss"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ThemeNextButton" type="TextureButton" parent="CenterRoot/PanelFrame/ThemeRow"]
+layout_mode = 0
+offset_left = 580.0
+offset_top = 2.0
+offset_right = 626.0
+offset_bottom = 66.0
+texture_normal = ExtResource("9_arr_r")
+texture_pressed = ExtResource("9_arr_r")
+texture_hover = ExtResource("9_arr_r")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="DifficultyRow" type="Control" parent="CenterRoot/PanelFrame"]
+anchors_preset = 0
+offset_left = 72.0
+offset_top = 536.0
+offset_right = 708.0
+offset_bottom = 606.0
+
+[node name="DiffLabel" type="Label" parent="CenterRoot/PanelFrame/DifficultyRow"]
+layout_mode = 0
+offset_top = 12.0
+offset_right = 210.0
+offset_bottom = 54.0
+theme_override_colors/font_color = Color(0.78, 0.95, 1, 1)
+theme_override_font_sizes/font_size = 21
+text = "Difficulty"
+vertical_alignment = 1
+
+[node name="DiffPrevButton" type="TextureButton" parent="CenterRoot/PanelFrame/DifficultyRow"]
+layout_mode = 0
+offset_left = 220.0
+offset_top = 2.0
+offset_right = 266.0
+offset_bottom = 66.0
+texture_normal = ExtResource("8_arr_l")
+texture_pressed = ExtResource("8_arr_l")
+texture_hover = ExtResource("8_arr_l")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="DiffValueLabel" type="Label" parent="CenterRoot/PanelFrame/DifficultyRow"]
+layout_mode = 0
+offset_left = 272.0
+offset_top = 12.0
+offset_right = 574.0
+offset_bottom = 54.0
+theme_override_colors/font_color = Color(0.55, 1, 0.85, 1)
+theme_override_font_sizes/font_size = 21
+text = "NORMAL"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="DiffNextButton" type="TextureButton" parent="CenterRoot/PanelFrame/DifficultyRow"]
+layout_mode = 0
+offset_left = 580.0
+offset_top = 2.0
+offset_right = 626.0
+offset_bottom = 66.0
+texture_normal = ExtResource("9_arr_r")
+texture_pressed = ExtResource("9_arr_r")
+texture_hover = ExtResource("9_arr_r")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="BottomRow" type="Control" parent="CenterRoot/PanelFrame"]
+anchors_preset = 0
+offset_left = 72.0
+offset_top = 612.0
+offset_right = 708.0
+offset_bottom = 706.0
+
+[node name="ResetSaveButton" type="TextureButton" parent="CenterRoot/PanelFrame/BottomRow"]
+layout_mode = 0
+offset_left = 188.0
+offset_top = 4.0
+offset_right = 448.0
+offset_bottom = 92.0
+texture_normal = ExtResource("10_btn_norm")
+texture_pressed = ExtResource("12_btn_prs")
+texture_hover = ExtResource("11_btn_hov")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="BtnLabel" type="Label" parent="CenterRoot/PanelFrame/BottomRow/ResetSaveButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.9, 0.96, 1, 1)
+theme_override_colors/font_outline_color = Color(0.02, 0.08, 0.15, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 18
+text = "RESET PROGRESS"
+horizontal_alignment = 1
+vertical_alignment = 1
