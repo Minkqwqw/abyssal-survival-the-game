@@ -5,6 +5,9 @@
 [ext_resource type="PackedScene" uid="uid://dj0yny2jftfsa" path="res://player/player.tscn" id="3_player"]
 [ext_resource type="PackedScene" uid="uid://bq426fjoi3ony" path="res://hub/upgrade_station.tscn" id="4_upgrade"]
 [ext_resource type="AudioStream" uid="uid://des70mm8tlo8s" path="res://hub/Lobby.wav" id="5_21dlm"]
+[ext_resource type="Texture2D" path="res://ui/main_menu/assets/btn_normal.png" id="6_btn_norm"]
+[ext_resource type="Texture2D" path="res://ui/main_menu/assets/btn_hover.png" id="7_btn_hov"]
+[ext_resource type="Texture2D" path="res://ui/main_menu/assets/btn_pressed.png" id="8_btn_prs"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wall_h"]
 size = Vector2(2280, 48)
@@ -183,7 +186,60 @@ offset_right = 498.0
 offset_bottom = 104.0
 text = "[WASD] Move   [E] Interact (Lab Door / Upgrade)   [R] Reset"
 
+[node name="OptionsButton" type="TextureButton" parent="HUD"]
+offset_left = 1488.0
+offset_top = 14.0
+offset_right = 1692.0
+offset_bottom = 98.0
+texture_normal = ExtResource("6_btn_norm")
+texture_pressed = ExtResource("8_btn_prs")
+texture_hover = ExtResource("7_btn_hov")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="BtnLabel" type="Label" parent="HUD/OptionsButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.9, 0.98, 1, 1)
+theme_override_colors/font_outline_color = Color(0.02, 0.08, 0.16, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 17
+text = "OPTIONS"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MainMenuButton" type="TextureButton" parent="HUD"]
+offset_left = 1700.0
+offset_top = 14.0
+offset_right = 1904.0
+offset_bottom = 98.0
+texture_normal = ExtResource("6_btn_norm")
+texture_pressed = ExtResource("8_btn_prs")
+texture_hover = ExtResource("7_btn_hov")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="BtnLabel" type="Label" parent="HUD/MainMenuButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.9, 0.98, 1, 1)
+theme_override_colors/font_outline_color = Color(0.02, 0.08, 0.16, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 17
+text = "MAIN MENU"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="HubBGM" type="AudioStreamPlayer" parent="." unique_id=1223716854]
 stream = ExtResource("5_21dlm")
 volume_db = -15.0
 autoplay = true
+bus = &"Music"

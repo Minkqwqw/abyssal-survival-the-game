@@ -351,5 +351,6 @@ func _setup_stage_bgm(active_level: int) -> void:
 			return
 
 		stage_bgm.stream = floor_1_bgm
+		stage_bgm.bus = &"Music"
 		stage_bgm.volume_db = -15.0
 		stage_bgm.play()

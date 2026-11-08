@@ -751,11 +751,14 @@ position = Vector2(0, 30)
 [node name="Walk" type="AudioStreamPlayer" parent="SFX" unique_id=2089405311]
 stream = ExtResource("5_boad6")
 volume_db = -30.032
+bus = &"SFX"
 
 [node name="Dash" type="AudioStreamPlayer" parent="SFX" unique_id=412041113]
 stream = ExtResource("5_g6k8r")
 volume_db = -15.0
+bus = &"SFX"
 
 [node name="Hit" type="AudioStreamPlayer" parent="SFX" unique_id=2007004106]
 stream = ExtResource("6_boad6")
 volume_db = -20.0
+bus = &"SFX"

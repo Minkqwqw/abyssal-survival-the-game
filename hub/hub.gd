@@ -7,11 +7,14 @@ const VIEWBOX_TOP: int = -614
 const VIEWBOX_BOTTOM: int = 614
 
 @export var difficulty_menu_scene: PackedScene = preload("res://ui/difficulty_menu/difficulty_menu.tscn")
+@export var options_menu_scene: PackedScene = preload("res://ui/options_menu/options_menu.tscn")
 
 @onready var spawn_point: Marker2D = get_node_or_null("SpawnPoint")
 @onready var player: CharacterBody2D = get_node_or_null("Player")
 @onready var checkpoint_label: Label = get_node_or_null("HUD/CheckpointLabel")
 @onready var help_label: Label = get_node_or_null("HUD/HelpLabel")
+@onready var main_menu_btn: TextureButton = get_node_or_null("HUD/MainMenuButton")
+@onready var options_btn: TextureButton = get_node_or_null("HUD/OptionsButton")
 @onready var lab_door_area: Area2D = get_node_or_null("LabElevatorDoor")
 @onready var lab_door_prompt: Label = get_node_or_null("LabElevatorDoor/PromptLabel")
 @onready var reactor_area: Area2D = get_node_or_null("ReactorZone")
@@ -23,6 +26,7 @@ var _player_at_reactor: bool = false
 var _entering_elevator: bool = false
 var _pulse_time: float = 0.0
 var _active_difficulty_menu: Node = null
+var _active_options_menu: Node = null
 
 
 func _ready() -> void:
@@ -30,6 +34,11 @@ func _ready() -> void:
 		if spawn_point:
 			player.global_position = spawn_point.global_position
 		_configure_player_viewbox()
+
+	if main_menu_btn:
+		main_menu_btn.pressed.connect(_on_main_menu_pressed)
+	if options_btn:
+		options_btn.pressed.connect(_on_options_pressed)
 
 	if lab_door_area:
 		lab_door_area.body_entered.connect(_on_lab_door_body_entered)
@@ -88,6 +97,22 @@ func _unhandled_input(event: InputEvent) -> void:
 			StageManager.open_elevator_loading()
 		elif _player_at_reactor:
 			_toggle_difficulty_menu()
+
+
+func _on_main_menu_pressed() -> void:
+	if is_instance_valid(StageManager):
+		StageManager.open_main_menu()
+	else:
+		get_tree().change_scene_to_file("res://ui/main_menu/main_menu.tscn")
+
+
+func _on_options_pressed() -> void:
+	if _active_options_menu and is_instance_valid(_active_options_menu):
+		_active_options_menu.queue_free()
+		_active_options_menu = null
+	elif options_menu_scene:
+		_active_options_menu = options_menu_scene.instantiate()
+		add_child(_active_options_menu)
 
 
 func _on_lab_door_body_entered(body: Node2D) -> void:
