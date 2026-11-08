@@ -105,27 +105,17 @@ func _is_in_gameplay() -> bool:
 
 func _refresh_difficulty_controls() -> void:
 	var diff_name := GameState.get_difficulty_name() if is_instance_valid(GameState) else "NORMAL"
-	var cur := DIFFICULTY_ORDER.find(GameState.difficulty) if is_instance_valid(GameState) else 0
-	if cur == -1:
-		cur = 0
+	var in_gameplay := _is_in_gameplay()
 
-	if _is_in_gameplay():
-		var at_max := cur >= DIFFICULTY_ORDER.size() - 1
-		diff_value_label.text = "%s (LOCKED MAX)" % diff_name if at_max else "%s (NO LOWERING)" % diff_name
-		if diff_prev_btn:
-			diff_prev_btn.disabled = true
-			diff_prev_btn.modulate = Color(0.4, 0.45, 0.5, 0.35)
-		if diff_next_btn:
-			diff_next_btn.disabled = at_max
-			diff_next_btn.modulate = Color(0.4, 0.45, 0.5, 0.35) if at_max else Color.WHITE
-	else:
-		diff_value_label.text = diff_name
-		if diff_prev_btn:
-			diff_prev_btn.disabled = false
-			diff_prev_btn.modulate = Color.WHITE
-		if diff_next_btn:
-			diff_next_btn.disabled = false
-			diff_next_btn.modulate = Color.WHITE
+	diff_value_label.text = diff_name
+	diff_value_label.modulate = Color(0.6, 0.68, 0.72, 0.65) if in_gameplay else Color.WHITE
+
+	if diff_prev_btn:
+		diff_prev_btn.disabled = in_gameplay
+		diff_prev_btn.modulate = Color(0.4, 0.45, 0.5, 0.35) if in_gameplay else Color.WHITE
+	if diff_next_btn:
+		diff_next_btn.disabled = in_gameplay
+		diff_next_btn.modulate = Color(0.4, 0.45, 0.5, 0.35) if in_gameplay else Color.WHITE
 
 
 func _on_difficulty_changed(_new_diff: int) -> void:
@@ -188,26 +178,15 @@ func _cycle_theme(step: int) -> void:
 
 
 func _cycle_difficulty(step: int) -> void:
-	if not is_instance_valid(GameState):
+	if not is_instance_valid(GameState) or _is_in_gameplay():
 		return
 	var cur := DIFFICULTY_ORDER.find(GameState.difficulty)
 	if cur == -1:
 		cur = 0
 
-	if _is_in_gameplay():
-		# Saat sudah masuk ke gameplay, user tidak dapat menurunkan difficulty
-		if step <= 0:
-			return
-		var next_idx := cur + step
-		if next_idx >= DIFFICULTY_ORDER.size():
-			return
-		var next_diff: int = DIFFICULTY_ORDER[next_idx]
-		GameState.set_difficulty(next_diff, true)
-	else:
-		var next_idx := posmod(cur + step, DIFFICULTY_ORDER.size())
-		var next_diff: int = DIFFICULTY_ORDER[next_idx]
-		GameState.set_difficulty(next_diff, true)
-
+	var next_idx := posmod(cur + step, DIFFICULTY_ORDER.size())
+	var next_diff: int = DIFFICULTY_ORDER[next_idx]
+	GameState.set_difficulty(next_diff, true)
 	_refresh_difficulty_controls()
 
 
