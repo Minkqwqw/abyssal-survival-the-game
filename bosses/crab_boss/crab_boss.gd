@@ -804,7 +804,6 @@ func _play_anim(anim_name: String, force_restart: bool = false) -> void:
 	if force_restart or anim.animation != anim_name or not anim.is_playing():
 		anim.play(anim_name)
 
-
 func _anim_length(anim_name: String) -> float:
 	if not _has_anim(anim_name):
 		return 0.6

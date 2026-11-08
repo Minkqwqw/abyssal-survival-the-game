@@ -121,12 +121,26 @@ func _ready() -> void:
 	if player:
 		if spawn_point:
 			player.global_position = spawn_point.global_position
-		_configure_player_camera()
-		if not player.health_changed.is_connected(_on_player_health_changed):
-			player.health_changed.connect(_on_player_health_changed)
-		if not player.died.is_connected(_on_player_died):
-			player.died.connect(_on_player_died)
-		_on_player_health_changed(player.health)
+
+	_configure_player_camera()
+
+	# Restore HP dari stage sebelumnya
+	if is_instance_valid(GameState):
+		if GameState.player_current_health > 0:
+			player.health = clampi(
+				GameState.player_current_health,
+				1,
+				player.max_health
+			)
+
+	if not player.health_changed.is_connected(_on_player_health_changed):
+		player.health_changed.connect(_on_player_health_changed)
+
+	if not player.died.is_connected(_on_player_died):
+		player.died.connect(_on_player_died)
+
+	# Sinkronisasi HP
+	_on_player_health_changed(player.health)
 
 	if stage_label:
 		var lvl_title := StageManager.get_level_title(active_level) if is_instance_valid(StageManager) else ("Level %d" % active_level)
@@ -297,9 +311,20 @@ func _unlock_exit_portal() -> void:
 
 
 func _on_player_health_changed(new_health: int) -> void:
+
+	# Simpan HP terbaru ke GameState
+	if is_instance_valid(GameState):
+		GameState.player_current_health = maxi(new_health, 0)
+
+	# Update HUD
 	if health_label and player:
 		var coins := GameState.currency if is_instance_valid(GameState) else 0
-		health_label.text = "HP: %d / %d   |   Pearls: %d" % [maxi(new_health, 0), player.max_health, coins]
+
+		health_label.text = "HP: %d / %d   |   Pearls: %d" % [
+			maxi(new_health, 0),
+			player.max_health,
+			coins
+		]
 
 
 func _on_player_died() -> void:

@@ -14,6 +14,8 @@ const DIFFICULTY_META: Dictionary = {
 	Difficulty.NIGHTMARE: {"name": "NIGHTMARE", "hp": 2.0, "damage": 2.0, "speed": 1.3,  "count": 1.5,  "currency": 0.25},
 }
 
+# Menyimpan HP player antar-stage
+var player_current_health: int = -1
 var current_floor: int = 1
 var unlocked_floors: int = 1
 var currency: int = 0
