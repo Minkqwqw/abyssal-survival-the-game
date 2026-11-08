@@ -23,6 +23,10 @@ const VIEWBOX_BOTTOM: int = 614
 @export var trigger_line_y: float = 0.0
 @export var show_trigger_line_visual: bool = true
 
+@export_group("Background Music")
+@export var floor_1_bgm: AudioStream
+
+@onready var stage_bgm: AudioStreamPlayer = get_node_or_null("StageBGM") as AudioStreamPlayer
 @onready var background: ColorRect = get_node_or_null("Background")
 @onready var arena_floor: ColorRect = get_node_or_null("ArenaFloor")
 @onready var map_sprite: Sprite2D = get_node_or_null("MapEnvironment/MapSprite")
@@ -56,6 +60,9 @@ func _ready() -> void:
 			StageManager.current_level_id = level_id_override
 
 	var active_level: int = level_id_override if level_id_override > 0 else (StageManager.current_level_id if is_instance_valid(StageManager) else 1)
+
+	# Atur BGM berdasarkan level
+	_setup_stage_bgm(active_level)
 
 	var floor_res: Resource = StageManager.get_floor_data(active_level) if is_instance_valid(StageManager) else null
 	if floor_res:
@@ -300,3 +307,24 @@ func _on_player_died() -> void:
 		return
 	player_dead = true
 	StageManager.return_to_lobby()
+
+
+# ---------- BACKGROUND MUSIC ----------
+
+func _setup_stage_bgm(active_level: int) -> void:
+	if stage_bgm == null:
+		push_warning("Node StageBGM tidak ditemukan!")
+		return
+
+	# Hentikan musik sebelumnya
+	stage_bgm.stop()
+
+	# BGM khusus Level 1
+	if active_level == 1:
+		if floor_1_bgm == null:
+			push_warning("BGM Level 1 belum di-assign!")
+			return
+
+		stage_bgm.stream = floor_1_bgm
+		stage_bgm.volume_db = -15.0
+		stage_bgm.play()

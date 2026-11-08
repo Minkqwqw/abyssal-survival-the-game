@@ -3,7 +3,8 @@
 [ext_resource type="Script" uid="uid://c3v88s8hgst3w" path="res://hub/hub.gd" id="1_lobby"]
 [ext_resource type="Texture2D" uid="uid://ry7ess3jbvk8" path="res://Assets/environments/lobby_map_bg.png" id="2_map_tex"]
 [ext_resource type="PackedScene" uid="uid://dj0yny2jftfsa" path="res://player/player.tscn" id="3_player"]
-[ext_resource type="PackedScene" path="res://hub/upgrade_station.tscn" id="4_upgrade"]
+[ext_resource type="PackedScene" uid="uid://bq426fjoi3ony" path="res://hub/upgrade_station.tscn" id="4_upgrade"]
+[ext_resource type="AudioStream" uid="uid://des70mm8tlo8s" path="res://hub/Lobby.wav" id="5_21dlm"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wall_h"]
 size = Vector2(2280, 48)
@@ -181,3 +182,8 @@ offset_top = 80.0
 offset_right = 498.0
 offset_bottom = 104.0
 text = "[WASD] Move   [E] Interact (Lab Door / Upgrade)   [R] Reset"
+
+[node name="HubBGM" type="AudioStreamPlayer" parent="." unique_id=1223716854]
+stream = ExtResource("5_21dlm")
+volume_db = -15.0
+autoplay = true

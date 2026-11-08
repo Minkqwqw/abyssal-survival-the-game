@@ -25,6 +25,16 @@ var alive_enemies: int = 0
 
 
 func _ready() -> void:
+	# Atur jenis musuh berdasarkan stage
+	var base_stage := get_parent() as BaseStage
+
+	if base_stage != null:
+		if base_stage.stage_id == 2 or base_stage.stage_id == 3:
+			secondary_spawn_chance = 0.0
+			print("Stage %d: Crab Only Mode" % base_stage.stage_id)
+		else:
+			print("Stage %d: Normal Enemy Spawn" % base_stage.stage_id)
+
 	call_deferred("_spawn_all")
 
 
