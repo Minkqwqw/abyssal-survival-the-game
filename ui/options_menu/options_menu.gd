@@ -42,6 +42,7 @@ var _confirming_reset: bool = false
 
 
 func _ready() -> void:
+	process_mode = Node.PROCESS_MODE_ALWAYS
 	close_btn.pressed.connect(_close)
 
 	master_slider.value_changed.connect(_on_master_changed)
@@ -58,6 +59,9 @@ func _ready() -> void:
 	diff_next_btn.pressed.connect(func(): _cycle_difficulty(1))
 
 	reset_save_btn.pressed.connect(_on_reset_save_pressed)
+
+	if is_instance_valid(GameState) and not GameState.difficulty_changed.is_connected(_on_difficulty_changed):
+		GameState.difficulty_changed.connect(_on_difficulty_changed)
 
 	_sync_from_managers()
 
@@ -89,8 +93,43 @@ func _sync_from_managers() -> void:
 	var theme_idx := SaveManager.menu_bg_theme if is_instance_valid(SaveManager) else 0
 	theme_value_label.text = THEME_NAMES[clampi(theme_idx, 0, THEME_NAMES.size() - 1)]
 
+	_refresh_difficulty_controls()
+
+
+func _is_in_gameplay() -> bool:
+	if is_instance_valid(StageManager) and StageManager.has_method("is_in_gameplay"):
+		return StageManager.is_in_gameplay()
+	var scene := get_tree().current_scene if get_tree() else null
+	return scene != null and scene is BaseStage
+
+
+func _refresh_difficulty_controls() -> void:
 	var diff_name := GameState.get_difficulty_name() if is_instance_valid(GameState) else "NORMAL"
-	diff_value_label.text = diff_name
+	var cur := DIFFICULTY_ORDER.find(GameState.difficulty) if is_instance_valid(GameState) else 0
+	if cur == -1:
+		cur = 0
+
+	if _is_in_gameplay():
+		var at_max := cur >= DIFFICULTY_ORDER.size() - 1
+		diff_value_label.text = "%s (LOCKED MAX)" % diff_name if at_max else "%s (NO LOWERING)" % diff_name
+		if diff_prev_btn:
+			diff_prev_btn.disabled = true
+			diff_prev_btn.modulate = Color(0.4, 0.45, 0.5, 0.35)
+		if diff_next_btn:
+			diff_next_btn.disabled = at_max
+			diff_next_btn.modulate = Color(0.4, 0.45, 0.5, 0.35) if at_max else Color.WHITE
+	else:
+		diff_value_label.text = diff_name
+		if diff_prev_btn:
+			diff_prev_btn.disabled = false
+			diff_prev_btn.modulate = Color.WHITE
+		if diff_next_btn:
+			diff_next_btn.disabled = false
+			diff_next_btn.modulate = Color.WHITE
+
+
+func _on_difficulty_changed(_new_diff: int) -> void:
+	_refresh_difficulty_controls()
 
 
 func _update_checkbox_visual(btn: TextureButton, is_checked: bool) -> void:
@@ -154,10 +193,22 @@ func _cycle_difficulty(step: int) -> void:
 	var cur := DIFFICULTY_ORDER.find(GameState.difficulty)
 	if cur == -1:
 		cur = 0
-	var next_idx := posmod(cur + step, DIFFICULTY_ORDER.size())
-	var next_diff: int = DIFFICULTY_ORDER[next_idx]
-	GameState.set_difficulty(next_diff, true)
-	diff_value_label.text = GameState.get_difficulty_name()
+
+	if _is_in_gameplay():
+		# Saat sudah masuk ke gameplay, user tidak dapat menurunkan difficulty
+		if step <= 0:
+			return
+		var next_idx := cur + step
+		if next_idx >= DIFFICULTY_ORDER.size():
+			return
+		var next_diff: int = DIFFICULTY_ORDER[next_idx]
+		GameState.set_difficulty(next_diff, true)
+	else:
+		var next_idx := posmod(cur + step, DIFFICULTY_ORDER.size())
+		var next_diff: int = DIFFICULTY_ORDER[next_idx]
+		GameState.set_difficulty(next_diff, true)
+
+	_refresh_difficulty_controls()
 
 
 func _on_reset_save_pressed() -> void:

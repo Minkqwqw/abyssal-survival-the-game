@@ -73,7 +73,12 @@ func get_dash_cooldown_multiplier() -> float:
 
 
 func set_difficulty(diff: int, persist: bool) -> void:
-	difficulty = clampi(diff, Difficulty.NORMAL, Difficulty.NIGHTMARE)
+	var target_diff := clampi(diff, Difficulty.NORMAL, Difficulty.NIGHTMARE)
+	if is_instance_valid(StageManager) and StageManager.has_method("is_in_gameplay") and StageManager.is_in_gameplay():
+		if target_diff < difficulty:
+			push_warning("Tidak dapat menurunkan difficulty saat sudah berada di dalam gameplay!")
+			return
+	difficulty = target_diff
 	if persist:
 		default_difficulty = difficulty
 		if is_instance_valid(SaveManager):

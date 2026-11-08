@@ -32,6 +32,7 @@ content_margin_top = 18.0
 content_margin_bottom = 18.0
 
 [node name="OptionsMenu" type="CanvasLayer"]
+process_mode = 3
 layer = 20
 script = ExtResource("1_opt_script")
 

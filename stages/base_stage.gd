@@ -26,6 +26,10 @@ const VIEWBOX_BOTTOM: int = 614
 @export_group("Background Music")
 @export var floor_1_bgm: AudioStream
 
+@export_group("UI Menus")
+@export var pause_menu_scene: PackedScene = preload("res://ui/pause_menu/pause_menu.tscn")
+@export var options_menu_scene: PackedScene = preload("res://ui/options_menu/options_menu.tscn")
+
 @onready var stage_bgm: AudioStreamPlayer = get_node_or_null("StageBGM") as AudioStreamPlayer
 @onready var background: ColorRect = get_node_or_null("Background")
 @onready var arena_floor: ColorRect = get_node_or_null("ArenaFloor")
@@ -39,6 +43,9 @@ const VIEWBOX_BOTTOM: int = 614
 @onready var stage_label: Label = get_node_or_null("StageHUD/StageTitleLabel")
 @onready var health_label: Label = get_node_or_null("StageHUD/HealthLabel")
 @onready var objective_label: Label = get_node_or_null("StageHUD/ObjectiveLabel")
+@onready var options_btn: TextureButton = get_node_or_null("StageHUD/OptionsButton")
+@onready var lobby_btn: TextureButton = get_node_or_null("StageHUD/LobbyButton")
+@onready var menu_btn: TextureButton = get_node_or_null("StageHUD/MenuButton")
 
 const STAGE_CLEAR_UI_PATH: String = "res://ui/stage_clear/stage_clear.tscn"
 const BOSS_1_PATH: String = "res://bosses/crab_boss/crab_boss.tscn"
@@ -51,6 +58,8 @@ var player_dead: bool = false
 var combat_active: bool = false
 var _trigger_neck_x: float = 96.0
 var _trigger_line_node: Line2D = null
+var _active_pause_menu: Node = null
+var _active_options_menu: Node = null
 
 
 func _ready() -> void:
@@ -139,13 +148,23 @@ func _ready() -> void:
 	if not player.died.is_connected(_on_player_died):
 		player.died.connect(_on_player_died)
 
+	if options_btn:
+		options_btn.pressed.connect(_on_options_pressed)
+	if lobby_btn:
+		lobby_btn.pressed.connect(_on_lobby_pressed)
+	if menu_btn:
+		menu_btn.pressed.connect(_on_menu_pressed)
+
+	if is_instance_valid(GameState):
+		if not GameState.difficulty_changed.is_connected(_on_difficulty_changed):
+			GameState.difficulty_changed.connect(_on_difficulty_changed)
+		if not GameState.currency_changed.is_connected(_on_currency_changed):
+			GameState.currency_changed.connect(_on_currency_changed)
+
 	# Sinkronisasi HP
 	_on_player_health_changed(player.health)
 
-	if stage_label:
-		var lvl_title := StageManager.get_level_title(active_level) if is_instance_valid(StageManager) else ("Level %d" % active_level)
-		var diff_name: String = GameState.get_difficulty_name() if is_instance_valid(GameState) else "NORMAL"
-		stage_label.text = "%s  —  Stage %d / %d  [%s]" % [lvl_title, stage_id, StageManager.TOTAL_STAGES, diff_name]
+	_update_stage_header(active_level)
 
 	var spawner := get_node_or_null("EnemySpawner")
 	if spawner:
@@ -166,6 +185,78 @@ func _physics_process(_delta: float) -> void:
 	if not combat_active and player and is_instance_valid(player):
 		if player.global_position.y <= trigger_line_y:
 			start_combat()
+
+
+func _unhandled_input(event: InputEvent) -> void:
+	if player_dead:
+		return
+	if event.is_action_pressed("ui_cancel"):
+		if _active_options_menu and is_instance_valid(_active_options_menu):
+			return
+		if _active_pause_menu and is_instance_valid(_active_pause_menu):
+			return
+		_open_pause_menu()
+		get_viewport().set_input_as_handled()
+
+
+func _get_active_level() -> int:
+	if level_id_override > 0:
+		return level_id_override
+	return StageManager.current_level_id if is_instance_valid(StageManager) else 1
+
+
+func _update_stage_header(active_level: int = -1) -> void:
+	if not stage_label:
+		return
+	var lvl := active_level if active_level > 0 else _get_active_level()
+	var lvl_title := StageManager.get_level_title(lvl) if is_instance_valid(StageManager) else ("Level %d" % lvl)
+	var diff_name: String = GameState.get_difficulty_name() if is_instance_valid(GameState) else "NORMAL"
+	stage_label.text = "%s  —  Stage %d / %d  [%s]" % [lvl_title, stage_id, StageManager.TOTAL_STAGES, diff_name]
+
+
+func _on_difficulty_changed(_new_diff: int) -> void:
+	_update_stage_header()
+
+
+func _on_currency_changed(_new_currency: int) -> void:
+	if player:
+		_on_player_health_changed(player.health)
+
+
+func _on_menu_pressed() -> void:
+	_open_pause_menu()
+
+
+func _open_pause_menu() -> void:
+	if _active_pause_menu and is_instance_valid(_active_pause_menu):
+		return
+	if _active_options_menu and is_instance_valid(_active_options_menu):
+		_active_options_menu.queue_free()
+		_active_options_menu = null
+	if pause_menu_scene:
+		_active_pause_menu = pause_menu_scene.instantiate()
+		add_child(_active_pause_menu)
+
+
+func _on_options_pressed() -> void:
+	if _active_options_menu and is_instance_valid(_active_options_menu):
+		return
+	if options_menu_scene:
+		get_tree().paused = true
+		_active_options_menu = options_menu_scene.instantiate()
+		_active_options_menu.menu_closed.connect(func():
+			if not (_active_pause_menu and is_instance_valid(_active_pause_menu)):
+				get_tree().paused = false
+		)
+		add_child(_active_options_menu)
+
+
+func _on_lobby_pressed() -> void:
+	get_tree().paused = false
+	if is_instance_valid(StageManager):
+		StageManager.return_to_lobby()
+	else:
+		get_tree().change_scene_to_file("res://hub/hub.tscn")
 
 
 func is_player_in_safe_zone() -> bool:
