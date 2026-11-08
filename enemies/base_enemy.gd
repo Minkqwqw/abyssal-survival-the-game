@@ -7,6 +7,7 @@ extends CharacterBody2D
 @export var damage_cooldown: float = 0.8
 @export var knockback_strength: float = 200.0
 @export var currency_reward: int = 2
+@export var detection_range: float = 350.0
 
 @onready var sprite: Sprite2D = get_node_or_null("Sprite2D")
 @onready var hit_area: Area2D = get_node_or_null("HitArea")
@@ -21,12 +22,31 @@ var health: int:
 var player: Node2D = null
 var knockback: Vector2 = Vector2.ZERO
 var can_damage: bool = true
+var is_aggro: bool = false
 
 
 func _ready() -> void:
+	if is_instance_valid(GameState):
+		max_health = GameState.scale_enemy_hp(max_health)
+		contact_damage = GameState.scale_damage(contact_damage)
+		speed = GameState.scale_enemy_speed(speed)
+		currency_reward = GameState.scale_currency(currency_reward)
 	current_health = max_health
 	add_to_group("enemy")
 	player = get_tree().get_first_node_in_group("player")
+
+	var stage = get_tree().current_scene
+	if stage and "combat_active" in stage and stage.combat_active:
+		is_aggro = true
+
+
+func aggro() -> void:
+	if is_aggro:
+		return
+	is_aggro = true
+	var stage = get_tree().current_scene
+	if stage and stage.has_method("start_combat"):
+		stage.start_combat()
 
 
 func _physics_process(delta: float) -> void:
@@ -35,10 +55,33 @@ func _physics_process(delta: float) -> void:
 		if player == null or not is_instance_valid(player):
 			return
 
+	if not is_aggro:
+		_check_aggro_conditions()
+
+	if not is_aggro:
+		velocity = knockback
+		knockback = knockback.move_toward(Vector2.ZERO, 800.0 * delta)
+		move_and_slide()
+		return
+
 	_move_behavior(delta)
 	knockback = knockback.move_toward(Vector2.ZERO, 800.0 * delta)
 	move_and_slide()
 	_check_contact_damage()
+
+
+func _check_aggro_conditions() -> void:
+	var stage = get_tree().current_scene
+	if stage and "combat_active" in stage:
+		if stage.combat_active:
+			aggro()
+			return
+		if stage.has_method("is_player_in_safe_zone") and stage.is_player_in_safe_zone():
+			return
+
+	if player and is_instance_valid(player):
+		if global_position.distance_to(player.global_position) <= detection_range:
+			aggro()
 
 
 func _move_behavior(_delta: float) -> void:
@@ -64,6 +107,9 @@ func _check_contact_damage() -> void:
 func take_damage(amount: int) -> void:
 	if current_health <= 0:
 		return
+
+	if not is_aggro:
+		aggro()
 
 	current_health -= amount
 

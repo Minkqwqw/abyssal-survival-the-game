@@ -1,11 +1,15 @@
-[gd_resource type="Resource" script_class="FloorData" load_steps=2 format=3]
+[gd_resource type="Resource" script_class="FloorData" load_steps=5 format=3]
 
-[ext_resource type="Script" path="res://data/resources/floor_data.gd" id="1_f5"]
+[ext_resource type="Script" path="res://data/resources/floor_data.gd" id="1_f"]
+[ext_resource type="Resource" path="res://data/stages/f5_s1.tres" id="2_s1"]
+[ext_resource type="Resource" path="res://data/stages/f5_s2.tres" id="3_s2"]
+[ext_resource type="Resource" path="res://data/stages/f5_s3_boss.tres" id="4_s3"]
 
 [resource]
-script = ExtResource("1_f5")
+script = ExtResource("1_f")
 floor_number = 5
 floor_name = "Floor 5: Hadal Trench"
-background_color = Color(0.02, 0.02, 0.05, 1)
-arena_floor_color = Color(0.04, 0.05, 0.1, 1)
+background_color = Color(0.02, 0.03, 0.07, 1)
+arena_floor_color = Color(0.05, 0.08, 0.14, 1)
 border_color = Color(0.3, 0.85, 1.0, 1)
+stages = Array[Resource]([ExtResource("2_s1"), ExtResource("3_s2"), ExtResource("4_s3")])

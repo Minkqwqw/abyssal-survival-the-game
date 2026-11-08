@@ -6,6 +6,8 @@ const VIEWBOX_RIGHT: int = 1100
 const VIEWBOX_TOP: int = -614
 const VIEWBOX_BOTTOM: int = 614
 
+@export var difficulty_menu_scene: PackedScene = preload("res://ui/difficulty_menu/difficulty_menu.tscn")
+
 @onready var spawn_point: Marker2D = get_node_or_null("SpawnPoint")
 @onready var player: CharacterBody2D = get_node_or_null("Player")
 @onready var checkpoint_label: Label = get_node_or_null("HUD/CheckpointLabel")
@@ -20,6 +22,7 @@ var _player_at_lab_door: bool = false
 var _player_at_reactor: bool = false
 var _entering_elevator: bool = false
 var _pulse_time: float = 0.0
+var _active_difficulty_menu: Node = null
 
 
 func _ready() -> void:
@@ -48,6 +51,8 @@ func _ready() -> void:
 
 	if is_instance_valid(GameState) and not GameState.currency_changed.is_connected(_on_currency_changed):
 		GameState.currency_changed.connect(_on_currency_changed)
+	if is_instance_valid(GameState) and not GameState.difficulty_changed.is_connected(_on_difficulty_changed):
+		GameState.difficulty_changed.connect(_on_difficulty_changed)
 
 	_update_hud()
 
@@ -81,9 +86,8 @@ func _unhandled_input(event: InputEvent) -> void:
 		if _player_at_lab_door and not _entering_elevator:
 			_entering_elevator = true
 			StageManager.open_elevator_loading()
-		elif _player_at_reactor and reactor_prompt:
-			reactor_prompt.text = "Bio-Reactor Core: Output 84% (Abyssal Lab Power Online)"
-			reactor_prompt.modulate = Color(0.45, 1.0, 0.85, 1.0)
+		elif _player_at_reactor:
+			_toggle_difficulty_menu()
 
 
 func _on_lab_door_body_entered(body: Node2D) -> void:
@@ -104,16 +108,43 @@ func _on_reactor_body_entered(body: Node2D) -> void:
 	if body.is_in_group("player"):
 		_player_at_reactor = true
 		if reactor_prompt:
-			reactor_prompt.text = "[E] Inspect Abyssal Reactor"
 			reactor_prompt.modulate = Color(0.65, 1.0, 0.9, 1.0)
 			reactor_prompt.visible = true
+		_update_reactor_prompt()
 
 
 func _on_reactor_body_exited(body: Node2D) -> void:
 	if body.is_in_group("player"):
 		_player_at_reactor = false
+		_close_difficulty_menu()
 		if reactor_prompt:
 			reactor_prompt.visible = false
+
+
+func _update_reactor_prompt() -> void:
+	if reactor_prompt == null:
+		return
+	var diff_name: String = GameState.get_difficulty_name() if is_instance_valid(GameState) else "NORMAL"
+	reactor_prompt.text = "[E] Reactor Core — Difficulty: %s" % diff_name
+
+
+func _toggle_difficulty_menu() -> void:
+	if _active_difficulty_menu and is_instance_valid(_active_difficulty_menu):
+		_close_difficulty_menu()
+	elif difficulty_menu_scene:
+		_active_difficulty_menu = difficulty_menu_scene.instantiate()
+		get_tree().current_scene.add_child(_active_difficulty_menu)
+
+
+func _close_difficulty_menu() -> void:
+	if _active_difficulty_menu and is_instance_valid(_active_difficulty_menu):
+		_active_difficulty_menu.queue_free()
+	_active_difficulty_menu = null
+
+
+func _on_difficulty_changed(_new_difficulty: int) -> void:
+	if _player_at_reactor:
+		_update_reactor_prompt()
 
 
 func _on_progress_updated(_val: int) -> void:

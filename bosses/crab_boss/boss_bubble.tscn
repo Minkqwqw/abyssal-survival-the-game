@@ -1,18 +1,67 @@
 [gd_scene format=3 uid="uid://sahmq2f8rjss"]
 
 [ext_resource type="Script" uid="uid://k2s8wqdn1bww" path="res://bosses/crab_boss/boss_bubble.gd" id="1_utwsg"]
-[ext_resource type="Texture2D" uid="uid://c8axh4efoy0rv" path="res://icon.svg" id="2_0n3tp"]
+[ext_resource type="Texture2D" path="res://bosses/crab_boss/crab_princess_projectiles.png" id="2_proj"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c0"]
+atlas = ExtResource("2_proj")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c1"]
+atlas = ExtResource("2_proj")
+region = Rect2(128, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b0"]
+atlas = ExtResource("2_proj")
+region = Rect2(256, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b1"]
+atlas = ExtResource("2_proj")
+region = Rect2(384, 0, 128, 128)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_proj"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b1")
+}],
+"loop": true,
+"name": &"bubble",
+"speed": 6.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c1")
+}],
+"loop": true,
+"name": &"crescent",
+"speed": 8.0
+}]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_0n3tp"]
-radius = 66.037865
+radius = 22.0
 
 [node name="BossBubble" type="Area2D" unique_id=188753432]
-scale = Vector2(0.3, 0.3)
 collision_layer = 0
+collision_mask = 1
 script = ExtResource("1_utwsg")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=750491386]
-texture = ExtResource("2_0n3tp")
+visible = false
+scale = Vector2(0.42, 0.42)
+texture = SubResource("AtlasTexture_b0")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=188753999]
+scale = Vector2(0.45, 0.45)
+sprite_frames = SubResource("SpriteFrames_proj")
+animation = &"bubble"
+autoplay = "bubble"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1074484095]
 shape = SubResource("CircleShape2D_0n3tp")

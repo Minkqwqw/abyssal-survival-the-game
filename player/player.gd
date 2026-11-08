@@ -24,10 +24,21 @@ const FACING_HYSTERESIS := 0.15   # toleransi supaya arah hadap tidak berganti-g
 @export var slow_only_while_shooting: bool = false                            # true = melambat hanya saat menembak
 @export var reverse_walk_anim_when_backpedal: bool = true                     # animasi jalan diputar terbalik saat mundur
 
+@export_group("Animation")
+@export var death_pause: float = 0.6   # lama player tergeletak di lantai sebelum died dipancarkan (detik)
+
+@export_group("Damage")
+@export_range(0.0, 5.0, 0.05) var hit_immunity_duration: float = 1.0 # kebal damage setelah terkena hit (detik)
+
 @onready var weapon_pivot: Node2D = $WeaponPivot
 @onready var dash_timer: Timer = $DashTimer
 @onready var dash_cooldown_timer: Timer = $DashCooldown
 @onready var anim: AnimatedSprite2D = $AnimatedSprite2D
+
+# SFX (buat node AudioStreamPlayer di dalam SFX)
+@onready var walk_sfx: AudioStreamPlayer = get_node_or_null("SFX/Walk") as AudioStreamPlayer
+@onready var dash_sfx: AudioStreamPlayer = get_node_or_null("SFX/Dash") as AudioStreamPlayer
+@onready var hit_sfx: AudioStreamPlayer = get_node_or_null("SFX/Hit") as AudioStreamPlayer
 
 var health: int
 var base_max_health: int
@@ -37,7 +48,13 @@ var is_dashing: bool = false
 var dash_direction: Vector2 = Vector2.ZERO
 var aim_dir: Vector2 = Vector2.DOWN      # arah dari player ke mouse
 var facing_dir: Vector2 = Vector2.DOWN   # arah hadap sprite (4 arah), mengikuti bidikan
+
 var _anim_backwards: bool = false
+var _hit_lock: bool = false              # animasi hit sedang diputar
+var _hit_token: int = 0
+var _damage_immune: bool = false         # true selama player mendapat invulnerability frame
+var _immunity_token: int = 0
+var _is_dead: bool = false
 
 
 func _ready() -> void:
@@ -56,6 +73,9 @@ func _ready() -> void:
 	dash_cooldown_timer.wait_time = dash_cooldown
 	dash_cooldown_timer.one_shot = true
 
+	_configure_animation_loops()
+	if not _has_anim("immune"):
+		push_warning("Animasi 'immune' tidak ditemukan di AnimatedSprite2D > SpriteFrames.")
 	_equip_weapon(weapon_scene)
 
 
@@ -76,7 +96,26 @@ func _on_upgrade_purchased(_upgrade_id: String, _new_level: int) -> void:
 	_apply_upgrades(true)
 
 
+## Animasi sekali jalan (dash, hit, dead) tidak boleh looping; yang lain looping.
+func _configure_animation_loops() -> void:
+	if anim == null or anim.sprite_frames == null:
+		return
+
+	var frames := anim.sprite_frames
+	for anim_name in frames.get_animation_names():
+		var n := String(anim_name)
+		var one_shot := n.begins_with("hit") or n.begins_with("dash") or n == "dead"
+		# Animasi immune harus looping selama durasi kebal.
+		if n == "immune":
+			one_shot = false
+		frames.set_animation_loop(anim_name, not one_shot)
+
+
 func _physics_process(delta: float) -> void:
+	if _is_dead:
+		velocity = Vector2.ZERO
+		return
+
 	_update_aim()
 
 	if is_dashing:
@@ -88,6 +127,7 @@ func _physics_process(delta: float) -> void:
 			_start_dash()
 
 	move_and_slide()
+	_update_walk_sfx()
 
 	_aim_weapon()
 	_update_animation()
@@ -164,6 +204,23 @@ func _get_backpedal_factor(input_dir: Vector2) -> float:
 	return lerpf(1.0, backpedal_speed_multiplier, backward_amount)
 
 
+func _update_walk_sfx() -> void:
+	if walk_sfx == null:
+		return
+
+	var should_play := velocity.length() >= 10.0 and not is_dashing and not _hit_lock and not _is_dead
+	if should_play:
+		if not walk_sfx.playing:
+			walk_sfx.play()
+	else:
+		_stop_walk_sfx()
+
+
+func _stop_walk_sfx() -> void:
+	if walk_sfx != null and walk_sfx.playing:
+		walk_sfx.stop()
+
+
 # ---------- Dash ----------
 
 func _start_dash() -> void:
@@ -178,17 +235,49 @@ func _start_dash() -> void:
 		dash_direction = input_dir.normalized()
 
 	is_dashing = true
+	_stop_walk_sfx()
+	if dash_sfx != null:
+		dash_sfx.play()
 	dash_timer.start()
 	dash_cooldown_timer.start()
+
+	# Dash membatalkan animasi hit yang sedang berjalan
+	_hit_token += 1
+	_hit_lock = false
+	_play_dash_anim()
 
 
 func _on_dash_finished() -> void:
 	is_dashing = false
 
 
+func _play_dash_anim() -> void:
+	# Animasi dash mengikuti arah GERAK, bukan arah bidik
+	var dash_anim := _dir_anim("dash", _to_cardinal(dash_direction))
+	if dash_anim == "":
+		return
+
+	# Percepat/perlambat animasi supaya semua frame muat dalam durasi dash
+	var scale_factor := 1.0
+	if dash_duration > 0.0:
+		scale_factor = _anim_length(dash_anim) / dash_duration
+	_play_anim(dash_anim, false, scale_factor, true)
+
+
 # ---------- Animasi ----------
 
 func _update_animation() -> void:
+	# Dash, hit, dan mati memiliki prioritas animasi sendiri.
+	if _is_dead or is_dashing or _hit_lock:
+		return
+
+	# Setelah animasi hit selesai, tampilkan animasi immune selama I-frame aktif.
+	# Animasi "immune" sebaiknya diatur Loop agar efeknya terus berjalan
+	# sampai durasi immunity berakhir.
+	if _damage_immune and _has_anim("immune"):
+		_play_anim("immune")
+		return
+
 	# Diam: pakai animasi idle
 	if velocity.length() < 10.0:
 		_play_idle()
@@ -196,21 +285,41 @@ func _update_animation() -> void:
 
 	# Bergerak: animasi mengikuti arah hadap (arah bidik), bukan arah jalan
 	var backwards := false
-	if reverse_walk_anim_when_backpedal and not is_dashing:
+	if reverse_walk_anim_when_backpedal:
 		backwards = velocity.normalized().dot(aim_dir) < -0.5
 
-	_play_anim(_dir_name(facing_dir), backwards)
+	var walk_anim := _walk_anim_name(_dir_name(facing_dir))
+	if walk_anim != "":
+		_play_anim(walk_anim, backwards)
 
 
 func _play_idle() -> void:
-	var dir_name := _dir_name(facing_dir)
+	var directional := "idle_" + _dir_name(facing_dir)
 
 	# Pakai idle per arah kalau ada, kalau tidak pakai "idle" biasa
-	var directional := "idle_" + dir_name
-	if anim.sprite_frames and anim.sprite_frames.has_animation(directional):
+	if _has_anim(directional):
 		_play_anim(directional)
-	else:
+	elif _has_anim("idle"):
 		_play_anim("idle")
+
+
+## Nama animasi jalan: "walk_down" (sheet baru) atau "down" (nama lama)
+func _walk_anim_name(dir_name: String) -> String:
+	if _has_anim("walk_" + dir_name):
+		return "walk_" + dir_name
+	if _has_anim(dir_name):
+		return dir_name
+	return ""
+
+
+## Cari animasi "<prefix>_<arah>", cadangan "<prefix>" saja. Kosong kalau tidak ada.
+func _dir_anim(prefix: String, dir: Vector2) -> String:
+	var directional := prefix + "_" + _dir_name(dir)
+	if _has_anim(directional):
+		return directional
+	if _has_anim(prefix):
+		return prefix
+	return ""
 
 
 func _dir_name(dir: Vector2) -> String:
@@ -223,12 +332,40 @@ func _dir_name(dir: Vector2) -> String:
 	return "right"
 
 
-func _play_anim(anim_name: String, backwards: bool = false) -> void:
+## Ubah vektor bebas menjadi 4 arah mata angin
+func _to_cardinal(dir: Vector2) -> Vector2:
+	if absf(dir.x) >= absf(dir.y):
+		return Vector2.RIGHT if dir.x >= 0.0 else Vector2.LEFT
+	return Vector2.DOWN if dir.y >= 0.0 else Vector2.UP
+
+
+func _has_anim(anim_name: String) -> bool:
+	return anim != null and anim.sprite_frames != null and anim.sprite_frames.has_animation(anim_name)
+
+
+func _anim_length(anim_name: String) -> float:
+	if not _has_anim(anim_name):
+		return 0.4
+	var frames := anim.sprite_frames
+	var fps := frames.get_animation_speed(anim_name)
+	if fps <= 0.0:
+		return 0.4
+	var total := 0.0
+	for i in frames.get_frame_count(anim_name):
+		total += frames.get_frame_duration(anim_name, i)
+	return total / fps
+
+
+func _play_anim(anim_name: String, backwards: bool = false, speed_factor: float = 1.0, force_restart: bool = false) -> void:
+	if not _has_anim(anim_name):
+		return
+
 	# Jangan mulai ulang animasi yang sedang berjalan dengan arah putar yang sama
-	if anim.animation == anim_name and anim.is_playing() and _anim_backwards == backwards:
+	if not force_restart and anim.animation == anim_name and anim.is_playing() and _anim_backwards == backwards:
 		return
 
 	_anim_backwards = backwards
+	anim.speed_scale = speed_factor
 	if backwards:
 		anim.play_backwards(anim_name)
 	else:
@@ -238,15 +375,80 @@ func _play_anim(anim_name: String, backwards: bool = false) -> void:
 # ---------- Damage ----------
 
 func take_damage(amount: int) -> void:
-	if is_dashing or health <= 0:
+	# Abaikan damage jika sedang dash, kebal, mati, atau nilai damage tidak valid.
+	if amount <= 0 or is_dashing or _damage_immune or health <= 0 or _is_dead:
 		return
 
+	# Aktifkan invulnerability frame segera setelah menerima satu hit.
+	_damage_immune = true
+	_immunity_token += 1
+	_start_damage_immunity(_immunity_token)
+
 	health -= amount
+	if hit_sfx != null:
+		hit_sfx.play()
 	health_changed.emit(health)
 
 	if health <= 0:
-		var has_stage_listener := died.get_connections().size() > 0
-		died.emit()
-		if not has_stage_listener:
-			StageManager.return_to_lobby()
-		queue_free()
+		_die()
+	else:
+		_play_hit_anim()
+
+
+func _start_damage_immunity(token: int) -> void:
+	await get_tree().create_timer(hit_immunity_duration).timeout
+
+	# Pastikan node masih ada dan timer ini masih merupakan timer yang berlaku.
+	if not is_instance_valid(self):
+		return
+
+	if token == _immunity_token and not _is_dead:
+		_damage_immune = false
+
+
+func _play_hit_anim() -> void:
+	var hit_anim := _dir_anim("hit", facing_dir)
+	if hit_anim == "":
+		return
+
+	_hit_token += 1
+	var token := _hit_token
+	_hit_lock = true
+	_play_anim(hit_anim, false, 1.0, true)
+
+	await get_tree().create_timer(_anim_length(hit_anim)).timeout
+
+	# Abaikan kalau sudah ada hit baru, dash, atau player sudah mati
+	if is_instance_valid(self) and not _is_dead and token == _hit_token:
+		_hit_lock = false
+
+
+func _die() -> void:
+	_is_dead = true
+	_stop_walk_sfx()
+	is_dashing = false
+	_hit_lock = false
+	velocity = Vector2.ZERO
+	dash_timer.stop()
+
+	# Senjata disembunyikan dan tubuh tidak lagi menghalangi / terkena apa pun
+	if weapon_pivot:
+		weapon_pivot.visible = false
+	for child in get_children():
+		if child is CollisionShape2D:
+			child.set_deferred("disabled", true)
+
+	if _has_anim("dead"):
+		_play_anim("dead", false, 1.0, true)
+		await get_tree().create_timer(_anim_length("dead") + death_pause).timeout
+	else:
+		await get_tree().create_timer(death_pause).timeout
+
+	if not is_instance_valid(self):
+		return
+
+	var has_stage_listener := died.get_connections().size() > 0
+	died.emit()
+	if not has_stage_listener:
+		StageManager.return_to_lobby()
+	queue_free()

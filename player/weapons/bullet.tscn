@@ -1,18 +1,78 @@
 [gd_scene format=3 uid="uid://ojdpb4b57cbd"]
 
 [ext_resource type="Script" uid="uid://xf3b2uxh2uw5" path="res://player/weapons/bullet.gd" id="1_oduel"]
-[ext_resource type="Texture2D" uid="uid://c8axh4efoy0rv" path="res://icon.svg" id="2_ycag2"]
+[ext_resource type="Texture2D" uid="uid://dmsvov12bw2tl" path="res://player/weapons/bullet.png" id="2_46f7d"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3h75o"]
+atlas = ExtResource("2_46f7d")
+region = Rect2(96, 0, 96, 132)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xsxff"]
+atlas = ExtResource("2_46f7d")
+region = Rect2(192, 0, 96, 132)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bu1ms"]
+atlas = ExtResource("2_46f7d")
+region = Rect2(288, 0, 96, 132)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rv5ra"]
+atlas = ExtResource("2_46f7d")
+region = Rect2(384, 0, 96, 132)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hhybi"]
+atlas = ExtResource("2_46f7d")
+region = Rect2(480, 0, 96, 132)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ltgmv"]
+atlas = ExtResource("2_46f7d")
+region = Rect2(0, 0, 96, 132)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_w85yv"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3h75o")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xsxff")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bu1ms")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rv5ra")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hhybi")
+}],
+"loop": 1,
+"name": &"hit",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ltgmv")
+}],
+"loop": 1,
+"name": &"ink",
+"speed": 5.0
+}]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_w85yv"]
+radius = 23.194826
 
 [node name="Bullet" type="Area2D" unique_id=1159597461]
+scale = Vector2(0.5, 0.5)
 collision_layer = 4
 collision_mask = 2
 script = ExtResource("1_oduel")
 
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1035827738]
-scale = Vector2(0.140625, 0.15625)
-texture = ExtResource("2_ycag2")
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=782769779]
+sprite_frames = SubResource("SpriteFrames_w85yv")
+animation = &"hit"
+autoplay = "ink"
+frame_progress = 0.3413981
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1443069662]
+position = Vector2(5, 1)
 shape = SubResource("CircleShape2D_w85yv")

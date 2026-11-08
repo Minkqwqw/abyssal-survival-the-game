@@ -1,0 +1,51 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="PackedScene" path="res://stages/base_stage.tscn" id="1_base"]
+[ext_resource type="Texture2D" path="res://Assets/environments/maps/level_3_stage_3.png" id="2_maptex"]
+[ext_resource type="PackedScene" path="res://enemies/jellyfish/jellyfish.tscn" id="3_jelly"]
+[ext_resource type="PackedScene" path="res://bosses/boss_3/boss_3.tscn" id="4_boss"]
+
+[node name="Level3_Stage3" node_paths=PackedStringArray("boss_spawn_point") instance=ExtResource("1_base")]
+level_id_override = 3
+stage_id = 3
+stage_title = "Level 3 - Stage 3: Abyssal Leviathan Sanctum"
+background_color = Color(0.04, 0.02, 0.07, 1)
+arena_floor_color = Color(0.08, 0.06, 0.14, 1)
+border_color = Color(0.65, 0.35, 0.95, 1)
+map_texture = ExtResource("2_maptex")
+boss_scene = ExtResource("4_boss")
+boss_spawn_point = NodePath("BossSpawnPoint")
+
+[node name="MapSprite" parent="MapEnvironment" index="0"]
+texture = ExtResource("2_maptex")
+
+[node name="WallColliderRight" parent="MapBounds" index="4"]
+polygon = PackedVector2Array(0.0, -425.6, 86.4, -425.6, 86.4, -398.4, 427.2, -366.4, 731.2, -126.4, 731.2, 177.6, 427.2, 433.6, 96.0, 433.6, 96.0, 540.8, 0.0, 540.8, 0.0, 680.0, 1180.0, 680.0, 1180.0, -680.0, 0.0, -680.0)
+
+[node name="WallColliderLeft" parent="MapBounds" index="5"]
+polygon = PackedVector2Array(0.0, 540.8, -96.0, 540.8, -96.0, 433.6, -427.2, 433.6, -731.2, 177.6, -731.2, -126.4, -427.2, -366.4, -86.4, -398.4, -86.4, -425.6, 0.0, -425.6, 0.0, -680.0, -1180.0, -680.0, -1180.0, 680.0, 0.0, 680.0)
+
+[node name="BoundsOutline" parent="MapBounds" index="6"]
+points = PackedVector2Array(0.0, -425.6, 86.4, -425.6, 86.4, -398.4, 427.2, -366.4, 731.2, -126.4, 731.2, 177.6, 427.2, 433.6, 96.0, 433.6, 96.0, 540.8, 0.0, 540.8, -96.0, 540.8, -96.0, 433.6, -427.2, 433.6, -731.2, 177.6, -731.2, -126.4, -427.2, -366.4, -86.4, -398.4, -86.4, -425.6)
+default_color = Color(0.65, 0.35, 0.95, 1)
+
+[node name="BossSpawnPoint" type="Marker2D" parent="." index="4"]
+position = Vector2(0, -140)
+
+[node name="SpawnPoint" parent="." index="5"]
+position = Vector2(0.0, 488.8)
+
+[node name="ExitPortal" parent="." index="6"]
+position = Vector2(0.0, -397.6)
+target_stage_id = 3
+custom_title = "COMPLETE LEVEL (LOBBY)"
+
+[node name="Player" parent="." index="7"]
+position = Vector2(0.0, 488.8)
+
+[node name="EnemySpawner" parent="." index="8"]
+secondary_enemy_scene = ExtResource("3_jelly")
+secondary_spawn_chance = 0.56
+enemy_count = 20
+max_enemies = 20
+default_area_rect = Rect2(-320.0, -270.59200000000004, 640.0, 541.1840000000001)

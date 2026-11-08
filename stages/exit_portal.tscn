@@ -1,49 +1,163 @@
-[gd_scene format=3]
+[gd_scene load_steps=13 format=3]
 
 [ext_resource type="Script" path="res://stages/exit_portal.gd" id="1_exit_portal"]
+[ext_resource type="Texture2D" path="res://Assets/environments/maps/stage_door_anim_sheet.png" id="2_door_sheet"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d0"]
+atlas = ExtResource("2_door_sheet")
+region = Rect2(0, 0, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d1"]
+atlas = ExtResource("2_door_sheet")
+region = Rect2(192, 0, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d2"]
+atlas = ExtResource("2_door_sheet")
+region = Rect2(384, 0, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d3"]
+atlas = ExtResource("2_door_sheet")
+region = Rect2(576, 0, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d4"]
+atlas = ExtResource("2_door_sheet")
+region = Rect2(768, 0, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d5"]
+atlas = ExtResource("2_door_sheet")
+region = Rect2(960, 0, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d6"]
+atlas = ExtResource("2_door_sheet")
+region = Rect2(1152, 0, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d7"]
+atlas = ExtResource("2_door_sheet")
+region = Rect2(1344, 0, 192, 192)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_door"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d0")
+}],
+"loop": false,
+"name": &"locked",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d7")
+}],
+"loop": false,
+"name": &"open",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d7")
+}],
+"loop": false,
+"name": &"opening",
+"speed": 16.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d1")
+}],
+"loop": false,
+"name": &"unlocked_closed",
+"speed": 5.0
+}]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_portal"]
-size = Vector2(120, 140)
+size = Vector2(128, 128)
 
 [node name="ExitPortal" type="Area2D"]
 script = ExtResource("1_exit_portal")
 
 [node name="OuterFrame" type="ColorRect" parent="."]
-offset_left = -64.0
-offset_top = -74.0
-offset_right = 64.0
-offset_bottom = 74.0
-color = Color(0.08, 0.1, 0.14, 0.95)
+offset_left = -60.0
+offset_top = -60.0
+offset_right = 60.0
+offset_bottom = 60.0
+color = Color(0.06, 0.09, 0.14, 0.72)
 
 [node name="InnerGlow" type="ColorRect" parent="."]
+offset_left = -50.0
+offset_top = -50.0
+offset_right = 50.0
+offset_bottom = 50.0
+color = Color(0.22, 0.24, 0.28, 0.75)
+
+[node name="DoorAnimatedSprite" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.68, 0.68)
+sprite_frames = SubResource("SpriteFrames_door")
+animation = &"locked"
+
+[node name="DoorPanels" type="Node2D" parent="."]
+
+[node name="LeftLeaf" type="ColorRect" parent="DoorPanels"]
 offset_left = -52.0
-offset_top = -62.0
+offset_top = -48.0
+offset_right = -1.0
+offset_bottom = 48.0
+color = Color(0.24, 0.3, 0.38, 0.55)
+
+[node name="RightLeaf" type="ColorRect" parent="DoorPanels"]
+offset_left = 1.0
+offset_top = -48.0
 offset_right = 52.0
-offset_bottom = 62.0
-color = Color(0.22, 0.24, 0.28, 0.85)
+offset_bottom = 48.0
+color = Color(0.24, 0.3, 0.38, 0.55)
+
+[node name="LockIndicator" type="ColorRect" parent="DoorPanels"]
+offset_left = -10.0
+offset_top = -10.0
+offset_right = 10.0
+offset_bottom = 10.0
+color = Color(0.95, 0.28, 0.28, 0.95)
 
 [node name="BorderLine" type="Line2D" parent="."]
-points = PackedVector2Array(-60, -70, 60, -70, 60, 70, -60, 70)
+points = PackedVector2Array(-56, -56, 56, -56, 56, 56, -56, 56)
 closed = true
-width = 4.0
+width = 3.5
 default_color = Color(0.4, 0.42, 0.46, 1)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_portal")
 
 [node name="TitleLabel" type="Label" parent="."]
-offset_left = -90.0
-offset_top = -105.0
-offset_right = 90.0
-offset_bottom = -78.0
+offset_left = -95.0
+offset_top = -92.0
+offset_right = 95.0
+offset_bottom = -65.0
 text = "EXIT PORTAL"
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="StatusLabel" type="Label" parent="."]
-offset_left = -60.0
+offset_left = -85.0
 offset_top = -14.0
-offset_right = 60.0
+offset_right = 85.0
 offset_bottom = 14.0
 text = "LOCKED"
 horizontal_alignment = 1
@@ -51,10 +165,10 @@ vertical_alignment = 1
 
 [node name="PromptLabel" type="Label" parent="."]
 visible = false
-offset_left = -110.0
-offset_top = 80.0
-offset_right = 110.0
-offset_bottom = 106.0
+offset_left = -120.0
+offset_top = 66.0
+offset_right = 120.0
+offset_bottom = 92.0
 text = "[E] Enter"
 horizontal_alignment = 1
 vertical_alignment = 1

@@ -1,100 +1,130 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://0b6slkbhdayj"]
 
-[ext_resource type="Script" path="res://stages/base_stage.gd" id="1_basestage"]
+[ext_resource type="Script" uid="uid://bfhe7db3e2bun" path="res://stages/base_stage.gd" id="1_basestage"]
 [ext_resource type="PackedScene" path="res://stages/exit_portal.tscn" id="2_portal"]
 [ext_resource type="PackedScene" uid="uid://dj0yny2jftfsa" path="res://player/player.tscn" id="3_player"]
-[ext_resource type="PackedScene" path="res://enemies/spawner/enemy_spawner.tscn" id="4_spawner"]
+[ext_resource type="PackedScene" uid="uid://cwcgk1snvmob5" path="res://enemies/spawner/enemy_spawner.tscn" id="4_spawner"]
 [ext_resource type="PackedScene" uid="uid://u4ihw5astl2w" path="res://enemies/crab/crab.tscn" id="5_crab"]
+[ext_resource type="Texture2D" uid="uid://choajm34jx08p" path="res://Assets/environments/maps/level_1_stage_1.png" id="6_default_map"]
+[ext_resource type="AudioStream" uid="uid://b888o1gp1m8au" path="res://stages/floors/floor_1/floor_1_bgm.wav" id="7_sw0du"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_stage_wall_h"]
-size = Vector2(2000, 40)
+size = Vector2(2400, 48)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_stage_wall_v"]
-size = Vector2(40, 1520)
+size = Vector2(48, 1400)
 
-[node name="BaseStage" type="Node2D"]
+[node name="BaseStage" type="Node2D" unique_id=2132015901]
+texture_filter = 1
 script = ExtResource("1_basestage")
+floor_1_bgm = ExtResource("7_sw0du")
 
-[node name="Background" type="ColorRect" parent="."]
-offset_left = -1800.0
-offset_top = -1400.0
-offset_right = 1800.0
-offset_bottom = 1400.0
-color = Color(0.04, 0.09, 0.07, 1)
+[node name="Background" type="ColorRect" parent="." unique_id=580472329]
+offset_left = -1600.0
+offset_top = -1000.0
+offset_right = 1600.0
+offset_bottom = 1000.0
+color = Color(0.03, 0.07, 0.06, 1)
 
-[node name="ArenaFloor" type="ColorRect" parent="."]
+[node name="ArenaFloor" type="ColorRect" parent="." unique_id=1974823230]
+visible = false
 offset_left = -960.0
-offset_top = -720.0
+offset_top = -540.0
 offset_right = 960.0
-offset_bottom = 720.0
+offset_bottom = 540.0
 color = Color(0.08, 0.17, 0.14, 1)
 
-[node name="MapBounds" type="StaticBody2D" parent="."]
+[node name="MapEnvironment" type="Node2D" parent="." unique_id=1849588407]
 
-[node name="WallTop" type="CollisionShape2D" parent="MapBounds"]
-position = Vector2(0, -740)
+[node name="MapSprite" type="Sprite2D" parent="MapEnvironment" unique_id=356050885]
+texture = ExtResource("6_default_map")
+
+[node name="FloorShaderOverlay" type="ColorRect" parent="MapEnvironment" unique_id=1316719662]
+visible = false
+offset_left = -1101.0
+offset_top = -614.0
+offset_right = 1101.0
+offset_bottom = 614.0
+mouse_filter = 2
+color = Color(1, 1, 1, 0)
+
+[node name="CustomAssetsContainer" type="Node2D" parent="MapEnvironment" unique_id=457085880]
+
+[node name="MapBounds" type="StaticBody2D" parent="." unique_id=1797647342]
+
+[node name="WallTop" type="CollisionShape2D" parent="MapBounds" unique_id=1871433173]
+position = Vector2(0, -640)
 shape = SubResource("RectangleShape2D_stage_wall_h")
 
-[node name="WallBottom" type="CollisionShape2D" parent="MapBounds"]
-position = Vector2(0, 740)
+[node name="WallBottom" type="CollisionShape2D" parent="MapBounds" unique_id=1629067364]
+position = Vector2(0, 640)
 shape = SubResource("RectangleShape2D_stage_wall_h")
 
-[node name="WallLeft" type="CollisionShape2D" parent="MapBounds"]
-position = Vector2(-980, 0)
+[node name="WallLeft" type="CollisionShape2D" parent="MapBounds" unique_id=1405473092]
+position = Vector2(-1125, 0)
 shape = SubResource("RectangleShape2D_stage_wall_v")
 
-[node name="WallRight" type="CollisionShape2D" parent="MapBounds"]
-position = Vector2(980, 0)
+[node name="WallRight" type="CollisionShape2D" parent="MapBounds" unique_id=372223727]
+position = Vector2(1125, 0)
 shape = SubResource("RectangleShape2D_stage_wall_v")
 
-[node name="BoundsOutline" type="Line2D" parent="MapBounds"]
-points = PackedVector2Array(-960, -720, 960, -720, 960, 720, -960, 720)
+[node name="WallColliderRight" type="CollisionPolygon2D" parent="MapBounds" unique_id=1235625760]
+polygon = PackedVector2Array(0, -432, 70.4, -432, 70.4, -377.6, 635.2, -377.6, 891.2, -150.4, 891.2, 209.6, 635.2, 441.6, 96, 441.6, 96, 577.6, 0, 577.6, 0, 680, 1180, 680, 1180, -680, 0, -680)
+
+[node name="WallColliderLeft" type="CollisionPolygon2D" parent="MapBounds" unique_id=1333919729]
+polygon = PackedVector2Array(0, 577.6, -96, 577.6, -96, 441.6, -635.2, 441.6, -891.2, 209.6, -891.2, -150.4, -635.2, -377.6, -70.4, -377.6, -70.4, -432, 0, -432, 0, -680, -1180, -680, -1180, 680, 0, 680)
+
+[node name="BoundsOutline" type="Line2D" parent="MapBounds" unique_id=202134430]
+visible = false
+points = PackedVector2Array(0, -432, 70.4, -432, 70.4, -377.6, 635.2, -377.6, 891.2, -150.4, 891.2, 209.6, 635.2, 441.6, 96, 441.6, 96, 577.6, 0, 577.6, -96, 577.6, -96, 441.6, -635.2, 441.6, -891.2, 209.6, -891.2, -150.4, -635.2, -377.6, -70.4, -377.6, -70.4, -432)
 closed = true
-width = 6.0
-default_color = Color(0.25, 0.75, 0.5, 1)
+width = 4.0
+default_color = Color(0.25, 0.78, 0.48, 0.65)
 
-[node name="SpawnPoint" type="Marker2D" parent="."]
-position = Vector2(0, 480)
+[node name="SpawnPoint" type="Marker2D" parent="." unique_id=1513603431]
+position = Vector2(0, 525.6)
 
-[node name="ExitPortal" parent="." instance=ExtResource("2_portal")]
-position = Vector2(0, -480)
-portal_mode = 1
-target_stage_id = 1
+[node name="ExitPortal" parent="." unique_id=1587504879 instance=ExtResource("2_portal")]
+position = Vector2(0, -404)
 custom_title = "EXIT PORTAL"
 
-[node name="Player" parent="." instance=ExtResource("3_player")]
-position = Vector2(0, 480)
+[node name="Player" parent="." unique_id=518390423 instance=ExtResource("3_player")]
+position = Vector2(0, 525.6)
 
-[node name="EnemySpawner" parent="." instance=ExtResource("4_spawner")]
+[node name="EnemySpawner" parent="." unique_id=82845576 instance=ExtResource("4_spawner")]
 enemy_scene = ExtResource("5_crab")
 enemy_count = 12
+default_area_rect = Rect2(-495.2, -282.688, 990.4, 565.376)
 
-[node name="StageHUD" type="CanvasLayer" parent="."]
+[node name="StageHUD" type="CanvasLayer" parent="." unique_id=1971692366]
 
-[node name="TopPanel" type="ColorRect" parent="StageHUD"]
+[node name="TopPanel" type="ColorRect" parent="StageHUD" unique_id=608306515]
 offset_left = 16.0
 offset_top = 16.0
-offset_right = 460.0
+offset_right = 520.0
 offset_bottom = 112.0
 color = Color(0.04, 0.06, 0.09, 0.85)
 
-[node name="StageTitleLabel" type="Label" parent="StageHUD"]
+[node name="StageTitleLabel" type="Label" parent="StageHUD" unique_id=1503314150]
 offset_left = 28.0
 offset_top = 24.0
-offset_right = 448.0
+offset_right = 508.0
 offset_bottom = 50.0
-text = "Stage 1: Toxic Shallows"
+text = "Level 1: Toxic Shallows  —  Stage 1 / 3"
 
-[node name="HealthLabel" type="Label" parent="StageHUD"]
+[node name="HealthLabel" type="Label" parent="StageHUD" unique_id=1353606525]
 offset_left = 28.0
 offset_top = 52.0
-offset_right = 448.0
+offset_right = 508.0
 offset_bottom = 78.0
 text = "HP: 5 / 5   |   Pearls: 0"
 
-[node name="ObjectiveLabel" type="Label" parent="StageHUD"]
+[node name="ObjectiveLabel" type="Label" parent="StageHUD" unique_id=1981569852]
 offset_left = 28.0
 offset_top = 80.0
-offset_right = 448.0
+offset_right = 508.0
 offset_bottom = 104.0
 text = "Defeat all enemies in the area!"
+
+[node name="StageBGM" type="AudioStreamPlayer" parent="." unique_id=1199101990]
+stream = ExtResource("7_sw0du")

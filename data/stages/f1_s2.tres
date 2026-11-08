@@ -5,7 +5,7 @@
 [resource]
 script = ExtResource("1_sd")
 stage_id = "f1_s2"
-stage_title = "Stage 2: Crimson Reef"
+stage_title = "Level 1 - Stage 2: Stepped Cruciform Bio-Basin"
 is_boss_stage = false
-enemy_count = 16
+enemy_count = 13
 enemy_waves = []

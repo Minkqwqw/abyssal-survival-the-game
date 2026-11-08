@@ -1,31 +1,43 @@
 [gd_scene format=3 uid="uid://c8stage2reef0"]
 
 [ext_resource type="PackedScene" path="res://stages/base_stage.tscn" id="1_base"]
-[ext_resource type="PackedScene" path="res://enemies/jellyfish/jellyfish.tscn" id="2_jelly"]
-[ext_resource type="PackedScene" path="res://stages/floors/floor_2/current_zone.tscn" id="3_current"]
-[ext_resource type="PackedScene" uid="uid://bgowt8wofn0b3" path="res://bosses/crab_boss/crab_boss.tscn" id="4_boss"]
+[ext_resource type="Texture2D" uid="uid://bqqm42hmotgtt" path="res://Assets/environments/maps/level_1_stage_2.png" id="2_maptex"]
+[ext_resource type="PackedScene" uid="uid://sqjadr2pt7ky" path="res://enemies/jellyfish/jellyfish.tscn" id="3_jelly"]
 
-[node name="Stage2_Reef" node_paths=PackedStringArray("boss_spawn_point") instance=ExtResource("1_base")]
+[node name="Stage2_Reef" unique_id=1025007482 instance=ExtResource("1_base")]
+level_id_override = 1
 stage_id = 2
-stage_title = "Stage 2: Crimson Reef"
-background_color = Color(0.04, 0.08, 0.14, 1)
-arena_floor_color = Color(0.08, 0.16, 0.24, 1)
-border_color = Color(0.95, 0.45, 0.45, 1)
-boss_scene = ExtResource("4_boss")
-boss_spawn_point = NodePath("BossSpawnPoint")
+stage_title = "Level 1 - Stage 2: Stepped Cruciform Bio-Basin"
+map_texture = ExtResource("2_maptex")
 
-[node name="BossSpawnPoint" type="Marker2D" parent="." index="4"]
-position = Vector2(0, -160)
+[node name="MapSprite" parent="MapEnvironment" index="0"]
+texture = ExtResource("2_maptex")
 
-[node name="CurrentZoneCenter" parent="." index="5" instance=ExtResource("3_current")]
-position = Vector2(0, 60)
+[node name="WallColliderRight" parent="MapBounds" index="4"]
+polygon = PackedVector2Array(0, -451.2, 70.4, -451.2, 70.4, -382.4, 195.2, -270.4, 195.2, -174.4, 435.2, -174.4, 435.2, -294.4, 800, -294.4, 800, 329.6, 435.2, 329.6, 435.2, 193.6, 195.2, 193.6, 195.2, 425.6, 70.4, 425.6, 70.4, 534.4, 0, 534.4, 0, 680, 1180, 680, 1180, -680, 0, -680)
 
-[node name="ExitPortal" parent="." index="6"]
+[node name="WallColliderLeft" parent="MapBounds" index="5"]
+polygon = PackedVector2Array(0, 534.4, -70.4, 534.4, -70.4, 425.6, -195.2, 425.6, -195.2, 193.6, -435.2, 193.6, -435.2, 329.6, -800, 329.6, -800, -294.4, -435.2, -294.4, -435.2, -174.4, -195.2, -174.4, -195.2, -270.4, -70.4, -382.4, -70.4, -451.2, 0, -451.2, 0, -680, -1180, -680, -1180, 680, 0, 680)
+
+[node name="BoundsOutline" parent="MapBounds" index="6"]
+points = PackedVector2Array(0, -451.2, 70.4, -451.2, 70.4, -382.4, 195.2, -270.4, 195.2, -174.4, 435.2, -174.4, 435.2, -294.4, 800, -294.4, 800, 329.6, 435.2, 329.6, 435.2, 193.6, 195.2, 193.6, 195.2, 425.6, 70.4, 425.6, 70.4, 534.4, 0, 534.4, -70.4, 534.4, -70.4, 425.6, -195.2, 425.6, -195.2, 193.6, -435.2, 193.6, -435.2, 329.6, -800, 329.6, -800, -294.4, -435.2, -294.4, -435.2, -174.4, -195.2, -174.4, -195.2, -270.4, -70.4, -382.4, -70.4, -451.2)
+default_color = Color(0.25, 0.78, 0.48, 1)
+
+[node name="SpawnPoint" parent="." index="4"]
+position = Vector2(0, 482.4)
+
+[node name="ExitPortal" parent="." index="5"]
+position = Vector2(0, -423.2)
 target_stage_id = 2
 custom_title = "EXIT TO STAGE 3"
 
-[node name="EnemySpawner" parent="." index="8"]
-secondary_enemy_scene = ExtResource("2_jelly")
-secondary_spawn_chance = 0.4
-enemy_count = 16
-max_enemies = 16
+[node name="Player" parent="." index="6"]
+position = Vector2(0, 482.4)
+
+[node name="EnemySpawner" parent="." index="7"]
+position = Vector2(0, -110)
+secondary_enemy_scene = ExtResource("3_jelly")
+secondary_spawn_chance = 0.3
+enemy_count = 13
+max_enemies = 13
+default_area_rect = Rect2(-320, -275.968, 640, 551.936)

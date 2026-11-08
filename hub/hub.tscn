@@ -1,9 +1,10 @@
-[gd_scene format=3 uid="uid://c8lobby01grey"]
+[gd_scene format=3 uid="uid://ce5ulj8lwsmvy"]
 
 [ext_resource type="Script" uid="uid://c3v88s8hgst3w" path="res://hub/hub.gd" id="1_lobby"]
 [ext_resource type="Texture2D" uid="uid://ry7ess3jbvk8" path="res://Assets/environments/lobby_map_bg.png" id="2_map_tex"]
 [ext_resource type="PackedScene" uid="uid://dj0yny2jftfsa" path="res://player/player.tscn" id="3_player"]
 [ext_resource type="PackedScene" uid="uid://bq426fjoi3ony" path="res://hub/upgrade_station.tscn" id="4_upgrade"]
+[ext_resource type="AudioStream" uid="uid://des70mm8tlo8s" path="res://hub/Lobby.wav" id="5_21dlm"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wall_h"]
 size = Vector2(2280, 48)
@@ -21,7 +22,7 @@ size = Vector2(462.5, 19)
 size = Vector2(150, 130)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_reactor_zone"]
-radius = 220.0
+radius = 170.35551
 
 [node name="Hub" type="Node2D" unique_id=1661616541]
 texture_filter = 1
@@ -132,6 +133,7 @@ position = Vector2(635, 134)
 shape = SubResource("CircleShape2D_reactor_zone")
 
 [node name="ReactorPulseGlow" type="Polygon2D" parent="ReactorZone" unique_id=469503569]
+position = Vector2(4, -39)
 color = Color(0.15, 0.95, 0.75, 0.16)
 polygon = PackedVector2Array(0, -140, 99, -99, 140, 0, 99, 99, 0, 140, -99, 99, -140, 0, -99, -99)
 
@@ -180,3 +182,8 @@ offset_top = 80.0
 offset_right = 498.0
 offset_bottom = 104.0
 text = "[WASD] Move   [E] Interact (Lab Door / Upgrade)   [R] Reset"
+
+[node name="HubBGM" type="AudioStreamPlayer" parent="." unique_id=1223716854]
+stream = ExtResource("5_21dlm")
+volume_db = -15.0
+autoplay = true

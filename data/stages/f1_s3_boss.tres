@@ -1,13 +1,13 @@
 [gd_resource type="Resource" script_class="StageData" load_steps=3 format=3]
 
 [ext_resource type="Script" path="res://data/resources/stage_data.gd" id="1_sd"]
-[ext_resource type="PackedScene" uid="uid://bgowt8wofn0b3" path="res://bosses/crab_boss/crab_boss.tscn" id="2_boss"]
+[ext_resource type="PackedScene" path="res://bosses/crab_boss/crab_boss.tscn" id="2_boss"]
 
 [resource]
 script = ExtResource("1_sd")
 stage_id = "f1_s3_boss"
-stage_title = "Stage 3: The Deep Abyss (Boss)"
+stage_title = "Level 1 - Stage 3: Hexagonal Toxic Command Dome (Boss)"
 is_boss_stage = true
-enemy_count = 20
+enemy_count = 16
 enemy_waves = []
 boss_scene = ExtResource("2_boss")

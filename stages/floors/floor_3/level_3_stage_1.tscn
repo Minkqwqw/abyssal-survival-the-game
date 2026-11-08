@@ -1,0 +1,46 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="PackedScene" path="res://stages/base_stage.tscn" id="1_base"]
+[ext_resource type="Texture2D" path="res://Assets/environments/maps/level_3_stage_1.png" id="2_maptex"]
+[ext_resource type="PackedScene" path="res://enemies/jellyfish/jellyfish.tscn" id="3_jelly"]
+
+[node name="Level3_Stage1" instance=ExtResource("1_base")]
+level_id_override = 3
+stage_id = 1
+stage_title = "Level 3 - Stage 1: Diamond-Beveled Abyssal Vault"
+background_color = Color(0.04, 0.02, 0.07, 1)
+arena_floor_color = Color(0.08, 0.06, 0.14, 1)
+border_color = Color(0.65, 0.35, 0.95, 1)
+map_texture = ExtResource("2_maptex")
+
+
+[node name="MapSprite" parent="MapEnvironment" index="0"]
+texture = ExtResource("2_maptex")
+
+[node name="WallColliderRight" parent="MapBounds" index="4"]
+polygon = PackedVector2Array(0.0, -428.8, 76.8, -428.8, 76.8, -377.6, 475.2, -377.6, 763.2, -142.4, 763.2, 177.6, 475.2, 417.6, 80.0, 417.6, 80.0, 534.4, 0.0, 534.4, 0.0, 680.0, 1180.0, 680.0, 1180.0, -680.0, 0.0, -680.0)
+
+[node name="WallColliderLeft" parent="MapBounds" index="5"]
+polygon = PackedVector2Array(0.0, 534.4, -80.0, 534.4, -80.0, 417.6, -475.2, 417.6, -763.2, 177.6, -763.2, -142.4, -475.2, -377.6, -76.8, -377.6, -76.8, -428.8, 0.0, -428.8, 0.0, -680.0, -1180.0, -680.0, -1180.0, 680.0, 0.0, 680.0)
+
+[node name="BoundsOutline" parent="MapBounds" index="6"]
+points = PackedVector2Array(0.0, -428.8, 76.8, -428.8, 76.8, -377.6, 475.2, -377.6, 763.2, -142.4, 763.2, 177.6, 475.2, 417.6, 80.0, 417.6, 80.0, 534.4, 0.0, 534.4, -80.0, 534.4, -80.0, 417.6, -475.2, 417.6, -763.2, 177.6, -763.2, -142.4, -475.2, -377.6, -76.8, -377.6, -76.8, -428.8)
+default_color = Color(0.65, 0.35, 0.95, 1)
+
+[node name="SpawnPoint" parent="." index="4"]
+position = Vector2(0.0, 482.4)
+
+[node name="ExitPortal" parent="." index="5"]
+position = Vector2(0.0, -400.8)
+target_stage_id = 1
+custom_title = "EXIT TO STAGE 2"
+
+[node name="Player" parent="." index="6"]
+position = Vector2(0.0, 482.4)
+
+[node name="EnemySpawner" parent="." index="7"]
+secondary_enemy_scene = ExtResource("3_jelly")
+secondary_spawn_chance = 0.36
+enemy_count = 14
+max_enemies = 14
+default_area_rect = Rect2(-335.2, -269.696, 670.4, 539.392)

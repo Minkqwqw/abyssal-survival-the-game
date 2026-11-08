@@ -5,7 +5,7 @@
 [resource]
 script = ExtResource("1_sd")
 stage_id = "f1_s1"
-stage_title = "Stage 1: Toxic Shallows"
+stage_title = "Level 1 - Stage 1: Octagonal Containment Bay"
 is_boss_stage = false
 enemy_count = 10
 enemy_waves = []

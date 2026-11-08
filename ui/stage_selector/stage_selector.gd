@@ -48,6 +48,11 @@ const LEVEL_INFO: Array[Dictionary] = [
 @onready var preview_desc_label: Label = $MainFrame/PreviewBox/PreviewDescLabel
 @onready var back_button: Button = $MainFrame/BackToLobbyButton
 @onready var cards_container: HBoxContainer = $MainFrame/CardsContainer
+@onready var difficulty_buttons: Dictionary = {
+	GameState.Difficulty.NORMAL: $MainFrame/DifficultyRow/NormalButton,
+	GameState.Difficulty.HARD: $MainFrame/DifficultyRow/HardButton,
+	GameState.Difficulty.NIGHTMARE: $MainFrame/DifficultyRow/NightmareButton,
+}
 
 var _card_buttons: Dictionary = {}
 
@@ -55,6 +60,7 @@ var _card_buttons: Dictionary = {}
 func _ready() -> void:
 	back_button.pressed.connect(_on_back_pressed)
 	_setup_level_cards()
+	_setup_difficulty_buttons()
 	_update_header()
 	_update_preview(StageManager.max_unlocked_level if is_instance_valid(StageManager) else 1)
 
@@ -68,7 +74,8 @@ func _unhandled_input(event: InputEvent) -> void:
 func _update_header() -> void:
 	var pearls := GameState.currency if is_instance_valid(GameState) else 0
 	var max_lvl := StageManager.max_unlocked_level if is_instance_valid(StageManager) else 1
-	subtitle_info_label.text = "Select Destination Floor (Level 1 - 5)   |   Unlocked: %d / 5   |   Abyssal Pearls: %d" % [max_lvl, pearls]
+	var diff_name: String = GameState.get_difficulty_name() if is_instance_valid(GameState) else "NORMAL"
+	subtitle_info_label.text = "Select Destination Floor (Level 1 - 5)   |   Unlocked: %d / 5   |   Abyssal Pearls: %d   |   Difficulty: %s" % [max_lvl, pearls, diff_name]
 
 
 func _setup_level_cards() -> void:
@@ -145,6 +152,36 @@ func _update_preview(lvl: int) -> void:
 func _on_level_selected(lvl: int) -> void:
 	if is_instance_valid(StageManager) and StageManager.is_level_unlocked(lvl):
 		StageManager.start_level(lvl)
+
+
+func _setup_difficulty_buttons() -> void:
+	for diff in difficulty_buttons:
+		var btn: Button = difficulty_buttons[diff]
+		if btn:
+			btn.pressed.connect(_on_difficulty_selected.bind(diff))
+	if is_instance_valid(GameState) and not GameState.difficulty_changed.is_connected(_on_difficulty_changed):
+		GameState.difficulty_changed.connect(_on_difficulty_changed)
+	_refresh_difficulty_buttons()
+
+
+func _refresh_difficulty_buttons() -> void:
+	if not is_instance_valid(GameState):
+		return
+	for diff in difficulty_buttons:
+		var btn: Button = difficulty_buttons[diff]
+		if btn == null:
+			continue
+		btn.modulate = Color(0.55, 1.0, 0.85, 1.0) if GameState.difficulty == diff else Color.WHITE
+
+
+func _on_difficulty_selected(diff: int) -> void:
+	if is_instance_valid(GameState):
+		GameState.set_difficulty(diff, false)
+
+
+func _on_difficulty_changed(_new_difficulty: int) -> void:
+	_refresh_difficulty_buttons()
+	_update_header()
 
 
 func _on_back_pressed() -> void:

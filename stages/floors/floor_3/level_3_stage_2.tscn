@@ -1,0 +1,46 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="PackedScene" path="res://stages/base_stage.tscn" id="1_base"]
+[ext_resource type="Texture2D" path="res://Assets/environments/maps/level_3_stage_2.png" id="2_maptex"]
+[ext_resource type="PackedScene" path="res://enemies/jellyfish/jellyfish.tscn" id="3_jelly"]
+
+[node name="Level3_Stage2" instance=ExtResource("1_base")]
+level_id_override = 3
+stage_id = 2
+stage_title = "Level 3 - Stage 2: Hourglass Trench Platform"
+background_color = Color(0.04, 0.02, 0.07, 1)
+arena_floor_color = Color(0.08, 0.06, 0.14, 1)
+border_color = Color(0.65, 0.35, 0.95, 1)
+map_texture = ExtResource("2_maptex")
+
+
+[node name="MapSprite" parent="MapEnvironment" index="0"]
+texture = ExtResource("2_maptex")
+
+[node name="WallColliderRight" parent="MapBounds" index="4"]
+polygon = PackedVector2Array(0.0, -403.2, 83.2, -403.2, 83.2, -297.6, 267.2, -297.6, 363.2, -390.4, 715.2, -390.4, 912.0, -206.4, 912.0, 241.6, 715.2, 433.6, 363.2, 433.6, 267.2, 337.6, 83.2, 337.6, 83.2, 497.6, 0.0, 497.6, 0.0, 680.0, 1180.0, 680.0, 1180.0, -680.0, 0.0, -680.0)
+
+[node name="WallColliderLeft" parent="MapBounds" index="5"]
+polygon = PackedVector2Array(0.0, 497.6, -83.2, 497.6, -83.2, 337.6, -267.2, 337.6, -363.2, 433.6, -715.2, 433.6, -912.0, 241.6, -912.0, -206.4, -715.2, -390.4, -363.2, -390.4, -267.2, -297.6, -83.2, -297.6, -83.2, -403.2, 0.0, -403.2, 0.0, -680.0, -1180.0, -680.0, -1180.0, 680.0, 0.0, 680.0)
+
+[node name="BoundsOutline" parent="MapBounds" index="6"]
+points = PackedVector2Array(0.0, -403.2, 83.2, -403.2, 83.2, -297.6, 267.2, -297.6, 363.2, -390.4, 715.2, -390.4, 912.0, -206.4, 912.0, 241.6, 715.2, 433.6, 363.2, 433.6, 267.2, 337.6, 83.2, 337.6, 83.2, 497.6, 0.0, 497.6, -83.2, 497.6, -83.2, 337.6, -267.2, 337.6, -363.2, 433.6, -715.2, 433.6, -912.0, 241.6, -912.0, -206.4, -715.2, -390.4, -363.2, -390.4, -267.2, -297.6, -83.2, -297.6, -83.2, -403.2)
+default_color = Color(0.65, 0.35, 0.95, 1)
+
+[node name="SpawnPoint" parent="." index="4"]
+position = Vector2(0.0, 445.6)
+
+[node name="ExitPortal" parent="." index="5"]
+position = Vector2(0.0, -375.2)
+target_stage_id = 2
+custom_title = "EXIT TO STAGE 3"
+
+[node name="Player" parent="." index="6"]
+position = Vector2(0.0, 445.6)
+
+[node name="EnemySpawner" parent="." index="7"]
+secondary_enemy_scene = ExtResource("3_jelly")
+secondary_spawn_chance = 0.46
+enemy_count = 17
+max_enemies = 17
+default_area_rect = Rect2(-320.0, -252.22400000000002, 640.0, 504.44800000000004)

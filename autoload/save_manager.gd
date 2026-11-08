@@ -17,6 +17,7 @@ func save_game() -> void:
 	if is_instance_valid(GameState):
 		config.set_value("progression", "current_floor", GameState.current_floor)
 		config.set_value("progression", "unlocked_floors", GameState.unlocked_floors)
+		config.set_value("progression", "difficulty", GameState.default_difficulty)
 		config.set_value("economy", "currency", GameState.currency)
 		config.set_value("upgrades", "levels", GameState.upgrade_levels)
 	config.save(SAVE_PATH)
@@ -33,6 +34,9 @@ func load_game() -> void:
 		var unlocked_l := int(config.get_value("progression", "max_unlocked_level", unlocked_f))
 		GameState.unlocked_floors = maxi(unlocked_f, unlocked_l)
 		GameState.currency = int(config.get_value("economy", "currency", 0))
+		var saved_difficulty := int(config.get_value("progression", "difficulty", GameState.Difficulty.NORMAL))
+		GameState.default_difficulty = clampi(saved_difficulty, GameState.Difficulty.NORMAL, GameState.Difficulty.NIGHTMARE)
+		GameState.difficulty = GameState.default_difficulty
 		var saved_upgrades = config.get_value("upgrades", "levels", {})
 		if saved_upgrades is Dictionary:
 			for key in saved_upgrades.keys():
