@@ -1,46 +1,21 @@
-[gd_scene load_steps=4 format=3]
+[gd_scene format=3 uid="uid://b86k3pi2oe8ql"]
 
-[ext_resource type="PackedScene" path="res://stages/base_stage.tscn" id="1_base"]
-[ext_resource type="Texture2D" path="res://Assets/environments/maps/level_1_stage_1.png" id="2_maptex"]
-[ext_resource type="PackedScene" path="res://enemies/jellyfish/jellyfish.tscn" id="3_jelly"]
+[ext_resource type="PackedScene" uid="uid://0b6slkbhdayj" path="res://stages/base_stage.tscn" id="1_base"]
+[ext_resource type="Texture2D" uid="uid://choajm34jx08p" path="res://Assets/environments/maps/level_1_stage_1.png" id="2_maptex"]
+[ext_resource type="PackedScene" uid="uid://sqjadr2pt7ky" path="res://enemies/jellyfish/jellyfishblue.tscn" id="3_jelly"]
 
-[node name="Level1_Stage1" instance=ExtResource("1_base")]
+[node name="Level1_Stage1" unique_id=2015395261 instance=ExtResource("1_base")]
 level_id_override = 1
-stage_id = 1
 stage_title = "Level 1 - Stage 1: Octagonal Containment Bay"
-background_color = Color(0.03, 0.07, 0.06, 1)
-arena_floor_color = Color(0.07, 0.15, 0.13, 1)
-border_color = Color(0.25, 0.78, 0.48, 1)
 map_texture = ExtResource("2_maptex")
 
-
-[node name="MapSprite" parent="MapEnvironment" index="0"]
-texture = ExtResource("2_maptex")
-
-[node name="WallColliderRight" parent="MapBounds" index="4"]
-polygon = PackedVector2Array(0.0, -432.0, 70.4, -432.0, 70.4, -377.6, 635.2, -377.6, 891.2, -150.4, 891.2, 209.6, 635.2, 441.6, 96.0, 441.6, 96.0, 577.6, 0.0, 577.6, 0.0, 680.0, 1180.0, 680.0, 1180.0, -680.0, 0.0, -680.0)
-
-[node name="WallColliderLeft" parent="MapBounds" index="5"]
-polygon = PackedVector2Array(0.0, 577.6, -96.0, 577.6, -96.0, 441.6, -635.2, 441.6, -891.2, 209.6, -891.2, -150.4, -635.2, -377.6, -70.4, -377.6, -70.4, -432.0, 0.0, -432.0, 0.0, -680.0, -1180.0, -680.0, -1180.0, 680.0, 0.0, 680.0)
-
-[node name="BoundsOutline" parent="MapBounds" index="6"]
-points = PackedVector2Array(0.0, -432.0, 70.4, -432.0, 70.4, -377.6, 635.2, -377.6, 891.2, -150.4, 891.2, 209.6, 635.2, 441.6, 96.0, 441.6, 96.0, 577.6, 0.0, 577.6, -96.0, 577.6, -96.0, 441.6, -635.2, 441.6, -891.2, 209.6, -891.2, -150.4, -635.2, -377.6, -70.4, -377.6, -70.4, -432.0)
+[node name="BoundsOutline" parent="MapBounds" parent_id_path=PackedInt32Array(1797647342) index="6" unique_id=202134430]
 default_color = Color(0.25, 0.78, 0.48, 1)
 
-[node name="SpawnPoint" parent="." index="4"]
-position = Vector2(0.0, 525.6)
-
-[node name="ExitPortal" parent="." index="5"]
-position = Vector2(0.0, -404.0)
-target_stage_id = 1
+[node name="ExitPortal" parent="." index="5" unique_id=1587504879]
 custom_title = "EXIT TO STAGE 2"
 
-[node name="Player" parent="." index="6"]
-position = Vector2(0.0, 525.6)
-
-[node name="EnemySpawner" parent="." index="7"]
+[node name="EnemySpawner" parent="." index="7" unique_id=82845576]
 secondary_enemy_scene = ExtResource("3_jelly")
-secondary_spawn_chance = 0.00
 enemy_count = 10
 max_enemies = 10
-default_area_rect = Rect2(-495.20000000000005, -282.68800000000005, 990.4000000000001, 565.3760000000001)

@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://bjo6spt6f0umm"]
+
+[node name="ElectricProjectile" type="Area2D" unique_id=491736117]
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1255801242]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=684147265]

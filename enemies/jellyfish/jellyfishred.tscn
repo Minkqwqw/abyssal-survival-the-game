@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://bdr0s2pd10c5p"]
+
+[ext_resource type="Script" uid="uid://dw7c3q8r8otpg" path="res://enemies/jellyfish/jellyfishred.gd" id="1_m58bi"]
+
+[node name="CharacterBody2D" type="CharacterBody2D" unique_id=495671071]
+script = ExtResource("1_m58bi")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1981555126]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=770806519]
+
+[node name="HitArea" type="Area2D" parent="." unique_id=433168225]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitArea" unique_id=1795926056]

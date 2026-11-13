@@ -1,86 +1,86 @@
 [gd_scene format=3 uid="uid://sqjadr2pt7ky"]
 
-[ext_resource type="Script" uid="uid://dvf2d1pr1kpof" path="res://enemies/jellyfish/jellyfish.gd" id="1_jelly"]
-[ext_resource type="Texture2D" uid="uid://wbkkylrt76o" path="res://enemies/jellyfish/jellyfish.png" id="2_wsh8u"]
+[ext_resource type="Script" uid="uid://dvf2d1pr1kpof" path="res://enemies/jellyfish/jellyfishblue.gd" id="1_d7nkt"]
+[ext_resource type="Texture2D" uid="uid://wbkkylrt76o" path="res://enemies/jellyfish/jellyfish.png" id="2_ofkks"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_tqooh"]
-atlas = ExtResource("2_wsh8u")
+atlas = ExtResource("2_ofkks")
 region = Rect2(155, 10, 75, 79)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_itl13"]
-atlas = ExtResource("2_wsh8u")
+atlas = ExtResource("2_ofkks")
 region = Rect2(230, 10, 75, 79)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_7d1jp"]
-atlas = ExtResource("2_wsh8u")
+atlas = ExtResource("2_ofkks")
 region = Rect2(305, 10, 75, 79)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_m0d86"]
-atlas = ExtResource("2_wsh8u")
+atlas = ExtResource("2_ofkks")
 region = Rect2(380, 10, 75, 79)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_jms7p"]
-atlas = ExtResource("2_wsh8u")
+atlas = ExtResource("2_ofkks")
 region = Rect2(155, 89, 75, 79)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_kl7rp"]
-atlas = ExtResource("2_wsh8u")
+atlas = ExtResource("2_ofkks")
 region = Rect2(230, 89, 75, 79)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_cvbd8"]
-atlas = ExtResource("2_wsh8u")
+atlas = ExtResource("2_ofkks")
 region = Rect2(305, 89, 75, 79)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_x8jxl"]
-atlas = ExtResource("2_wsh8u")
+atlas = ExtResource("2_ofkks")
 region = Rect2(380, 89, 75, 79)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_bsyjd"]
-atlas = ExtResource("2_wsh8u")
+atlas = ExtResource("2_ofkks")
 region = Rect2(455, 89, 75, 79)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_e7s55"]
-atlas = ExtResource("2_wsh8u")
+atlas = ExtResource("2_ofkks")
 region = Rect2(530, 89, 75, 79)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_p6dsw"]
-atlas = ExtResource("2_wsh8u")
+atlas = ExtResource("2_ofkks")
 region = Rect2(155, 168, 75, 79)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_u1vro"]
-atlas = ExtResource("2_wsh8u")
+atlas = ExtResource("2_ofkks")
 region = Rect2(230, 168, 75, 79)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_nqm2k"]
-atlas = ExtResource("2_wsh8u")
+atlas = ExtResource("2_ofkks")
 region = Rect2(155, 247, 75, 79)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_7oxqc"]
-atlas = ExtResource("2_wsh8u")
+atlas = ExtResource("2_ofkks")
 region = Rect2(230, 247, 75, 79)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_tlgyw"]
-atlas = ExtResource("2_wsh8u")
+atlas = ExtResource("2_ofkks")
 region = Rect2(305, 247, 75, 79)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_u11p1"]
-atlas = ExtResource("2_wsh8u")
+atlas = ExtResource("2_ofkks")
 region = Rect2(380, 247, 75, 79)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_1btwj"]
-atlas = ExtResource("2_wsh8u")
+atlas = ExtResource("2_ofkks")
 region = Rect2(155, 326, 75, 79)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ag68o"]
-atlas = ExtResource("2_wsh8u")
+atlas = ExtResource("2_ofkks")
 region = Rect2(230, 326, 75, 79)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_jw3wb"]
-atlas = ExtResource("2_wsh8u")
+atlas = ExtResource("2_ofkks")
 region = Rect2(305, 326, 75, 79)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_rtbuo"]
-atlas = ExtResource("2_wsh8u")
+atlas = ExtResource("2_ofkks")
 region = Rect2(380, 326, 75, 79)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_w85yv"]
@@ -179,11 +179,11 @@ height = 26.0
 radius = 8.0
 height = 26.0
 
-[node name="Jellyfish" type="CharacterBody2D" unique_id=1879704955]
+[node name="JellyFishBlue" type="CharacterBody2D" unique_id=1879704955]
 scale = Vector2(3, 3)
 collision_layer = 2
 collision_mask = 3
-script = ExtResource("1_jelly")
+script = ExtResource("1_d7nkt")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1717374803]
 sprite_frames = SubResource("SpriteFrames_w85yv")

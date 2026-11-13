@@ -1,8 +1,8 @@
-[gd_scene load_steps=4 format=3]
+[gd_scene format=3]
 
-[ext_resource type="PackedScene" path="res://stages/base_stage.tscn" id="1_base"]
-[ext_resource type="Texture2D" path="res://Assets/environments/maps/level_2_stage_1.png" id="2_maptex"]
-[ext_resource type="PackedScene" path="res://enemies/jellyfish/jellyfish.tscn" id="3_jelly"]
+[ext_resource type="PackedScene" uid="uid://0b6slkbhdayj" path="res://stages/base_stage.tscn" id="1_base"]
+[ext_resource type="Texture2D" uid="uid://broxclb4w6imb" path="res://Assets/environments/maps/level_2_stage_1.png" id="2_maptex"]
+[ext_resource type="PackedScene" uid="uid://sqjadr2pt7ky" path="res://enemies/jellyfish/jellyfishblue.tscn" id="3_jelly"]
 
 [node name="Level2_Stage1" instance=ExtResource("1_base")]
 level_id_override = 2
