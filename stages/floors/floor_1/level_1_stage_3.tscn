@@ -2,7 +2,6 @@
 
 [ext_resource type="PackedScene" uid="uid://0b6slkbhdayj" path="res://stages/base_stage.tscn" id="1_base"]
 [ext_resource type="Texture2D" uid="uid://c6i26kcs8h8xy" path="res://Assets/environments/maps/level_1_stage_3.png" id="2_maptex"]
-[ext_resource type="PackedScene" uid="uid://sqjadr2pt7ky" path="res://enemies/jellyfish/jellyfishblue.tscn" id="3_jelly"]
 [ext_resource type="PackedScene" uid="uid://bgowt8wofn0b3" path="res://bosses/crab_boss/crab_boss.tscn" id="4_boss"]
 
 [node name="Level1_Stage3" node_paths=PackedStringArray("boss_spawn_point") instance=ExtResource("1_base")]
@@ -44,8 +43,6 @@ custom_title = "COMPLETE LEVEL (LOBBY)"
 position = Vector2(0.0, 509.6)
 
 [node name="EnemySpawner" parent="." index="8"]
-secondary_enemy_scene = ExtResource("3_jelly")
-secondary_spawn_chance = 0.40
 enemy_count = 16
 max_enemies = 16
 default_area_rect = Rect2(-511.20000000000005, -286.72, 1022.4000000000001, 573.44)

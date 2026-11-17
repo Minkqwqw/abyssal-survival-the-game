@@ -1,0 +1,236 @@
+[gd_scene format=3 uid="uid://dyw5tjfkkdcaw"]
+
+[ext_resource type="Script" uid="uid://ccj55cas5mcw0" path="res://bosses/jellyfish_boss/jellyfish_boss_blue.gd" id="1_blue_script"]
+[ext_resource type="Texture2D" uid="uid://ub1gxoi545vc" path="res://enemies/jellyfish/Blue_Jellyfish_Spritesheet.png" id="2_blue_sheet"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_elvmv"]
+atlas = ExtResource("2_blue_sheet")
+region = Rect2(0, 384, 384, 384)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pgk6r"]
+atlas = ExtResource("2_blue_sheet")
+region = Rect2(384, 384, 384, 384)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2hlxt"]
+atlas = ExtResource("2_blue_sheet")
+region = Rect2(768, 384, 384, 384)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_88gl8"]
+atlas = ExtResource("2_blue_sheet")
+region = Rect2(1152, 384, 384, 384)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dcq1f"]
+atlas = ExtResource("2_blue_sheet")
+region = Rect2(0, 1152, 384, 384)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7xaf1"]
+atlas = ExtResource("2_blue_sheet")
+region = Rect2(384, 1152, 384, 384)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p4m3c"]
+atlas = ExtResource("2_blue_sheet")
+region = Rect2(768, 1152, 384, 384)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y4lbm"]
+atlas = ExtResource("2_blue_sheet")
+region = Rect2(1152, 1152, 384, 384)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wijhv"]
+atlas = ExtResource("2_blue_sheet")
+region = Rect2(0, 768, 384, 384)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7jcma"]
+atlas = ExtResource("2_blue_sheet")
+region = Rect2(384, 768, 384, 384)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_udn50"]
+atlas = ExtResource("2_blue_sheet")
+region = Rect2(768, 768, 384, 384)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q4o0b"]
+atlas = ExtResource("2_blue_sheet")
+region = Rect2(1152, 768, 384, 384)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_k2har"]
+atlas = ExtResource("2_blue_sheet")
+region = Rect2(0, 0, 384, 384)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y1b4g"]
+atlas = ExtResource("2_blue_sheet")
+region = Rect2(384, 0, 384, 384)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h4085"]
+atlas = ExtResource("2_blue_sheet")
+region = Rect2(768, 0, 384, 384)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jabbq"]
+atlas = ExtResource("2_blue_sheet")
+region = Rect2(1152, 0, 384, 384)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mc4ye"]
+atlas = ExtResource("2_blue_sheet")
+region = Rect2(0, 0, 384, 384)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u25ek"]
+atlas = ExtResource("2_blue_sheet")
+region = Rect2(384, 0, 384, 384)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_241qq"]
+atlas = ExtResource("2_blue_sheet")
+region = Rect2(768, 0, 384, 384)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s5sgi"]
+atlas = ExtResource("2_blue_sheet")
+region = Rect2(1152, 0, 384, 384)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_boss_blue"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_elvmv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pgk6r")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2hlxt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_88gl8")
+}],
+"loop": 0,
+"name": &"attack",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dcq1f")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7xaf1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_p4m3c")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_y4lbm")
+}],
+"loop": 0,
+"name": &"death",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wijhv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7jcma")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_udn50")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_q4o0b")
+}],
+"loop": 0,
+"name": &"hit",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_k2har")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_y1b4g")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_h4085")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jabbq")
+}],
+"loop": 1,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": 1,
+"name": &"skill",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mc4ye")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_u25ek")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_241qq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s5sgi")
+}],
+"loop": 1,
+"name": &"walk",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_body"]
+radius = 65.0
+height = 190.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_hit"]
+radius = 55.0
+height = 170.0
+
+[node name="JellyfishBossBlue" type="CharacterBody2D" unique_id=139670497]
+collision_layer = 2
+collision_mask = 3
+motion_mode = 1
+script = ExtResource("1_blue_script")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1480049360]
+sprite_frames = SubResource("SpriteFrames_boss_blue")
+animation = &"skill"
+autoplay = "idle"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=110295157]
+position = Vector2(0, 10)
+shape = SubResource("CapsuleShape2D_body")
+
+[node name="HitArea" type="Area2D" parent="." unique_id=1713820153]
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitArea" unique_id=2077204519]
+position = Vector2(0, 10)
+shape = SubResource("CapsuleShape2D_hit")
+
+[node name="Muzzle" type="Marker2D" parent="." unique_id=521551351]
+position = Vector2(0, 40)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=7064155]
+
+[node name="BossTitleLabel" type="Label" parent="CanvasLayer" unique_id=37125597]
+modulate = Color(0.45, 0.85, 1, 1)
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -250.0
+offset_top = 22.0
+offset_right = 250.0
+offset_bottom = 48.0
+grow_horizontal = 2
+text = "ABYSSAL STORM JELLYFISH"
+horizontal_alignment = 1
+
+[node name="HealthBar" type="ProgressBar" parent="CanvasLayer" unique_id=209191611]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -250.0
+offset_top = 50.0
+offset_right = 250.0
+offset_bottom = 77.0
+grow_horizontal = 2
+show_percentage = false

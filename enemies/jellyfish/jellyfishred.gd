@@ -12,23 +12,29 @@ extends BaseEnemy
 @export_group("Electric Attack Settings")
 @export var electric_damage: int = 2
 
-@export_group("Animation Settings")
-@export var animation_fallback_duration: float = 0.5
 
+# ============================================================
+# ANIMATION NAMES
+# ============================================================
 
-# Animation Names
-const ANIM_MOVE: StringName = &"move"
+const ANIM_WALK: StringName = &"walk"
 const ANIM_ATTACK: StringName = &"attack"
 const ANIM_HIT: StringName = &"hit"
 const ANIM_DEATH: StringName = &"death"
 
 
-# Nodes
+# ============================================================
+# NODES
+# ============================================================
+
 @onready var jelly_sprite: AnimatedSprite2D = get_node_or_null("AnimatedSprite2D")
 @onready var attack_area: Area2D = get_node_or_null("AttackArea")
 
 
-# States
+# ============================================================
+# STATES
+# ============================================================
+
 var _is_attacking: bool = false
 var _is_dying: bool = false
 var _hit_lock: bool = false
@@ -36,11 +42,7 @@ var _attack_active: bool = false
 
 var _attack_cooldown_timer: float = 0.0
 
-var _attack_token: int = 0
-var _hit_token: int = 0
-
-# Mencegah satu target terkena damage berkali-kali
-# dalam satu serangan.
+# Mencegah satu target terkena damage berkali-kali.
 var _damaged_targets: Dictionary = {}
 
 
@@ -58,18 +60,25 @@ func _ready() -> void:
 	if attack_area == null:
 		push_warning("JellyfishRed: AttackArea tidak ditemukan!")
 	else:
-		attack_area.body_entered.connect(
-			_on_attack_area_body_entered
-		)
+		if not attack_area.body_entered.is_connected(_on_attack_area_body_entered):
+			attack_area.body_entered.connect(_on_attack_area_body_entered)
+
 		attack_area.monitoring = false
 
+	# Hubungkan sinyal animasi selesai.
+	if not jelly_sprite.animation_finished.is_connected(_on_animation_finished):
+		jelly_sprite.animation_finished.connect(_on_animation_finished)
+
 	_setup_animations()
-	_play(ANIM_MOVE)
+	_play(ANIM_WALK)
 
 
 func _setup_animations() -> void:
-	if jelly_sprite.sprite_frames == null:
+	if jelly_sprite == null or jelly_sprite.sprite_frames == null:
 		return
+
+	if _has_anim(ANIM_WALK):
+		jelly_sprite.sprite_frames.set_animation_loop(ANIM_WALK, true)
 
 	for anim_name in [ANIM_ATTACK, ANIM_HIT, ANIM_DEATH]:
 		if _has_anim(anim_name):
@@ -89,10 +98,7 @@ func _physics_process(delta: float) -> void:
 	if jelly_sprite == null:
 		return
 
-	_attack_cooldown_timer = maxf(
-		_attack_cooldown_timer - delta,
-		0.0
-	)
+	_attack_cooldown_timer = maxf(_attack_cooldown_timer - delta, 0.0)
 
 	if _hit_lock or _is_attacking:
 		return
@@ -117,9 +123,7 @@ func _move_behavior(_delta: float) -> void:
 		velocity = Vector2.ZERO
 		return
 
-	var direction := global_position.direction_to(
-		player.global_position
-	)
+	var direction: Vector2 = global_position.direction_to(player.global_position)
 
 	# Jellyfish merah mengejar player secara langsung.
 	velocity = direction * speed + knockback
@@ -139,9 +143,7 @@ func _can_attack() -> bool:
 	if player == null or not is_instance_valid(player):
 		return false
 
-	var distance := global_position.distance_to(
-		player.global_position
-	)
+	var distance: float = global_position.distance_to(player.global_position)
 
 	return distance <= attack_range
 
@@ -156,35 +158,75 @@ func _start_attack() -> void:
 
 	_is_attacking = true
 	_attack_active = true
-	_attack_cooldown_timer = attack_cooldown
 
-	_attack_token += 1
-	var token := _attack_token
+	_attack_cooldown_timer = attack_cooldown
 
 	_damaged_targets.clear()
 	velocity = Vector2.ZERO
 
-	jelly_sprite.play(ANIM_ATTACK)
-
-	# Aktifkan area serangan listrik.
+	# Aktifkan area serangan.
 	attack_area.set_deferred("monitoring", true)
 
-	await get_tree().create_timer(
-		_get_animation_duration(ANIM_ATTACK)
-	).timeout
+	# Mulai attack dari frame pertama.
+	jelly_sprite.stop()
+	jelly_sprite.play(ANIM_ATTACK)
+	jelly_sprite.frame = 0
 
-	if not is_instance_valid(self) or _is_dying:
+
+# ============================================================
+# ANIMATION FINISHED
+# ============================================================
+
+func _on_animation_finished() -> void:
+	if jelly_sprite == null:
 		return
 
-	if token != _attack_token:
-		return
+	match jelly_sprite.animation:
 
-	_attack_active = false
-	_is_attacking = false
+		# ----------------------------------------------------
+		# ATTACK FINISHED
+		# ----------------------------------------------------
+		ANIM_ATTACK:
+			if _is_dying or not _is_attacking:
+				return
 
-	attack_area.set_deferred("monitoring", false)
+			_attack_active = false
+			_is_attacking = false
 
-	_update_animation()
+			if attack_area != null:
+				attack_area.set_deferred("monitoring", false)
+
+			# Kembali ke walk.
+			jelly_sprite.stop()
+			jelly_sprite.play(ANIM_WALK)
+			jelly_sprite.frame = 0
+
+
+		# ----------------------------------------------------
+		# HIT FINISHED
+		# ----------------------------------------------------
+		ANIM_HIT:
+			if _is_dying or not _hit_lock:
+				return
+
+			_hit_lock = false
+
+			# Kembali ke walk.
+			jelly_sprite.stop()
+			jelly_sprite.play(ANIM_WALK)
+			jelly_sprite.frame = 0
+
+
+		# ----------------------------------------------------
+		# DEATH FINISHED
+		# ----------------------------------------------------
+		ANIM_DEATH:
+			if not _is_dying:
+				return
+
+			# Animasi death selesai.
+			# Hapus enemy melalui BaseEnemy.
+			super.die()
 
 
 # ============================================================
@@ -198,7 +240,7 @@ func _on_attack_area_body_entered(body: Node2D) -> void:
 	if not body.is_in_group("player"):
 		return
 
-	var target_id := body.get_instance_id()
+	var target_id: int = body.get_instance_id()
 
 	if _damaged_targets.has(target_id):
 		return
@@ -217,7 +259,7 @@ func _update_animation() -> void:
 	if _is_dying or _hit_lock or _is_attacking:
 		return
 
-	_play(ANIM_MOVE)
+	_play(ANIM_WALK)
 
 
 func _play(anim_name: StringName) -> void:
@@ -239,19 +281,6 @@ func _has_anim(anim_name: StringName) -> bool:
 	)
 
 
-func _get_animation_duration(anim_name: StringName) -> float:
-	if not _has_anim(anim_name):
-		return animation_fallback_duration
-
-	var frames := jelly_sprite.sprite_frames.get_frame_count(anim_name)
-	var fps := jelly_sprite.sprite_frames.get_animation_speed(anim_name)
-
-	if fps <= 0.0:
-		return animation_fallback_duration
-
-	return maxf(float(frames) / fps, 0.1)
-
-
 # ============================================================
 # HIT
 # ============================================================
@@ -260,8 +289,11 @@ func take_damage(amount: int) -> void:
 	if _is_dying:
 		return
 
+	# Proses damage melalui BaseEnemy.
 	super.take_damage(amount)
 
+	# Jika damage menyebabkan kematian,
+	# jangan memainkan animasi hit.
 	if _is_dying or jelly_sprite == null:
 		return
 
@@ -272,31 +304,20 @@ func _play_hit() -> void:
 	if _is_dying or not _has_anim(ANIM_HIT):
 		return
 
-	_attack_token += 1
+	# Batalkan attack yang sedang berlangsung.
 	_is_attacking = false
 	_attack_active = false
 
 	if attack_area != null:
 		attack_area.set_deferred("monitoring", false)
 
-	_hit_token += 1
-	var token := _hit_token
-
 	_hit_lock = true
 	velocity = Vector2.ZERO
 
+	# Mulai hit dari frame pertama.
+	jelly_sprite.stop()
 	jelly_sprite.play(ANIM_HIT)
-
-	await get_tree().create_timer(
-		_get_animation_duration(ANIM_HIT)
-	).timeout
-
-	if not is_instance_valid(self) or _is_dying:
-		return
-
-	if token == _hit_token:
-		_hit_lock = false
-		_update_animation()
+	jelly_sprite.frame = 0
 
 
 # ============================================================
@@ -308,44 +329,49 @@ func die() -> void:
 		return
 
 	_is_dying = true
+
 	_is_attacking = false
 	_attack_active = false
 	_hit_lock = false
-
-	_attack_token += 1
-	_hit_token += 1
 
 	velocity = Vector2.ZERO
 	knockback = Vector2.ZERO
 	speed = 0.0
 
+	# Matikan semua collision.
 	_disable_collisions()
 
+	# Mainkan animasi death.
 	if _has_anim(ANIM_DEATH):
+		jelly_sprite.stop()
 		jelly_sprite.play(ANIM_DEATH)
+		jelly_sprite.frame = 0
+	else:
+		# Jika animasi death tidak tersedia,
+		# langsung hapus enemy.
+		super.die()
 
-		await get_tree().create_timer(
-			_get_animation_duration(ANIM_DEATH)
-		).timeout
 
-		if not is_instance_valid(self):
-			return
-
-	super.die()
-
+# ============================================================
+# COLLISION
+# ============================================================
 
 func _disable_collisions() -> void:
+
+	# CollisionShape2D utama.
 	for child in get_children():
 		if child is CollisionShape2D:
 			child.set_deferred("disabled", true)
 
-	if hit_area is Area2D:
+	# HitArea dari BaseEnemy.
+	if hit_area != null and hit_area is Area2D:
 		hit_area.set_deferred("monitoring", false)
 
 		for child in hit_area.get_children():
 			if child is CollisionShape2D:
 				child.set_deferred("disabled", true)
 
+	# AttackArea.
 	if attack_area != null:
 		attack_area.set_deferred("monitoring", false)
 

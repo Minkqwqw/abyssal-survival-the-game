@@ -9,28 +9,38 @@ extends BaseEnemy
 @export var attack_range: float = 300.0
 @export var preferred_distance: float = 180.0
 @export var attack_cooldown: float = 2.0
-@export var projectile_scene: PackedScene
 
 @export_group("Projectile Settings")
+@export var projectile_scene: PackedScene
 @export var projectile_damage: int = 1
 
 @export_group("Animation Settings")
 @export var animation_fallback_duration: float = 0.5
 
 
-# Animation Names
-const ANIM_MOVE: StringName = &"move"
+# ============================================================
+# ANIMATION NAMES
+# ============================================================
+
+const ANIM_IDLE: StringName = &"idle"
+const ANIM_WALK: StringName = &"walk"
 const ANIM_ATTACK: StringName = &"attack"
 const ANIM_HIT: StringName = &"hit"
 const ANIM_DEATH: StringName = &"death"
 
 
-# Nodes
+# ============================================================
+# NODES
+# ============================================================
+
 @onready var jelly_sprite: AnimatedSprite2D = get_node_or_null("AnimatedSprite2D")
 @onready var muzzle: Marker2D = get_node_or_null("Muzzle")
 
 
-# States
+# ============================================================
+# STATES
+# ============================================================
+
 var _is_attacking: bool = false
 var _is_dying: bool = false
 var _hit_lock: bool = false
@@ -49,30 +59,39 @@ func _ready() -> void:
 	super._ready()
 
 	if jelly_sprite == null:
-		push_warning("JellyfishBlue: AnimatedSprite2D tidak ditemukan!")
+		push_warning("JellyFishBlue: AnimatedSprite2D tidak ditemukan!")
 		return
 
 	_setup_animations()
-	_play(ANIM_MOVE)
+	_play(ANIM_IDLE)
 
 
 func _setup_animations() -> void:
 	if jelly_sprite.sprite_frames == null:
+		push_warning("JellyFishBlue: SpriteFrames belum diatur!")
 		return
 
+	# Animasi berulang.
+	for anim_name in [ANIM_IDLE, ANIM_WALK]:
+		if _has_anim(anim_name):
+			jelly_sprite.sprite_frames.set_animation_loop(anim_name, true)
+
+	# Animasi satu kali.
 	for anim_name in [ANIM_ATTACK, ANIM_HIT, ANIM_DEATH]:
 		if _has_anim(anim_name):
 			jelly_sprite.sprite_frames.set_animation_loop(anim_name, false)
 
 
 # ============================================================
-# PHYSICS
+# PHYSICS PROCESS
 # ============================================================
 
 func _physics_process(delta: float) -> void:
 	if _is_dying:
 		return
 
+	# Menjalankan movement, knockback, dan contact damage
+	# dari BaseEnemy.
 	super._physics_process(delta)
 
 	if jelly_sprite == null:
@@ -106,20 +125,29 @@ func _move_behavior(_delta: float) -> void:
 		velocity = Vector2.ZERO
 		return
 
-	var distance := global_position.distance_to(player.global_position)
-	var direction := global_position.direction_to(player.global_position)
+	var distance := global_position.distance_to(
+		player.global_position
+	)
 
-	# Menjaga jarak dari player.
+	var direction := global_position.direction_to(
+		player.global_position
+	)
+
+	# Player terlalu dekat: Jellyfish menjauh.
 	if distance < preferred_distance:
 		velocity = -direction * speed + knockback
+
+	# Player terlalu jauh: Jellyfish mendekat.
 	elif distance > attack_range:
 		velocity = direction * speed + knockback
+
+	# Jarak ideal: Jellyfish diam dan bersiap menembak.
 	else:
 		velocity = knockback
 
 
 # ============================================================
-# ATTACK
+# ATTACK CHECK
 # ============================================================
 
 func _can_attack() -> bool:
@@ -132,10 +160,20 @@ func _can_attack() -> bool:
 	if player == null or not is_instance_valid(player):
 		return false
 
-	var distance := global_position.distance_to(player.global_position)
+	var distance := global_position.distance_to(
+		player.global_position
+	)
 
-	return distance <= attack_range
+	# Tidak menyerang ketika player terlalu dekat.
+	return (
+		distance >= preferred_distance
+		and distance <= attack_range
+	)
 
+
+# ============================================================
+# ATTACK
+# ============================================================
 
 func _start_attack() -> void:
 	if not _has_anim(ANIM_ATTACK):
@@ -151,7 +189,7 @@ func _start_attack() -> void:
 
 	jelly_sprite.play(ANIM_ATTACK)
 
-	# Menembakkan proyektil.
+	# Menembakkan bola listrik.
 	_shoot_projectile()
 
 	await get_tree().create_timer(
@@ -168,9 +206,15 @@ func _start_attack() -> void:
 	_update_animation()
 
 
+# ============================================================
+# SHOOT PROJECTILE
+# ============================================================
+
 func _shoot_projectile() -> void:
 	if projectile_scene == null:
-		push_warning("JellyfishBlue: Projectile Scene belum diatur!")
+		push_warning(
+			"JellyFishBlue: Projectile Scene belum diatur di Inspector!"
+		)
 		return
 
 	if player == null or not is_instance_valid(player):
@@ -179,10 +223,11 @@ func _shoot_projectile() -> void:
 	var projectile := projectile_scene.instantiate()
 
 	if not projectile is Node2D:
-		projectile.queue_free()
+		push_warning(
+			"JellyFishBlue: Projectile harus menggunakan Node2D atau turunannya!"
+		)
+		projectile.free()
 		return
-
-	get_tree().current_scene.add_child(projectile)
 
 	var spawn_position := global_position
 
@@ -193,6 +238,8 @@ func _shoot_projectile() -> void:
 		player.global_position
 	)
 
+	get_tree().current_scene.add_child(projectile)
+
 	projectile.global_position = spawn_position
 
 	if projectile.has_method("setup"):
@@ -200,14 +247,17 @@ func _shoot_projectile() -> void:
 
 
 # ============================================================
-# ANIMATION
+# ANIMATION CONTROL
 # ============================================================
 
 func _update_animation() -> void:
 	if _is_dying or _hit_lock or _is_attacking:
 		return
 
-	_play(ANIM_MOVE)
+	if velocity.length() > 10.0:
+		_play(ANIM_WALK)
+	else:
+		_play(ANIM_IDLE)
 
 
 func _play(anim_name: StringName) -> void:
@@ -233,13 +283,26 @@ func _get_animation_duration(anim_name: StringName) -> float:
 	if not _has_anim(anim_name):
 		return animation_fallback_duration
 
-	var frames := jelly_sprite.sprite_frames.get_frame_count(anim_name)
-	var fps := jelly_sprite.sprite_frames.get_animation_speed(anim_name)
+	var frames: int = jelly_sprite.sprite_frames.get_frame_count(
+		anim_name
+	)
+
+	var fps: float = jelly_sprite.sprite_frames.get_animation_speed(
+		anim_name
+	)
 
 	if fps <= 0.0:
 		return animation_fallback_duration
 
-	return maxf(float(frames) / fps, 0.1)
+	var playback_speed := absf(jelly_sprite.speed_scale)
+
+	if playback_speed <= 0.0:
+		return animation_fallback_duration
+
+	return maxf(
+		float(frames) / (fps * playback_speed),
+		0.1
+	)
 
 
 # ============================================================
@@ -252,6 +315,7 @@ func take_damage(amount: int) -> void:
 
 	super.take_damage(amount)
 
+	# BaseEnemy bisa memanggil die() jika HP habis.
 	if _is_dying or jelly_sprite == null:
 		return
 
@@ -262,7 +326,7 @@ func _play_hit() -> void:
 	if _is_dying or not _has_anim(ANIM_HIT):
 		return
 
-	# Membatalkan attack sebelumnya.
+	# Batalkan animasi attack yang sedang berjalan.
 	_attack_token += 1
 	_is_attacking = false
 
@@ -295,6 +359,7 @@ func die() -> void:
 		return
 
 	_is_dying = true
+
 	_is_attacking = false
 	_hit_lock = false
 
@@ -317,16 +382,24 @@ func die() -> void:
 		if not is_instance_valid(self):
 			return
 
+	# Reward dan queue_free tetap ditangani BaseEnemy.
 	super.die()
 
 
+# ============================================================
+# DISABLE COLLISIONS
+# ============================================================
+
 func _disable_collisions() -> void:
+	# CollisionShape2D utama.
 	for child in get_children():
 		if child is CollisionShape2D:
 			child.set_deferred("disabled", true)
 
+	# Menggunakan hit_area bawaan BaseEnemy.
 	if hit_area is Area2D:
 		hit_area.set_deferred("monitoring", false)
+		hit_area.set_deferred("monitorable", false)
 
 		for child in hit_area.get_children():
 			if child is CollisionShape2D:

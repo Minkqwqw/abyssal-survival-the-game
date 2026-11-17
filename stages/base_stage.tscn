@@ -2,14 +2,15 @@
 
 [ext_resource type="Script" uid="uid://bfhe7db3e2bun" path="res://stages/base_stage.gd" id="1_basestage"]
 [ext_resource type="PackedScene" path="res://stages/exit_portal.tscn" id="2_portal"]
+[ext_resource type="AudioStream" uid="uid://de5bloltam2bh" path="res://stages/floors/floor_2/Beneath_the_Red_Tides.wav" id="3_3ih2w"]
 [ext_resource type="PackedScene" uid="uid://dj0yny2jftfsa" path="res://player/player.tscn" id="3_player"]
 [ext_resource type="PackedScene" path="res://enemies/spawner/enemy_spawner.tscn" id="4_spawner"]
 [ext_resource type="PackedScene" uid="uid://u4ihw5astl2w" path="res://enemies/crab/crab.tscn" id="5_crab"]
 [ext_resource type="Texture2D" uid="uid://choajm34jx08p" path="res://Assets/environments/maps/level_1_stage_1.png" id="6_default_map"]
 [ext_resource type="AudioStream" uid="uid://b888o1gp1m8au" path="res://stages/floors/floor_1/floor_1_bgm.wav" id="7_sw0du"]
-[ext_resource type="Texture2D" path="res://ui/main_menu/assets/btn_normal.png" id="8_btn_norm"]
-[ext_resource type="Texture2D" path="res://ui/main_menu/assets/btn_hover.png" id="9_btn_hov"]
-[ext_resource type="Texture2D" path="res://ui/main_menu/assets/btn_pressed.png" id="10_btn_prs"]
+[ext_resource type="Texture2D" uid="uid://b7t18p53ug23e" path="res://ui/main_menu/assets/btn_normal.png" id="8_btn_norm"]
+[ext_resource type="Texture2D" uid="uid://b1askn3me6lt" path="res://ui/main_menu/assets/btn_hover.png" id="9_btn_hov"]
+[ext_resource type="Texture2D" uid="uid://dxidodilblbok" path="res://ui/main_menu/assets/btn_pressed.png" id="10_btn_prs"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_stage_wall_h"]
 size = Vector2(2400, 48)
@@ -21,6 +22,7 @@ size = Vector2(48, 1400)
 texture_filter = 1
 script = ExtResource("1_basestage")
 floor_1_bgm = ExtResource("7_sw0du")
+floor_2_bgm = ExtResource("3_3ih2w")
 
 [node name="Background" type="ColorRect" parent="." unique_id=580472329]
 offset_left = -1600.0
@@ -129,7 +131,7 @@ offset_right = 508.0
 offset_bottom = 104.0
 text = "Defeat all enemies in the area!"
 
-[node name="OptionsButton" type="TextureButton" parent="StageHUD"]
+[node name="OptionsButton" type="TextureButton" parent="StageHUD" unique_id=58019359]
 offset_left = 1276.0
 offset_top = 14.0
 offset_right = 1480.0
@@ -140,7 +142,7 @@ texture_hover = ExtResource("9_btn_hov")
 ignore_texture_size = true
 stretch_mode = 5
 
-[node name="BtnLabel" type="Label" parent="StageHUD/OptionsButton"]
+[node name="BtnLabel" type="Label" parent="StageHUD/OptionsButton" unique_id=1393854840]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -155,7 +157,7 @@ text = "OPTIONS"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="LobbyButton" type="TextureButton" parent="StageHUD"]
+[node name="LobbyButton" type="TextureButton" parent="StageHUD" unique_id=2049367994]
 offset_left = 1488.0
 offset_top = 14.0
 offset_right = 1692.0
@@ -166,7 +168,7 @@ texture_hover = ExtResource("9_btn_hov")
 ignore_texture_size = true
 stretch_mode = 5
 
-[node name="BtnLabel" type="Label" parent="StageHUD/LobbyButton"]
+[node name="BtnLabel" type="Label" parent="StageHUD/LobbyButton" unique_id=1403092094]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -181,7 +183,7 @@ text = "LOBBY"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="MenuButton" type="TextureButton" parent="StageHUD"]
+[node name="MenuButton" type="TextureButton" parent="StageHUD" unique_id=427003930]
 offset_left = 1700.0
 offset_top = 14.0
 offset_right = 1904.0
@@ -192,7 +194,7 @@ texture_hover = ExtResource("9_btn_hov")
 ignore_texture_size = true
 stretch_mode = 5
 
-[node name="BtnLabel" type="Label" parent="StageHUD/MenuButton"]
+[node name="BtnLabel" type="Label" parent="StageHUD/MenuButton" unique_id=809126990]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0

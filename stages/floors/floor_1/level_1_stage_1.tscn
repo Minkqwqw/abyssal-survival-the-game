@@ -2,7 +2,6 @@
 
 [ext_resource type="PackedScene" uid="uid://0b6slkbhdayj" path="res://stages/base_stage.tscn" id="1_base"]
 [ext_resource type="Texture2D" uid="uid://choajm34jx08p" path="res://Assets/environments/maps/level_1_stage_1.png" id="2_maptex"]
-[ext_resource type="PackedScene" uid="uid://sqjadr2pt7ky" path="res://enemies/jellyfish/jellyfishblue.tscn" id="3_jelly"]
 
 [node name="Level1_Stage1" unique_id=2015395261 instance=ExtResource("1_base")]
 level_id_override = 1
@@ -16,6 +15,5 @@ default_color = Color(0.25, 0.78, 0.48, 1)
 custom_title = "EXIT TO STAGE 2"
 
 [node name="EnemySpawner" parent="." index="7" unique_id=82845576]
-secondary_enemy_scene = ExtResource("3_jelly")
 enemy_count = 10
 max_enemies = 10

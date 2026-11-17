@@ -1,7 +1,57 @@
 [gd_scene format=3 uid="uid://bjo6spt6f0umm"]
 
-[node name="ElectricProjectile" type="Area2D" unique_id=491736117]
+[ext_resource type="Script" uid="uid://vf7urs8d5qs7" path="res://enemies/jellyfish/electric_projectile.gd" id="1_xof81"]
+[ext_resource type="Texture2D" uid="uid://bhxqrj4ifpowv" path="res://enemies/jellyfish/Electric_Orb.png" id="2_haytp"]
 
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1255801242]
+[sub_resource type="AtlasTexture" id="AtlasTexture_yhdke"]
+atlas = ExtResource("2_haytp")
+region = Rect2(0, 0, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xswpq"]
+atlas = ExtResource("2_haytp")
+region = Rect2(192, 0, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ss24s"]
+atlas = ExtResource("2_haytp")
+region = Rect2(384, 0, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qf7d1"]
+atlas = ExtResource("2_haytp")
+region = Rect2(576, 0, 192, 192)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_w85yv"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yhdke")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xswpq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ss24s")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qf7d1")
+}],
+"loop": 1,
+"name": &"orb",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_vr4ea"]
+radius = 51.009804
+
+[node name="ElectricProjectile" type="Area2D" unique_id=491736117]
+scale = Vector2(0.7, 0.7)
+collision_layer = 8
+script = ExtResource("1_xof81")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1800175856]
+position = Vector2(-12, 0)
+sprite_frames = SubResource("SpriteFrames_w85yv")
+animation = &"orb"
+autoplay = "orb"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=684147265]
+shape = SubResource("CircleShape2D_vr4ea")
