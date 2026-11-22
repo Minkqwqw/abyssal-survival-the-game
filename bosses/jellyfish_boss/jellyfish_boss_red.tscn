@@ -216,6 +216,7 @@ height = 170.0
 radius = 196.00255
 
 [node name="JellyfishBossRed" type="CharacterBody2D" unique_id=1096986453]
+scale = Vector2(0.8, 0.8)
 collision_layer = 2
 collision_mask = 3
 motion_mode = 1
