@@ -1,19 +1,19 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://d3gcob83p6ljs"]
 
-[ext_resource type="Script" path="res://ui/main_menu/main_menu.gd" id="1_menu_script"]
-[ext_resource type="Texture2D" path="res://ui/main_menu/assets/main_menu_bg_1.png" id="2_bg_1"]
-[ext_resource type="Texture2D" path="res://ui/main_menu/assets/main_menu_bg_2.png" id="3_bg_2"]
-[ext_resource type="Texture2D" path="res://ui/main_menu/assets/pearl_orb.png" id="4_pearl_tex"]
-[ext_resource type="Texture2D" path="res://ui/main_menu/assets/btn_normal.png" id="5_btn_norm"]
-[ext_resource type="Texture2D" path="res://ui/main_menu/assets/btn_hover.png" id="6_btn_hov"]
-[ext_resource type="Texture2D" path="res://ui/main_menu/assets/btn_pressed.png" id="7_btn_prs"]
-[ext_resource type="Texture2D" path="res://ui/main_menu/assets/arrow_left.png" id="8_arr_l"]
-[ext_resource type="Texture2D" path="res://ui/main_menu/assets/arrow_right.png" id="9_arr_r"]
-[ext_resource type="Texture2D" path="res://ui/main_menu/assets/main_panel.png" id="10_panel_tex"]
-[ext_resource type="Texture2D" path="res://ui/main_menu/assets/btn_close.png" id="11_close_tex"]
-[ext_resource type="AudioStream" uid="uid://des70mm8tlo8s" path="res://hub/Lobby.wav" id="12_bgm"]
+[ext_resource type="Script" uid="uid://ddwbellvg3ae3" path="res://ui/main_menu/main_menu.gd" id="1_menu_script"]
+[ext_resource type="Texture2D" uid="uid://casnn1thnncx2" path="res://ui/main_menu/assets/main_menu_bg_1.png" id="2_bg_1"]
+[ext_resource type="Texture2D" uid="uid://ndw4llhp6xtm" path="res://ui/main_menu/assets/main_menu_bg_2.png" id="3_bg_2"]
+[ext_resource type="Texture2D" uid="uid://b1g34ui0k6vvt" path="res://ui/main_menu/assets/pearl_orb.png" id="4_pearl_tex"]
+[ext_resource type="Texture2D" uid="uid://b7t18p53ug23e" path="res://ui/main_menu/assets/btn_normal.png" id="5_btn_norm"]
+[ext_resource type="Texture2D" uid="uid://b1askn3me6lt" path="res://ui/main_menu/assets/btn_hover.png" id="6_btn_hov"]
+[ext_resource type="Texture2D" uid="uid://dxidodilblbok" path="res://ui/main_menu/assets/btn_pressed.png" id="7_btn_prs"]
+[ext_resource type="Texture2D" uid="uid://ccd7bjqcik4kh" path="res://ui/main_menu/assets/arrow_left.png" id="8_arr_l"]
+[ext_resource type="Texture2D" uid="uid://d0yow0fydnmfp" path="res://ui/main_menu/assets/arrow_right.png" id="9_arr_r"]
+[ext_resource type="Texture2D" uid="uid://b0h73r5qf8dc4" path="res://ui/main_menu/assets/main_panel.png" id="10_panel_tex"]
+[ext_resource type="Texture2D" uid="uid://3whbqlf3ptfq" path="res://ui/main_menu/assets/btn_close.png" id="11_close_tex"]
+[ext_resource type="AudioStream" uid="uid://dug7gjpt55v3k" path="res://ui/main_menu/Pressure_at_Zero.wav" id="12_xio0d"]
 
-[node name="MainMenu" type="Control"]
+[node name="MainMenu" type="Control" unique_id=354826525]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -22,7 +22,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_menu_script")
 
-[node name="BgPrimary" type="TextureRect" parent="."]
+[node name="BgPrimary" type="TextureRect" parent="." unique_id=1493718353]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -33,7 +33,7 @@ texture = ExtResource("2_bg_1")
 expand_mode = 1
 stretch_mode = 6
 
-[node name="BgSecondary" type="TextureRect" parent="."]
+[node name="BgSecondary" type="TextureRect" parent="." unique_id=2127656711]
 modulate = Color(1, 1, 1, 0)
 layout_mode = 1
 anchors_preset = 15
@@ -45,7 +45,7 @@ texture = ExtResource("3_bg_2")
 expand_mode = 1
 stretch_mode = 6
 
-[node name="TopStatusBar" type="ColorRect" parent="."]
+[node name="TopStatusBar" type="ColorRect" parent="." unique_id=1358211717]
 layout_mode = 0
 offset_left = 36.0
 offset_top = 28.0
@@ -53,13 +53,13 @@ offset_right = 516.0
 offset_bottom = 86.0
 color = Color(0.02, 0.06, 0.11, 0.84)
 
-[node name="StatusBorder" type="Line2D" parent="TopStatusBar"]
+[node name="StatusBorder" type="Line2D" parent="TopStatusBar" unique_id=200807143]
 points = PackedVector2Array(0, 0, 480, 0, 480, 58, 0, 58)
 closed = true
 width = 2.0
 default_color = Color(0.32, 0.85, 0.96, 0.72)
 
-[node name="PearlIcon" type="TextureRect" parent="TopStatusBar"]
+[node name="PearlIcon" type="TextureRect" parent="TopStatusBar" unique_id=793816626]
 layout_mode = 0
 offset_left = 12.0
 offset_top = 9.0
@@ -69,7 +69,7 @@ texture = ExtResource("4_pearl_tex")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="StatusLabel" type="Label" parent="TopStatusBar"]
+[node name="StatusLabel" type="Label" parent="TopStatusBar" unique_id=109515214]
 layout_mode = 0
 offset_left = 62.0
 offset_top = 8.0
@@ -80,7 +80,7 @@ theme_override_font_sizes/font_size = 18
 text = "Pearls: 0   |   Floor: 1 / 5   |   NORMAL"
 vertical_alignment = 1
 
-[node name="ThemeSwitcherBar" type="ColorRect" parent="."]
+[node name="ThemeSwitcherBar" type="ColorRect" parent="." unique_id=164267902]
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
@@ -92,13 +92,13 @@ offset_bottom = 86.0
 grow_horizontal = 0
 color = Color(0.02, 0.06, 0.11, 0.84)
 
-[node name="SwitcherBorder" type="Line2D" parent="ThemeSwitcherBar"]
+[node name="SwitcherBorder" type="Line2D" parent="ThemeSwitcherBar" unique_id=175755872]
 points = PackedVector2Array(0, 0, 320, 0, 320, 58, 0, 58)
 closed = true
 width = 2.0
 default_color = Color(0.32, 0.85, 0.96, 0.72)
 
-[node name="ThemePrevBtn" type="TextureButton" parent="ThemeSwitcherBar"]
+[node name="ThemePrevBtn" type="TextureButton" parent="ThemeSwitcherBar" unique_id=616549433]
 layout_mode = 0
 offset_left = 10.0
 offset_top = 6.0
@@ -110,7 +110,7 @@ texture_hover = ExtResource("8_arr_l")
 ignore_texture_size = true
 stretch_mode = 5
 
-[node name="ThemeNameLabel" type="Label" parent="ThemeSwitcherBar"]
+[node name="ThemeNameLabel" type="Label" parent="ThemeSwitcherBar" unique_id=1061200382]
 layout_mode = 0
 offset_left = 48.0
 offset_top = 8.0
@@ -122,7 +122,7 @@ text = "BG 1: Kraken Abyss"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="ThemeNextBtn" type="TextureButton" parent="ThemeSwitcherBar"]
+[node name="ThemeNextBtn" type="TextureButton" parent="ThemeSwitcherBar" unique_id=183077089]
 layout_mode = 0
 offset_left = 276.0
 offset_top = 6.0
@@ -134,7 +134,7 @@ texture_hover = ExtResource("9_arr_r")
 ignore_texture_size = true
 stretch_mode = 5
 
-[node name="LeftMenuColumn" type="VBoxContainer" parent="."]
+[node name="LeftMenuColumn" type="VBoxContainer" parent="." unique_id=1847598899]
 layout_mode = 0
 offset_left = 78.0
 offset_top = 250.0
@@ -143,7 +143,7 @@ offset_bottom = 856.0
 theme_override_constants/separation = 16
 alignment = 1
 
-[node name="StartButton" type="TextureButton" parent="LeftMenuColumn"]
+[node name="StartButton" type="TextureButton" parent="LeftMenuColumn" unique_id=617051419]
 custom_minimum_size = Vector2(320, 138)
 layout_mode = 2
 texture_normal = ExtResource("5_btn_norm")
@@ -152,7 +152,7 @@ texture_hover = ExtResource("6_btn_hov")
 ignore_texture_size = true
 stretch_mode = 5
 
-[node name="BtnLabel" type="Label" parent="LeftMenuColumn/StartButton"]
+[node name="BtnLabel" type="Label" parent="LeftMenuColumn/StartButton" unique_id=952742510]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -167,7 +167,7 @@ text = "START GAME"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="OptionsButton" type="TextureButton" parent="LeftMenuColumn"]
+[node name="OptionsButton" type="TextureButton" parent="LeftMenuColumn" unique_id=1202352237]
 custom_minimum_size = Vector2(320, 138)
 layout_mode = 2
 texture_normal = ExtResource("5_btn_norm")
@@ -176,7 +176,7 @@ texture_hover = ExtResource("6_btn_hov")
 ignore_texture_size = true
 stretch_mode = 5
 
-[node name="BtnLabel" type="Label" parent="LeftMenuColumn/OptionsButton"]
+[node name="BtnLabel" type="Label" parent="LeftMenuColumn/OptionsButton" unique_id=852724044]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -191,7 +191,7 @@ text = "OPTIONS"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="CreditsButton" type="TextureButton" parent="LeftMenuColumn"]
+[node name="CreditsButton" type="TextureButton" parent="LeftMenuColumn" unique_id=1080453027]
 custom_minimum_size = Vector2(320, 138)
 layout_mode = 2
 texture_normal = ExtResource("5_btn_norm")
@@ -200,7 +200,7 @@ texture_hover = ExtResource("6_btn_hov")
 ignore_texture_size = true
 stretch_mode = 5
 
-[node name="BtnLabel" type="Label" parent="LeftMenuColumn/CreditsButton"]
+[node name="BtnLabel" type="Label" parent="LeftMenuColumn/CreditsButton" unique_id=34850613]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -215,7 +215,7 @@ text = "CREDITS"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="QuitButton" type="TextureButton" parent="LeftMenuColumn"]
+[node name="QuitButton" type="TextureButton" parent="LeftMenuColumn" unique_id=84669838]
 custom_minimum_size = Vector2(320, 138)
 layout_mode = 2
 texture_normal = ExtResource("5_btn_norm")
@@ -224,7 +224,7 @@ texture_hover = ExtResource("6_btn_hov")
 ignore_texture_size = true
 stretch_mode = 5
 
-[node name="BtnLabel" type="Label" parent="LeftMenuColumn/QuitButton"]
+[node name="BtnLabel" type="Label" parent="LeftMenuColumn/QuitButton" unique_id=452864775]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -239,7 +239,7 @@ text = "EXIT GAME"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="VersionFooterLabel" type="Label" parent="."]
+[node name="VersionFooterLabel" type="Label" parent="." unique_id=300523532]
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
@@ -253,7 +253,7 @@ theme_override_colors/font_color = Color(0.55, 0.82, 0.9, 0.8)
 theme_override_font_sizes/font_size = 15
 text = "Abyssal Survival v0.1  |  Tim Sesuai Deskripsi  |  Godot 4.7"
 
-[node name="CreditsModal" type="Control" parent="."]
+[node name="CreditsModal" type="Control" parent="." unique_id=1219765253]
 visible = false
 layout_mode = 1
 anchors_preset = 15
@@ -262,7 +262,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="DimBg" type="ColorRect" parent="CreditsModal"]
+[node name="DimBg" type="ColorRect" parent="CreditsModal" unique_id=1153640567]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -271,7 +271,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.01, 0.03, 0.07, 0.78)
 
-[node name="CenterPanel" type="TextureRect" parent="CreditsModal"]
+[node name="CenterPanel" type="TextureRect" parent="CreditsModal" unique_id=637933276]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -288,7 +288,7 @@ texture = ExtResource("10_panel_tex")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="HeaderLabel" type="Label" parent="CreditsModal/CenterPanel"]
+[node name="HeaderLabel" type="Label" parent="CreditsModal/CenterPanel" unique_id=1050946050]
 layout_mode = 0
 offset_left = 200.0
 offset_top = 20.0
@@ -302,7 +302,7 @@ text = "CREDITS"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="CloseCreditsBtn" type="TextureButton" parent="CreditsModal/CenterPanel"]
+[node name="CloseCreditsBtn" type="TextureButton" parent="CreditsModal/CenterPanel" unique_id=14490891]
 layout_mode = 0
 offset_left = 626.0
 offset_top = 20.0
@@ -314,7 +314,7 @@ texture_hover = ExtResource("11_close_tex")
 ignore_texture_size = true
 stretch_mode = 5
 
-[node name="CreditsBodyLabel" type="Label" parent="CreditsModal/CenterPanel"]
+[node name="CreditsBodyLabel" type="Label" parent="CreditsModal/CenterPanel" unique_id=1480464019]
 layout_mode = 0
 offset_left = 68.0
 offset_top = 132.0
@@ -343,7 +343,7 @@ Tim \"Sesuai Deskripsi\"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="FadeRect" type="ColorRect" parent="."]
+[node name="FadeRect" type="ColorRect" parent="." unique_id=57536316]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -353,8 +353,7 @@ grow_vertical = 2
 mouse_filter = 2
 color = Color(0, 0, 0, 0)
 
-[node name="MenuBGM" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("12_bgm")
+[node name="MenuBGM" type="AudioStreamPlayer" parent="." unique_id=413858858]
+stream = ExtResource("12_xio0d")
 volume_db = -14.0
 autoplay = true
-bus = &"Music"

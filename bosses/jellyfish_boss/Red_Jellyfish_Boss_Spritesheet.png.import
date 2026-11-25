@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://wbkkylrt76o"
-path="res://.godot/imported/jellyfish.png-c9ab634328b5f54a47de5c67bc0c64e9.ctex"
+uid="uid://v7ughr0ar7xd"
+path="res://.godot/imported/Red_Jellyfish_Boss_Spritesheet.png-514a44516bc259f6c1ebd6fbfd6fd353.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://enemies/jellyfish/jellyfish.png"
-dest_files=["res://.godot/imported/jellyfish.png-c9ab634328b5f54a47de5c67bc0c64e9.ctex"]
+source_file="res://bosses/jellyfish_boss/Red_Jellyfish_Boss_Spritesheet.png"
+dest_files=["res://.godot/imported/Red_Jellyfish_Boss_Spritesheet.png-514a44516bc259f6c1ebd6fbfd6fd353.ctex"]
 
 [params]
 

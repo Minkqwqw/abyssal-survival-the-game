@@ -23,6 +23,7 @@ var player: Node2D = null
 var knockback: Vector2 = Vector2.ZERO
 var can_damage: bool = true
 var is_aggro: bool = false
+var _grace_active: bool = false
 
 
 func _ready() -> void:
@@ -91,7 +92,8 @@ func _move_behavior(_delta: float) -> void:
 
 
 func _check_contact_damage() -> void:
-	if not can_damage or hit_area == null:
+	# Grace period aktif → musuh belum bisa melukai player
+	if not can_damage or _grace_active or hit_area == null:
 		return
 
 	for body in hit_area.get_overlapping_bodies():
@@ -102,6 +104,15 @@ func _check_contact_damage() -> void:
 			if is_instance_valid(self):
 				can_damage = true
 			break
+
+
+## Dipanggil spawner saat wave 2 muncul.
+## Selama [duration] detik musuh bergerak tapi tidak bisa melukai player.
+func apply_grace_period(duration: float) -> void:
+	_grace_active = true
+	await get_tree().create_timer(duration).timeout
+	if is_instance_valid(self):
+		_grace_active = false
 
 
 func take_damage(amount: int) -> void:

@@ -32,33 +32,17 @@ region = Rect2(448, 640, 224, 160)
 atlas = ExtResource("3_ssmcm")
 region = Rect2(0, 960, 224, 160)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_sndog"]
-atlas = ExtResource("3_ssmcm")
-region = Rect2(224, 960, 224, 160)
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_soe0i"]
 atlas = ExtResource("3_ssmcm")
 region = Rect2(448, 960, 224, 160)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_h8gyi"]
-atlas = ExtResource("3_ssmcm")
-region = Rect2(672, 960, 224, 160)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_tkuab"]
 atlas = ExtResource("3_ssmcm")
 region = Rect2(896, 960, 224, 160)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_i4gm7"]
-atlas = ExtResource("3_ssmcm")
-region = Rect2(1120, 960, 224, 160)
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_2jt6j"]
 atlas = ExtResource("3_ssmcm")
 region = Rect2(1344, 960, 224, 160)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_ey2na"]
-atlas = ExtResource("3_ssmcm")
-region = Rect2(1568, 960, 224, 160)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_mfofx"]
 atlas = ExtResource("2_hddom")
@@ -80,17 +64,9 @@ region = Rect2(1568, 320, 224, 160)
 atlas = ExtResource("3_ssmcm")
 region = Rect2(0, 800, 224, 160)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_ef58p"]
-atlas = ExtResource("3_ssmcm")
-region = Rect2(224, 800, 224, 160)
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_kp8g0"]
 atlas = ExtResource("3_ssmcm")
 region = Rect2(448, 800, 224, 160)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_uic4i"]
-atlas = ExtResource("3_ssmcm")
-region = Rect2(672, 800, 224, 160)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_nbrqu"]
 atlas = ExtResource("3_ssmcm")
@@ -175,25 +151,13 @@ animations = [{
 "texture": SubResource("AtlasTexture_iuows")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_sndog")
-}, {
-"duration": 1.0,
 "texture": SubResource("AtlasTexture_soe0i")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_h8gyi")
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_tkuab")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_i4gm7")
-}, {
-"duration": 1.0,
 "texture": SubResource("AtlasTexture_2jt6j")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_ey2na")
 }],
 "loop": 1,
 "name": &"dead",
@@ -221,13 +185,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_snedw")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_ef58p")
-}, {
-"duration": 1.0,
 "texture": SubResource("AtlasTexture_kp8g0")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_uic4i")
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_nbrqu")
@@ -281,7 +239,17 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cvnsp"]
-size = Vector2(103.3125, 49.6875)
+size = Vector2(136, 52)
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_62g5b"]
+radius = 28.0
+height = 156.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_w85yv"]
+radius = 38.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_vr4ea"]
+radius = 38.0
 
 [node name="Crab" type="CharacterBody2D" unique_id=314885980]
 texture_filter = 1
@@ -294,16 +262,32 @@ script = ExtResource("1_rxqea")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=34567893]
 texture_filter = 1
 sprite_frames = SubResource("SpriteFrames_w85yv")
-animation = &"attack_left"
+animation = &"idle"
 autoplay = "idle"
+frame_progress = 0.25287744
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1227491343]
-position = Vector2(0, 8)
+visible = false
+position = Vector2(0, 12)
 shape = SubResource("RectangleShape2D_cvnsp")
 
 [node name="HitArea" type="Area2D" parent="." unique_id=1354647834]
 collision_layer = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="HitArea" unique_id=9063564]
-position = Vector2(0, 8)
-shape = SubResource("RectangleShape2D_cvnsp")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitArea" unique_id=1773045943]
+position = Vector2(0, 14)
+rotation = 1.5707964
+shape = SubResource("CapsuleShape2D_62g5b")
+
+[node name="AttackAreaLeft" type="Area2D" parent="." unique_id=1385066558]
+monitoring = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackAreaLeft" unique_id=6525847]
+position = Vector2(-64, 6)
+shape = SubResource("CircleShape2D_w85yv")
+
+[node name="AttackAreaRight" type="Area2D" parent="." unique_id=740885765]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackAreaRight" unique_id=1164818359]
+position = Vector2(64, 6)
+shape = SubResource("CircleShape2D_vr4ea")

@@ -1,0 +1,6 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://bosses/jellyfish_boss/jellyfish_boss.gd" id="1_duo_script"]
+
+[node name="JellyfishBoss" type="Node2D"]
+script = ExtResource("1_duo_script")

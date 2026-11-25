@@ -1,46 +1,48 @@
-[gd_scene load_steps=4 format=3]
+[gd_scene format=3 uid="uid://4k8ix83hs1e2"]
 
-[ext_resource type="PackedScene" path="res://stages/base_stage.tscn" id="1_base"]
-[ext_resource type="Texture2D" path="res://Assets/environments/maps/level_2_stage_2.png" id="2_maptex"]
-[ext_resource type="PackedScene" path="res://enemies/jellyfish/jellyfish.tscn" id="3_jelly"]
+[ext_resource type="PackedScene" uid="uid://0b6slkbhdayj" path="res://stages/base_stage.tscn" id="1_base"]
+[ext_resource type="Texture2D" uid="uid://53jkvpy0ar8b" path="res://Assets/environments/maps/level_2_stage_2.png" id="2_maptex"]
+[ext_resource type="PackedScene" uid="uid://bdr0s2pd10c5p" path="res://enemies/jellyfish/jellyfishred.tscn" id="3_jellyred"]
+[ext_resource type="PackedScene" uid="uid://sqjadr2pt7ky" path="res://enemies/jellyfish/jellyfishblue.tscn" id="4_jellyblue"]
+[ext_resource type="AudioStream" uid="uid://de5bloltam2bh" path="res://stages/floors/floor_2/Beneath_the_Red_Tides.wav" id="5_8uw1d"]
 
-[node name="Level2_Stage2" instance=ExtResource("1_base")]
+[node name="Level2_Stage2" unique_id=82300240 instance=ExtResource("1_base")]
 level_id_override = 2
 stage_id = 2
 stage_title = "Level 2 - Stage 2: Asymmetric Coral Bastion"
 background_color = Color(0.03, 0.06, 0.11, 1)
-arena_floor_color = Color(0.07, 0.13, 0.20, 1)
+arena_floor_color = Color(0.07, 0.13, 0.2, 1)
 border_color = Color(0.95, 0.45, 0.45, 1)
 map_texture = ExtResource("2_maptex")
 
-
-[node name="MapSprite" parent="MapEnvironment" index="0"]
+[node name="MapSprite" parent="MapEnvironment" parent_id_path=PackedInt32Array(1849588407) index="0" unique_id=356050885]
 texture = ExtResource("2_maptex")
 
-[node name="WallColliderRight" parent="MapBounds" index="4"]
-polygon = PackedVector2Array(0.0, -403.2, 83.2, -403.2, 83.2, -371.2, 563.2, -371.2, 899.2, -190.4, 899.2, 217.6, 595.2, 433.6, 75.2, 433.6, 75.2, 537.6, 0.0, 537.6, 0.0, 680.0, 1180.0, 680.0, 1180.0, -680.0, 0.0, -680.0)
+[node name="WallColliderRight" parent="MapBounds" parent_id_path=PackedInt32Array(1797647342) index="4" unique_id=1235625760]
+polygon = PackedVector2Array(0, -403.2, 83.2, -403.2, 83.2, -371.2, 563.2, -371.2, 899.2, -190.4, 899.2, 217.6, 595.2, 433.6, 75.2, 433.6, 75.2, 537.6, 0, 537.6, 0, 680, 1180, 680, 1180, -680, 0, -680)
 
-[node name="WallColliderLeft" parent="MapBounds" index="5"]
-polygon = PackedVector2Array(0.0, 537.6, -75.2, 537.6, -75.2, 433.6, -595.2, 433.6, -899.2, 217.6, -899.2, -190.4, -563.2, -371.2, -83.2, -371.2, -83.2, -403.2, 0.0, -403.2, 0.0, -680.0, -1180.0, -680.0, -1180.0, 680.0, 0.0, 680.0)
+[node name="WallColliderLeft" parent="MapBounds" parent_id_path=PackedInt32Array(1797647342) index="5" unique_id=1333919729]
+polygon = PackedVector2Array(0, 537.6, -75.2, 537.6, -75.2, 433.6, -595.2, 433.6, -899.2, 217.6, -899.2, -190.4, -563.2, -371.2, -83.2, -371.2, -83.2, -403.2, 0, -403.2, 0, -680, -1180, -680, -1180, 680, 0, 680)
 
-[node name="BoundsOutline" parent="MapBounds" index="6"]
-points = PackedVector2Array(0.0, -403.2, 83.2, -403.2, 83.2, -371.2, 563.2, -371.2, 899.2, -190.4, 899.2, 217.6, 595.2, 433.6, 75.2, 433.6, 75.2, 537.6, 0.0, 537.6, -75.2, 537.6, -75.2, 433.6, -595.2, 433.6, -899.2, 217.6, -899.2, -190.4, -563.2, -371.2, -83.2, -371.2, -83.2, -403.2)
+[node name="BoundsOutline" parent="MapBounds" parent_id_path=PackedInt32Array(1797647342) index="6" unique_id=202134430]
+points = PackedVector2Array(0, -403.2, 83.2, -403.2, 83.2, -371.2, 563.2, -371.2, 899.2, -190.4, 899.2, 217.6, 595.2, 433.6, 75.2, 433.6, 75.2, 537.6, 0, 537.6, -75.2, 537.6, -75.2, 433.6, -595.2, 433.6, -899.2, 217.6, -899.2, -190.4, -563.2, -371.2, -83.2, -371.2, -83.2, -403.2)
 default_color = Color(0.95, 0.45, 0.45, 1)
 
-[node name="SpawnPoint" parent="." index="4"]
-position = Vector2(0.0, 485.6)
+[node name="SpawnPoint" parent="." index="4" unique_id=1513603431]
+position = Vector2(0, 485.6)
 
-[node name="ExitPortal" parent="." index="5"]
-position = Vector2(0.0, -375.2)
+[node name="ExitPortal" parent="." index="5" unique_id=1587504879]
+position = Vector2(0, -375.2)
 target_stage_id = 2
 custom_title = "EXIT TO STAGE 3"
 
-[node name="Player" parent="." index="6"]
-position = Vector2(0.0, 485.6)
+[node name="Player" parent="." index="6" unique_id=518390423]
+position = Vector2(0, 485.6)
 
-[node name="EnemySpawner" parent="." index="7"]
-secondary_enemy_scene = ExtResource("3_jelly")
-secondary_spawn_chance = 0.38
-enemy_count = 15
-max_enemies = 15
-default_area_rect = Rect2(-423.20000000000005, -263.42400000000004, 846.4000000000001, 526.8480000000001)
+[node name="EnemySpawner" parent="." index="7" unique_id=82845576]
+enemy_scene_list = Array[PackedScene]([ExtResource("3_jellyred"), ExtResource("4_jellyblue")])
+enemy_count_list = Array[int]([4, 6])
+default_area_rect = Rect2(-423.2, -263.424, 846.4, 526.848)
+
+[node name="StageBGM" parent="." index="9" unique_id=1199101990]
+stream = ExtResource("5_8uw1d")

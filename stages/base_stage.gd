@@ -25,6 +25,13 @@ const VIEWBOX_BOTTOM: int = 614
 
 @export_group("Background Music")
 @export var floor_1_bgm: AudioStream
+@export var floor_2_bgm: AudioStream
+@export var floor_3_bgm: AudioStream
+@export var floor_4_bgm: AudioStream
+@export var floor_5_bgm: AudioStream
+
+@export_group("Background Music Settings")
+@export var bgm_volume_db: float = -15.0
 
 @export_group("UI Menus")
 @export var pause_menu_scene: PackedScene = preload("res://ui/pause_menu/pause_menu.tscn")
@@ -49,6 +56,7 @@ const VIEWBOX_BOTTOM: int = 614
 
 const STAGE_CLEAR_UI_PATH: String = "res://ui/stage_clear/stage_clear.tscn"
 const BOSS_1_PATH: String = "res://bosses/crab_boss/crab_boss.tscn"
+const BOSS_2_PATH: String = "res://bosses/jellyfish_boss/jellyfish_boss.tscn"
 const BOSS_3_PATH: String = "res://bosses/boss_3/boss_3.tscn"
 const BOSS_4_PATH: String = "res://bosses/boss_4/boss_4.tscn"
 const BOSS_5_PATH: String = "res://bosses/boss_5/boss_5.tscn"
@@ -98,8 +106,10 @@ func _ready() -> void:
 	# ATURAN KETAT: BOS HANYA MUNCUL PADA STAGE 3 (Stage 1 & Stage 2 bebas bos)
 	if stage_id == StageManager.TOTAL_STAGES:
 		if boss_scene == null:
-			if active_level in [1, 2] and ResourceLoader.exists(BOSS_1_PATH):
+			if active_level == 1 and ResourceLoader.exists(BOSS_1_PATH):
 				boss_scene = load(BOSS_1_PATH)
+			elif active_level == 2 and ResourceLoader.exists(BOSS_2_PATH):
+				boss_scene = load(BOSS_2_PATH)
 			elif active_level == 3 and ResourceLoader.exists(BOSS_3_PATH):
 				boss_scene = load(BOSS_3_PATH)
 			elif active_level == 4 and ResourceLoader.exists(BOSS_4_PATH):
@@ -168,12 +178,15 @@ func _ready() -> void:
 
 	var spawner := get_node_or_null("EnemySpawner")
 	if spawner:
-		if active_level > 1 and "enemy_count" in spawner:
-			spawner.enemy_count += (active_level - 1) * 3
-		if active_level > 1 and "max_enemies" in spawner:
-			spawner.max_enemies += (active_level - 1) * 3
-		if is_instance_valid(GameState) and "enemy_count" in spawner:
-			spawner.enemy_count = GameState.scale_enemy_count(spawner.enemy_count)
+		# Jika spawner menggunakan enemy_entries (sistem baru), skip scaling lama
+		var uses_new_system: bool = "enemy_entries" in spawner and not spawner.enemy_entries.is_empty()
+		if not uses_new_system:
+			if active_level > 1 and "enemy_count" in spawner:
+				spawner.enemy_count += (active_level - 1) * 3
+			if active_level > 1 and "max_enemies" in spawner:
+				spawner.max_enemies += (active_level - 1) * 3
+			if is_instance_valid(GameState) and "enemy_count" in spawner:
+				spawner.enemy_count = GameState.scale_enemy_count(spawner.enemy_count)
 		spawner.stage_cleared.connect(_on_waves_cleared)
 	else:
 		_on_waves_cleared()
@@ -425,23 +438,50 @@ func _on_player_died() -> void:
 	StageManager.return_to_lobby()
 
 
-# ---------- BACKGROUND MUSIC ----------
+# ============================================================
+# BACKGROUND MUSIC
+# ============================================================
 
 func _setup_stage_bgm(active_level: int) -> void:
 	if stage_bgm == null:
-		push_warning("Node StageBGM tidak ditemukan!")
+		push_warning("BaseStage: Node StageBGM tidak ditemukan!")
 		return
 
-	# Hentikan musik sebelumnya
+	# Hentikan musik sebelumnya.
 	stage_bgm.stop()
 
-	# BGM khusus Level 1
-	if active_level == 1:
-		if floor_1_bgm == null:
-			push_warning("BGM Level 1 belum di-assign!")
+	var selected_bgm: AudioStream = null
+
+	# Pilih musik berdasarkan Level.
+	match active_level:
+		1:
+			selected_bgm = floor_1_bgm
+
+		2:
+			selected_bgm = floor_2_bgm
+
+		3:
+			selected_bgm = floor_3_bgm
+
+		4:
+			selected_bgm = floor_4_bgm
+
+		5:
+			selected_bgm = floor_5_bgm
+
+		_:
+			push_warning("BaseStage: Level %d tidak memiliki konfigurasi BGM!" % active_level)
 			return
 
-		stage_bgm.stream = floor_1_bgm
-		stage_bgm.bus = &"Music"
-		stage_bgm.volume_db = -15.0
-		stage_bgm.play()
+	# Periksa apakah musik sudah dimasukkan.
+	if selected_bgm == null:
+		push_warning("BaseStage: BGM untuk Level %d belum di-assign!" % active_level)
+		return
+
+	# Atur dan mainkan musik.
+	stage_bgm.stream = selected_bgm
+	stage_bgm.bus = &"Music"
+	stage_bgm.volume_db = bgm_volume_db
+	stage_bgm.play()
+
+	print("Playing BGM: Level ", active_level)

@@ -726,7 +726,6 @@ motion_mode = 1
 script = ExtResource("1_v0iea")
 dash_cooldown = 2.0
 weapon_scene = ExtResource("2_6t5aa")
-hit_immunity_duration = 1.5
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1706454467]
 sprite_frames = SubResource("SpriteFrames_w85yv")
@@ -751,14 +750,11 @@ position = Vector2(0, 30)
 [node name="Walk" type="AudioStreamPlayer" parent="SFX" unique_id=2089405311]
 stream = ExtResource("5_boad6")
 volume_db = -30.032
-bus = &"SFX"
 
 [node name="Dash" type="AudioStreamPlayer" parent="SFX" unique_id=412041113]
 stream = ExtResource("5_g6k8r")
 volume_db = -15.0
-bus = &"SFX"
 
 [node name="Hit" type="AudioStreamPlayer" parent="SFX" unique_id=2007004106]
 stream = ExtResource("6_boad6")
 volume_db = -20.0
-bus = &"SFX"

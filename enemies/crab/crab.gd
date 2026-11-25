@@ -46,6 +46,10 @@ func _ready() -> void:
 	var frames := crab_sprite.sprite_frames
 
 	if frames:
+		for anim_name in [ANIM_IDLE, ANIM_LEFT, ANIM_RIGHT]:
+			if frames.has_animation(anim_name):
+				frames.set_animation_loop(anim_name, true)
+
 		for anim_name in [
 			ANIM_ATTACK_LEFT,
 			ANIM_ATTACK_RIGHT,
@@ -54,10 +58,6 @@ func _ready() -> void:
 		]:
 			if frames.has_animation(anim_name):
 				frames.set_animation_loop(anim_name, false)
-
-	crab_sprite.flip_h = false
-	_play(ANIM_IDLE)
-
 
 # =========================================================
 # PHYSICS PROCESS
@@ -112,7 +112,7 @@ func _move_behavior(_delta: float) -> void:
 		player.global_position
 	)
 
-	velocity = direction * speed + knockback
+	velocity = direction * speed
 
 
 # =========================================================

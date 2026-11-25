@@ -1,0 +1,13 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://bosses/jellyfish_boss/electric_hazard_area.gd" id="1_hazard"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_hazard"]
+radius = 45.0
+
+[node name="ElectricHazardArea" type="Area2D"]
+collision_layer = 0
+script = ExtResource("1_hazard")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_hazard")

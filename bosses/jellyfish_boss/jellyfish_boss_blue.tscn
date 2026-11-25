@@ -1,0 +1,266 @@
+[gd_scene format=3 uid="uid://dyw5tjfkkdcaw"]
+
+[ext_resource type="Script" uid="uid://ccj55cas5mcw0" path="res://bosses/jellyfish_boss/jellyfish_boss_blue.gd" id="1_blue_script"]
+[ext_resource type="Texture2D" uid="uid://1r5valnr1xxg" path="res://bosses/jellyfish_boss/Blue_Jellyfish_Boss_Spritesheet.png" id="2_3q6bm"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2qv14"]
+atlas = ExtResource("2_3q6bm")
+region = Rect2(0, 512, 512, 512)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vi57u"]
+atlas = ExtResource("2_3q6bm")
+region = Rect2(512, 512, 512, 512)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xghvf"]
+atlas = ExtResource("2_3q6bm")
+region = Rect2(1024, 512, 512, 512)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4ttup"]
+atlas = ExtResource("2_3q6bm")
+region = Rect2(1536, 512, 512, 512)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yex7a"]
+atlas = ExtResource("2_3q6bm")
+region = Rect2(0, 2048, 512, 512)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w6tgc"]
+atlas = ExtResource("2_3q6bm")
+region = Rect2(512, 2048, 512, 512)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jpcfv"]
+atlas = ExtResource("2_3q6bm")
+region = Rect2(1024, 2048, 512, 512)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wltib"]
+atlas = ExtResource("2_3q6bm")
+region = Rect2(1536, 2048, 512, 512)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5qqp2"]
+atlas = ExtResource("2_3q6bm")
+region = Rect2(0, 1024, 512, 512)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bavhw"]
+atlas = ExtResource("2_3q6bm")
+region = Rect2(512, 1024, 512, 512)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6gykc"]
+atlas = ExtResource("2_3q6bm")
+region = Rect2(1024, 1024, 512, 512)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x3slh"]
+atlas = ExtResource("2_3q6bm")
+region = Rect2(1536, 1024, 512, 512)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y1d06"]
+atlas = ExtResource("2_3q6bm")
+region = Rect2(0, 0, 512, 512)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3cowl"]
+atlas = ExtResource("2_3q6bm")
+region = Rect2(512, 0, 512, 512)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yrpbt"]
+atlas = ExtResource("2_3q6bm")
+region = Rect2(1024, 0, 512, 512)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qnqsf"]
+atlas = ExtResource("2_3q6bm")
+region = Rect2(1536, 0, 512, 512)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_npqdm"]
+atlas = ExtResource("2_3q6bm")
+region = Rect2(0, 1536, 512, 512)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_utpy0"]
+atlas = ExtResource("2_3q6bm")
+region = Rect2(512, 1536, 512, 512)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_188pl"]
+atlas = ExtResource("2_3q6bm")
+region = Rect2(1024, 1536, 512, 512)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0kij1"]
+atlas = ExtResource("2_3q6bm")
+region = Rect2(1536, 1536, 512, 512)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1xplk"]
+atlas = ExtResource("2_3q6bm")
+region = Rect2(0, 0, 512, 512)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_16rop"]
+atlas = ExtResource("2_3q6bm")
+region = Rect2(512, 0, 512, 512)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uabxi"]
+atlas = ExtResource("2_3q6bm")
+region = Rect2(1024, 0, 512, 512)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8lkt5"]
+atlas = ExtResource("2_3q6bm")
+region = Rect2(1536, 0, 512, 512)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_boss_blue"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2qv14")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vi57u")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xghvf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4ttup")
+}],
+"loop": 0,
+"name": &"attack",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yex7a")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_w6tgc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jpcfv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wltib")
+}],
+"loop": 0,
+"name": &"death",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5qqp2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bavhw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6gykc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x3slh")
+}],
+"loop": 0,
+"name": &"hit",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_y1d06")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3cowl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yrpbt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qnqsf")
+}],
+"loop": 1,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_npqdm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_utpy0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_188pl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0kij1")
+}],
+"loop": 1,
+"name": &"skill",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1xplk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_16rop")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uabxi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8lkt5")
+}],
+"loop": 1,
+"name": &"walk",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_body"]
+radius = 65.0
+height = 190.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_hit"]
+radius = 55.0
+height = 170.0
+
+[node name="JellyfishBossBlue" type="CharacterBody2D" unique_id=139670497]
+scale = Vector2(0.8, 0.8)
+collision_layer = 2
+collision_mask = 3
+motion_mode = 1
+script = ExtResource("1_blue_script")
+zone_telegraph_time = 1.0
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1480049360]
+sprite_frames = SubResource("SpriteFrames_boss_blue")
+animation = &"idle"
+autoplay = "idle"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=110295157]
+position = Vector2(0, 10)
+shape = SubResource("CapsuleShape2D_body")
+
+[node name="HitArea" type="Area2D" parent="." unique_id=1713820153]
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitArea" unique_id=2077204519]
+position = Vector2(0, 10)
+shape = SubResource("CapsuleShape2D_hit")
+
+[node name="Muzzle" type="Marker2D" parent="." unique_id=521551351]
+position = Vector2(0, 40)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=7064155]
+
+[node name="BossTitleLabel" type="Label" parent="CanvasLayer" unique_id=37125597]
+modulate = Color(0.45, 0.85, 1, 1)
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -250.0
+offset_top = 22.0
+offset_right = 250.0
+offset_bottom = 48.0
+grow_horizontal = 2
+text = "ABYSSAL STORM JELLYFISH"
+horizontal_alignment = 1
+
+[node name="HealthBar" type="ProgressBar" parent="CanvasLayer" unique_id=209191611]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -250.0
+offset_top = 50.0
+offset_right = 250.0
+offset_bottom = 77.0
+grow_horizontal = 2
+show_percentage = false

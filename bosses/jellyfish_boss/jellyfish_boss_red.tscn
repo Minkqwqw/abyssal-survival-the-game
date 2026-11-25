@@ -1,0 +1,276 @@
+[gd_scene format=3 uid="uid://bgh7hl14pwpb"]
+
+[ext_resource type="Script" uid="uid://dymo7uxv0ecp7" path="res://bosses/jellyfish_boss/jellyfish_boss_red.gd" id="1_red_script"]
+[ext_resource type="Texture2D" uid="uid://v7ughr0ar7xd" path="res://bosses/jellyfish_boss/Red_Jellyfish_Boss_Spritesheet.png" id="2_cwok2"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dbt3q"]
+atlas = ExtResource("2_cwok2")
+region = Rect2(0, 512, 512, 512)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_65wqw"]
+atlas = ExtResource("2_cwok2")
+region = Rect2(512, 512, 512, 512)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dwp80"]
+atlas = ExtResource("2_cwok2")
+region = Rect2(1024, 512, 512, 512)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_iqsge"]
+atlas = ExtResource("2_cwok2")
+region = Rect2(1536, 512, 512, 512)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ayaxj"]
+atlas = ExtResource("2_cwok2")
+region = Rect2(0, 2048, 512, 512)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ahm5m"]
+atlas = ExtResource("2_cwok2")
+region = Rect2(512, 2048, 512, 512)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t6qag"]
+atlas = ExtResource("2_cwok2")
+region = Rect2(1024, 2048, 512, 512)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3o85r"]
+atlas = ExtResource("2_cwok2")
+region = Rect2(1536, 2048, 512, 512)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5aiei"]
+atlas = ExtResource("2_cwok2")
+region = Rect2(0, 1024, 512, 512)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_klnst"]
+atlas = ExtResource("2_cwok2")
+region = Rect2(512, 1024, 512, 512)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vvmuv"]
+atlas = ExtResource("2_cwok2")
+region = Rect2(1024, 1024, 512, 512)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_r4xyk"]
+atlas = ExtResource("2_cwok2")
+region = Rect2(1536, 1024, 512, 512)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1upbj"]
+atlas = ExtResource("2_cwok2")
+region = Rect2(0, 0, 512, 512)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wfbea"]
+atlas = ExtResource("2_cwok2")
+region = Rect2(512, 0, 512, 512)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pcjr4"]
+atlas = ExtResource("2_cwok2")
+region = Rect2(1024, 0, 512, 512)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qiuu0"]
+atlas = ExtResource("2_cwok2")
+region = Rect2(1536, 0, 512, 512)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cbcb2"]
+atlas = ExtResource("2_cwok2")
+region = Rect2(0, 1536, 512, 512)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qu0dk"]
+atlas = ExtResource("2_cwok2")
+region = Rect2(512, 1536, 512, 512)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ql8r3"]
+atlas = ExtResource("2_cwok2")
+region = Rect2(1024, 1536, 512, 512)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3ph7c"]
+atlas = ExtResource("2_cwok2")
+region = Rect2(1536, 1536, 512, 512)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1c27v"]
+atlas = ExtResource("2_cwok2")
+region = Rect2(0, 0, 512, 512)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d0j04"]
+atlas = ExtResource("2_cwok2")
+region = Rect2(512, 0, 512, 512)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_snqhw"]
+atlas = ExtResource("2_cwok2")
+region = Rect2(1024, 0, 512, 512)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ek7wr"]
+atlas = ExtResource("2_cwok2")
+region = Rect2(1536, 0, 512, 512)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_boss_red"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dbt3q")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_65wqw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dwp80")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_iqsge")
+}],
+"loop": 0,
+"name": &"attack",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ayaxj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ahm5m")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t6qag")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3o85r")
+}],
+"loop": 0,
+"name": &"death",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5aiei")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_klnst")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vvmuv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_r4xyk")
+}],
+"loop": 0,
+"name": &"hit",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1upbj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wfbea")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pcjr4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qiuu0")
+}],
+"loop": 1,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cbcb2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qu0dk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ql8r3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3ph7c")
+}],
+"loop": 1,
+"name": &"skill",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1c27v")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d0j04")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_snqhw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ek7wr")
+}],
+"loop": 1,
+"name": &"walk",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_body"]
+radius = 65.0
+height = 190.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_hit"]
+radius = 55.0
+height = 170.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_burst"]
+radius = 196.00255
+
+[node name="JellyfishBossRed" type="CharacterBody2D" unique_id=1096986453]
+scale = Vector2(0.8, 0.8)
+collision_layer = 2
+collision_mask = 3
+motion_mode = 1
+script = ExtResource("1_red_script")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=933261760]
+sprite_frames = SubResource("SpriteFrames_boss_red")
+animation = &"attack"
+autoplay = "idle"
+frame = 2
+frame_progress = 0.6375981
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1098477434]
+position = Vector2(0, 10)
+shape = SubResource("CapsuleShape2D_body")
+
+[node name="HitArea" type="Area2D" parent="." unique_id=887411510]
+visible = false
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitArea" unique_id=754594103]
+position = Vector2(0, 10)
+shape = SubResource("CapsuleShape2D_hit")
+
+[node name="BurstArea" type="Area2D" parent="." unique_id=1614235451]
+collision_layer = 0
+monitoring = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BurstArea" unique_id=910389344]
+position = Vector2(0, -24)
+shape = SubResource("CircleShape2D_burst")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=375635550]
+
+[node name="BossTitleLabel" type="Label" parent="CanvasLayer" unique_id=1690239512]
+modulate = Color(1, 0.45, 0.35, 1)
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -250.0
+offset_top = 22.0
+offset_right = 250.0
+offset_bottom = 48.0
+grow_horizontal = 2
+text = "CRIMSON VOLT JELLYFISH"
+horizontal_alignment = 1
+
+[node name="HealthBar" type="ProgressBar" parent="CanvasLayer" unique_id=2133975559]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -250.0
+offset_top = 50.0
+offset_right = 250.0
+offset_bottom = 77.0
+grow_horizontal = 2
+show_percentage = false
